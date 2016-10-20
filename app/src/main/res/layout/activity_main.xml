@@ -14,18 +14,38 @@
             android:id="@+id/topbar"
             layout="@layout/top_bar"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true" />
 
         <FrameLayout
             android:id="@+id/fly_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:background="@color/mine_head_background" />
+
+        <android.support.v4.app.FragmentTabHost
+            android:id="@+id/tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="#ffffff">
+
+            <FrameLayout
+                android:id="@+id/tab_content"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0" />
+        </android.support.v4.app.FragmentTabHost>
 
     </LinearLayout>
 
     <fragment
         android:id="@+id/fg_left_menu"
-        android:name="com.haha.exam.LeftFragment"
+        android:name="com.haha.exam.fragment.LeftFragment"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"

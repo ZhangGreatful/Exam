@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.haha.exam"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 19
         versionCode 1
         versionName "1.0"
     }
@@ -20,7 +20,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
+    compile project(':okgo')
+    compile 'com.google.code.gson:gson:2.7'
+    compile project(':library')
+    compile project(':sticky-head-library')
+    compile project(':lib')
+    compile 'com.android.support:recyclerview-v7:19.4.0'
+    compile files('libs/fastjson-1.2.9.jar')
 }
