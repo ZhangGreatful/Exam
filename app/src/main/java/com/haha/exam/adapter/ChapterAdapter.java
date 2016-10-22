@@ -16,6 +16,8 @@ import com.haha.exam.R;
 public class ChapterAdapter extends BaseAdapter{
     private Context context;
     private LayoutInflater inflater;
+    private int[] image={R.mipmap.one,R.mipmap.two,R.mipmap.three,R.mipmap.fourteen,R.mipmap.five,R.mipmap.six,
+    R.mipmap.seven,R.mipmap.eight,R.mipmap.nine,R.mipmap.ten};
 
     public ChapterAdapter(Context context){
         this.context=context;
@@ -49,7 +51,7 @@ public class ChapterAdapter extends BaseAdapter{
         }else {
             viewHolder= (ViewHolder) view.getTag();
         }
-
+            viewHolder.iv_num.setImageResource(image[position]);
         return view;
     }
 

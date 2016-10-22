@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@color/mine_head_background"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -21,20 +22,25 @@
             <TextView
                 android:id="@+id/tab1"
                 android:layout_width="0dp"
-                android:layout_height="62dp"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="科一"
-                android:textColor="@color/text_color" />
+                android:textColor="@drawable/text_color" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/short_divider" />
 
             <TextView
                 android:id="@+id/tab2"
                 android:layout_width="0dp"
-                android:layout_height="62dp"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="科四"
-                android:textColor="@color/text_color" />
+                android:textColor="@drawable/text_color" />
 
         </LinearLayout>
 
@@ -44,12 +50,20 @@
             android:layout_height="2dp"
             android:layout_below="@id/tab_layout"
             android:layout_marginLeft="40dp"
-            android:background="@drawable/yellow_bottom_line" />
+            android:background="@mipmap/bottom_line" />
+
+        <LinearLayout
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/mine_head_background"
+            android:layout_below="@+id/tab_line"
+            android:orientation="horizontal" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tab_line" />
+            android:layout_below="@+id/space" />
     </RelativeLayout>
 </LinearLayout>

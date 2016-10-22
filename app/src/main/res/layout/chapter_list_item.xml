@@ -18,17 +18,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="10dp"
         android:text="机动车驾驶相关知识"
-        android:textSize="20sp" />
+        android:textColor="#4c4c4c"
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/chater_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="50dp"
+        android:layout_marginRight="1dp"
         android:text="102"
+        android:textColor="#999999"
         android:textSize="18sp" />
 
     <TextView
@@ -36,5 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="题"
+        android:layout_marginRight="30dp"
+        android:textColor="#999999"
         android:textSize="18sp" />
 </LinearLayout>

@@ -10,4 +10,11 @@
     <color name="text_color">#333333</color>
     <color name="mine_head_background">#f5f5f5</color>
     <color name="background">#d21320</color>
+    <color name="text_unselect">#a6a6a6</color>
+    <color name="content_text_color">#333333</color><!--选择题题目字体颜色-->
+    <color name="choice_text_color">#444444</color><!--选择题选项字体颜色-->
+    <color name="right_choice_color">#76d437</color><!--正确选项的字体颜色-->
+    <color name="wrong_choice_color">#ff5454</color><!--错误选项的字体颜色-->
+    <color name="explain_color">#d21320</color><!--最佳解释的字体颜色-->
+    <color name="is_right_color">#ff5454</color><!--答题错误的字体颜色-->
 </resources>

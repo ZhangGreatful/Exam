@@ -10,8 +10,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.haha.exam.R;
+import com.haha.exam.activity.ChapterActivity;
 import com.haha.exam.activity.OrderTextActivity;
+import com.haha.exam.activity.PracticeTextActivity;
+import com.haha.exam.activity.ReciteActivity;
 import com.haha.exam.activity.SpecialTextActivity;
+import com.haha.exam.adapter.ChapterAdapter;
 
 /**
  * 科目一页面
@@ -19,8 +23,8 @@ import com.haha.exam.activity.SpecialTextActivity;
  */
 public class KeYiFragment extends Fragment implements View.OnClickListener {
 
-    private LinearLayout shunxu, suiji, zhuanxiang, zhangjie, yicuo;
-    private LinearLayout moni, chengji, tongji, paihang, xuyuan;
+    private LinearLayout shunxu, suiji, zhuanxiang, zhangjie, beiti;
+    private LinearLayout moni, chengji, tongji, paihang, yuyue;
     private LinearLayout fagui, jiqiao, cuoti, shoucang;
 
     @Nullable
@@ -32,13 +36,13 @@ public class KeYiFragment extends Fragment implements View.OnClickListener {
         suiji = (LinearLayout) view.findViewById(R.id.sui_ji);
         zhuanxiang = (LinearLayout) view.findViewById(R.id.zhuan_xiang);
         zhangjie = (LinearLayout) view.findViewById(R.id.zhang_jie);
-        yicuo = (LinearLayout) view.findViewById(R.id.yi_cuo);
+        beiti = (LinearLayout) view.findViewById(R.id.bei_ti);
 //        模拟考试
         moni = (LinearLayout) view.findViewById(R.id.mo_ni);
         chengji = (LinearLayout) view.findViewById(R.id.cheng_ji);
         tongji = (LinearLayout) view.findViewById(R.id.tong_ji);
         paihang = (LinearLayout) view.findViewById(R.id.pai_hang);
-        xuyuan = (LinearLayout) view.findViewById(R.id.xu_yuan);
+        yuyue = (LinearLayout) view.findViewById(R.id.yu_yue);
 
         fagui = (LinearLayout) view.findViewById(R.id.fa_gui);
         jiqiao = (LinearLayout) view.findViewById(R.id.ji_qiao);
@@ -49,12 +53,12 @@ public class KeYiFragment extends Fragment implements View.OnClickListener {
         suiji.setOnClickListener(this);
         zhuanxiang.setOnClickListener(this);
         zhangjie.setOnClickListener(this);
-        yicuo.setOnClickListener(this);
+        beiti.setOnClickListener(this);
         moni.setOnClickListener(this);
         chengji.setOnClickListener(this);
         tongji.setOnClickListener(this);
         paihang.setOnClickListener(this);
-        xuyuan.setOnClickListener(this);
+        yuyue.setOnClickListener(this);
         fagui.setOnClickListener(this);
         jiqiao.setOnClickListener(this);
         cuoti.setOnClickListener(this);
@@ -75,20 +79,20 @@ public class KeYiFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.zhang_jie:
-                Intent intent2=new Intent(getActivity(), SpecialTextActivity.class);
-//                startActivity(intent2);
+                Intent intent2=new Intent(getActivity(), ChapterActivity.class);
+                startActivity(intent2);
                 break;
-            case R.id.yi_cuo:
-                Intent intent3=new Intent(getActivity(), SpecialTextActivity.class);
-//                startActivity(intent3);
+            case R.id.bei_ti:
+                Intent intent3=new Intent(getActivity(), ReciteActivity.class);
+                startActivity(intent3);
                 break;
             case R.id.sui_ji:
                 Intent intent4=new Intent(getActivity(), SpecialTextActivity.class);
 //                startActivity(intent4);
                 break;
             case R.id.mo_ni:
-                Intent intent5=new Intent(getActivity(), SpecialTextActivity.class);
-//                startActivity(intent5);
+                Intent intent5=new Intent(getActivity(), PracticeTextActivity.class);
+                startActivity(intent5);
                 break;
             case R.id.cheng_ji:
                 Intent intent6=new Intent(getActivity(), SpecialTextActivity.class);
@@ -102,7 +106,7 @@ public class KeYiFragment extends Fragment implements View.OnClickListener {
                 Intent intent8=new Intent(getActivity(), SpecialTextActivity.class);
 //                startActivity(intent8);
                 break;
-            case R.id.xu_yuan:
+            case R.id.yu_yue:
                 Intent intent9=new Intent(getActivity(), SpecialTextActivity.class);
 //                startActivity(intent9);
                 break;

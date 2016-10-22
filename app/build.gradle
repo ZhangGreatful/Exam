@@ -16,6 +16,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        sourceSets {
+            main {
+                jniLibs.srcDirs = ['libs']
+            }
+        }
     }
 }
 
@@ -30,4 +35,6 @@ dependencies {
     compile project(':lib')
     compile 'com.android.support:recyclerview-v7:19.4.0'
     compile files('libs/fastjson-1.2.9.jar')
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/AMap_Location_V3.0.0_20160922.jar')
 }

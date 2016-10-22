@@ -21,12 +21,14 @@ public class GridAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private SpecialType specialTypes;
     private Context mContext;
-    private int[] image={};
+    private int[] image = {R.mipmap.one, R.mipmap.two, R.mipmap.three, R.mipmap.four, R.mipmap.five, R.mipmap.six,
+            R.mipmap.seven, R.mipmap.eight, R.mipmap.nine, R.mipmap.ten, R.mipmap.eleven, R.mipmap.twele, R.mipmap.thirteen,
+            R.mipmap.fourteen,R.mipmap.fifteen, R.mipmap.sixteen};
 
     public GridAdapter(Context context, SpecialType specialType) {
         this.mContext = context;
         this.specialTypes = specialType;
-        System.out.println("获得的数据是"+specialTypes.getMsg().size());
+        System.out.println("获得的数据是" + specialTypes.getMsg().size());
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -49,19 +51,19 @@ public class GridAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
 
         ViewHolder viewHolder = null;
-        if (viewHolder==null){
-            viewHolder=new ViewHolder();
-            view=inflater.inflate(R.layout.special_gridview_item,null);
-            viewHolder.imageView= (ImageView) view.findViewById(R.id.iv_num);
-            viewHolder.type= (TextView) view.findViewById(R.id.tv_type);
-            viewHolder.count= (TextView) view.findViewById(R.id.tv_num);
+        if (viewHolder == null) {
+            viewHolder = new ViewHolder();
+            view = inflater.inflate(R.layout.special_gridview_item, null);
+            viewHolder.imageView = (ImageView) view.findViewById(R.id.iv_num);
+            viewHolder.type = (TextView) view.findViewById(R.id.tv_type);
+            viewHolder.count = (TextView) view.findViewById(R.id.tv_num);
             view.setTag(viewHolder);
-        }else {
-            viewHolder= (ViewHolder) view.getTag();
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
         }
-//            viewHolder.imageView.setImageResource(image[position]);
-            viewHolder.type.setText(specialTypes.getMsg().get(position).getName());
-            viewHolder.count.setText(specialTypes.getMsg().get(position).getNum());
+        viewHolder.imageView.setImageResource(image[position]);
+        viewHolder.type.setText(specialTypes.getMsg().get(position).getName());
+        viewHolder.count.setText(specialTypes.getMsg().get(position).getNum());
         return view;
     }
 

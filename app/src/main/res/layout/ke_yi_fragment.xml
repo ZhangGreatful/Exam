@@ -9,58 +9,83 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="@color/mine_head_background" />
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="175dp"
             android:background="@drawable/up_background">
 
             <LinearLayout
                 android:id="@+id/shun_xu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/top"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="30dp">
+                android:layout_width="158dp"
+                android:layout_height="175dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/base_problem" />
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="30dp"
+                    android:src="@mipmap/shun_xu" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:text="顺序练习" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="46dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="顺序练习" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginTop="2dp"
+                        android:src="@mipmap/green_right_arrow" />
+                </LinearLayout>
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/shun_xu"
+                android:src="@mipmap/right_divider" />
+
+            <ImageView
+                android:id="@+id/iv_divider2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_divider"
+                android:layout_toRightOf="@+id/shun_xu"
+                android:src="@mipmap/right_divider" />
 
 
             <LinearLayout
                 android:id="@+id/top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:layout_toRightOf="@+id/iv_divider"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/sui_ji"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
+                    android:layout_marginBottom="21dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/pay_problem" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/sui_ji" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -69,20 +94,25 @@
                         android:text="随机练习" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/zhuan_xiang"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
+                    android:src="@mipmap/right_divider" />
+
+                <LinearLayout
+                    android:id="@+id/zhuan_xiang"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="21dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/pay_problem" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/zhuan_xiang" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -94,25 +124,47 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/iv_divider1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/top"
+                android:layout_toRightOf="@id/iv_divider"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/divider" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/divider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bottom"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:layout_below="@+id/iv_divider1"
+                android:layout_toRightOf="@+id/iv_divider"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/zhang_jie"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
+                    android:layout_marginBottom="21dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/pay_problem" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/zhang_jie" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -121,25 +173,31 @@
                         android:text="章节练习" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/yi_cuo"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
+                    android:src="@mipmap/right_divider" />
+
+                <LinearLayout
+                    android:id="@+id/bei_ti"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="21dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/pay_problem" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/bei_ti" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="易错题记" />
+                        android:text="背题模式" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -154,51 +212,81 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="175dp"
             android:background="@drawable/up_background">
 
             <LinearLayout
                 android:id="@+id/mo_ni"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/top1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="30dp">
+                android:layout_width="158dp"
+                android:layout_height="175dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/base_problem" />
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="30dp"
+                    android:src="@mipmap/mo_ni" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:text="模拟考试" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="46dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="模拟考试" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginTop="2dp"
+                        android:src="@mipmap/blue_right_arrow" />
+                </LinearLayout>
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/mo_ni"
+                android:src="@mipmap/right_divider" />
+
+            <ImageView
+                android:id="@+id/iv_divider2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_divider"
+                android:layout_toRightOf="@+id/mo_ni"
+                android:src="@mipmap/right_divider" />
 
 
             <LinearLayout
                 android:id="@+id/top1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:layout_toRightOf="@+id/iv_divider"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/cheng_ji"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
+                    android:layout_marginBottom="21dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/pay_problem" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/cheng_ji" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -207,20 +295,25 @@
                         android:text="我的成绩" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/tong_ji"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
+                    android:src="@mipmap/right_divider" />
+
+                <LinearLayout
+                    android:id="@+id/tong_ji"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="21dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/pay_problem" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/tong_ji" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -232,25 +325,47 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/iv_divider3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/top1"
+                android:layout_toRightOf="@id/iv_divider"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/divider" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/divider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bottom1"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:layout_below="@+id/iv_divider3"
+                android:layout_toRightOf="@+id/iv_divider"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/pai_hang"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="25dp"
-                    android:gravity="center"
+                    android:layout_marginBottom="21dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/pay_problem" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/pai_hang" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -259,27 +374,36 @@
                         android:text="排行榜" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/xu_yuan"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
+                    android:src="@mipmap/right_divider" />
+
+                <LinearLayout
+                    android:id="@+id/yu_yue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="21dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/pay_problem" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/yu_yue" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="考前许愿" />
+                        android:text="考试预约" />
                 </LinearLayout>
+
             </LinearLayout>
+
+
         </RelativeLayout>
 
         <LinearLayout
@@ -288,7 +412,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="95dp"
             android:background="@drawable/up_background"
             android:orientation="horizontal">
 
@@ -301,14 +425,16 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/base_problem" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:src="@mipmap/fa_gui" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="24dp"
                     android:text="驾考法规" />
             </LinearLayout>
 
@@ -321,14 +447,16 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/base_problem" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:src="@mipmap/ji_qiao" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="24dp"
                     android:text="考试技巧" />
             </LinearLayout>
 
@@ -341,14 +469,16 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/base_problem" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:src="@mipmap/cuo_ti" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="24dp"
                     android:text="我的错题" />
             </LinearLayout>
 
@@ -361,14 +491,16 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/base_problem" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:src="@mipmap/shou_cang" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="24dp"
                     android:text="我的收藏" />
             </LinearLayout>
 

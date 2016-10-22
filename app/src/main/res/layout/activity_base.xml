@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/base_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/base_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+
+        <ImageButton
+            android:id="@+id/base_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:background="@null"
+            android:src="@mipmap/back_arrow" />
+
+        <TextView
+            android:id="@+id/base_menu_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:text="设置"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/base_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="标题"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+        <View android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/base_contentview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white" >
+    </FrameLayout>
+
+</LinearLayout>

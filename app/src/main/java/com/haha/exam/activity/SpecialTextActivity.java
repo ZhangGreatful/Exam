@@ -21,7 +21,7 @@ import okhttp3.Response;
 /**
  * 专项练习
  */
-public class SpecialTextActivity extends Activity implements View.OnClickListener {
+public class SpecialTextActivity extends BaseActivity implements View.OnClickListener {
 
     private GridView gridView;
     private ImageView back;
@@ -31,9 +31,14 @@ public class SpecialTextActivity extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_special_text);
+        setTitle("专项练习");
         initView();
         initData();
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_special_text;
     }
 
     private void initData() {
@@ -78,17 +83,11 @@ public class SpecialTextActivity extends Activity implements View.OnClickListene
 
     private void initView() {
         gridView = (GridView) findViewById(R.id.special_subject);
-        back = (ImageView) findViewById(R.id.iv_back);
-
-        back.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_back:
-                finish();
-                break;
         }
     }
 
