@@ -1,6 +1,7 @@
 package com.haha.exam.activity;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -39,6 +40,9 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
 
+import java.io.Serializable;
+import java.util.List;
+
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -58,6 +62,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private int mImageArray[] = {R.drawable.tab_home, R.drawable.tab_order, R.drawable.tab_favorable};
     private String textArray[] = {"考驾照", "驾考圈", "工具"};//暂时未用到
 
+
+
+    public static List<AllQuestions.DataBean> questions;
     private DrawerLayout drawer_layout;
     private FrameLayout fly_content;
     private View topbar;
@@ -77,7 +84,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         gson = new Gson();
-        dao=new ExamDao(this);
+        dao=new ExamDao(MainActivity.this);
         fManager = getFragmentManager();
         fg_left_menu = (LeftFragment) fManager.findFragmentById(R.id.fg_left_menu);
         initViews();
@@ -192,19 +199,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     }
                 });
 
-        OkGo.post(WebInterface.all_questions)
-                .tag(this)
-                .params("cartype","hc")
-                .params("subject","1")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        Toast.makeText(MainActivity.this,"成功获取所有问题",Toast.LENGTH_SHORT).show();
-                        AllQuestions allQuestions=gson.fromJson(s,AllQuestions.class);
-                        System.out.println("一共有问题=============="+allQuestions.getData().size());
-                        dao.addAllQuestions(allQuestions);
-                    }
-                });
+
 
 
     }

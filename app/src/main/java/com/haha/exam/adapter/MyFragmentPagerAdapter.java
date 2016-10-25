@@ -18,6 +18,8 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         this.fragmentsList = fragments;
     }
 
+
+
     @Override
     public int getCount() {
         return fragmentsList.size();

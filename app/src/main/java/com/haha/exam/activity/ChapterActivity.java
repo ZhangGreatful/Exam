@@ -7,9 +7,18 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.adapter.ChapterAdapter;
+import com.haha.exam.bean.ChapterQuestion;
 import com.haha.exam.dialog.MyDialog;
+import com.haha.exam.web.WebInterface;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.callback.StringCallback;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 章节练习
@@ -20,6 +29,7 @@ public class ChapterActivity extends BaseActivity implements View.OnClickListene
     private ImageView back;
     private ChapterAdapter adapter;
     private MyDialog dialog;
+    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +38,31 @@ public class ChapterActivity extends BaseActivity implements View.OnClickListene
 
         setTitle("章节练习");
         initView();
+        initData();
+
+    }
+
+    private void initData() {
+        gson = new Gson();
+        OkGo.post("http://api.jiakao.exueche.com/index.php/Home/index/chapterquestion")
+                .params("cartype", "xc")
+                .tag(this)
+                .cacheMode(CacheMode.DEFAULT)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        final ChapterQuestion question = gson.fromJson(s, ChapterQuestion.class);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                System.out.println("章节练习分类请求成功，共有数据：" + question.getMsg().size());
+                                adapter = new ChapterAdapter(ChapterActivity.this, question.getMsg());
+                                listView.setAdapter(adapter);
+                            }
+                        });
+
+                    }
+                });
 
     }
 
@@ -40,12 +75,19 @@ public class ChapterActivity extends BaseActivity implements View.OnClickListene
 
     private void initView() {
         listView = (ListView) findViewById(R.id.chapter_list);
-        adapter = new ChapterAdapter(this);
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //根据 Tag 取消请求
+        OkGo.getInstance().cancelTag(this);
     }
 }

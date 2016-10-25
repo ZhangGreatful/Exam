@@ -37,105 +37,11 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/choice_1"
+        <ListView
+            android:id="@+id/lv_options"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content" />
 
-            <ImageView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/a" />
-
-            <TextView
-                android:id="@+id/choice_A"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="保持车距标志"
-                android:textColor="@color/choice_text_color"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/choice_2"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/b" />
-
-            <TextView
-                android:id="@+id/choice_B"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="保持车距标志"
-                android:textColor="@color/choice_text_color"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/choice_3"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/c" />
-
-            <TextView
-                android:id="@+id/choice_C"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="保持车距标志"
-                android:textColor="@color/choice_text_color"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/choice_4"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/d" />
-
-            <TextView
-                android:id="@+id/choice_D"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="保持车距标志"
-                android:textColor="@color/choice_text_color"
-                android:textSize="20sp" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

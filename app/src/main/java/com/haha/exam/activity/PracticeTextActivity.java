@@ -1,9 +1,11 @@
 package com.haha.exam.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.haha.exam.R;
@@ -15,7 +17,8 @@ import com.haha.exam.dialog.PraticeDialog;
  */
 public class PracticeTextActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView moni, zuoti;
+    private ImageView moni, zuoti,header;
+    private TextView login;
 
 
     @Override
@@ -28,8 +31,12 @@ public class PracticeTextActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         moni = (ImageView) findViewById(R.id.iv_moni);
         zuoti = (ImageView) findViewById(R.id.iv_zuoti);
+        login= (TextView) findViewById(R.id.tv_login);
+        header= (ImageView) findViewById(R.id.iv_login_header);
 
         moni.setOnClickListener(this);
+        login.setOnClickListener(this);
+        header.setOnClickListener(this);
     }
 
     @Override
@@ -50,6 +57,17 @@ public class PracticeTextActivity extends BaseActivity implements View.OnClickLi
                         dialog.dismiss();
                     }
                 });
+                break;
+            case R.id.tv_login:
+                Intent intent=new Intent(PracticeTextActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.iv_login_header:
+                Intent intent1=new Intent(PracticeTextActivity.this,LoginActivity.class);
+                startActivity(intent1);
+                finish();
+                break;
         }
     }
 }

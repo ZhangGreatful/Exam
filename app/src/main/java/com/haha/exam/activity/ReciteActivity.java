@@ -1,6 +1,7 @@
 package com.haha.exam.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,19 +11,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.adapter.LayoutAdapter;
 import com.haha.exam.adapter.TopicAdapter;
+import com.haha.exam.bean.AllQuestions;
 import com.haha.exam.bean.AnwerInfo;
+import com.haha.exam.web.WebInterface;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 背题模式
@@ -37,6 +47,9 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
     public static boolean isClicked = false;
     private int prePosition;
     private int curPosition;
+    private MainActivity mainActivity;
+    private AllQuestions allQuestions;
+    private Gson gson=new Gson();
 
 
     private LinearLayout bianhao, shoucang, fenxiang, jieshi;
@@ -53,18 +66,33 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
         initViewPager();
         initSlidingUoPanel();
         initList();
-        AnwerInfo anwerInfo = getAnwer();
+//        AnwerInfo anwerInfo = getAnwer();
 
-        List<AnwerInfo.DataBean.SubDataBean> datas = anwerInfo.getData().getData();
-        Log.i("data.size=", "" + datas.size());
+        OkGo.post(WebInterface.all_questions)
+                .tag(this)
+                .params("cartype","hc")
+                .params("subject","1")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        Toast.makeText(ReciteActivity.this,"成功获取所有问题",Toast.LENGTH_SHORT).show();
+                        allQuestions=gson.fromJson(s,AllQuestions.class);
+                        List<AllQuestions.DataBean> datas=allQuestions.getData();
+//        List<AllQuestions.DataBean> datas=mainActivity.questions;
+//        Log.i("data.size=", "" + datas.size());
 
-        if (layoutAdapter != null) {
-            layoutAdapter.setDataList(datas);
-        }
+                        if (layoutAdapter != null) {
+                            layoutAdapter.setDataList(datas);
+                        }
 
-        if (topicAdapter != null) {
-            topicAdapter.setDataNum(datas.size());
-        }
+                        if (topicAdapter != null) {
+                            topicAdapter.setDataNum(datas.size());
+                        }
+                        System.out.println("一共有问题=============="+allQuestions.getData().size());
+//                        dao.addAllQuestions(allQuestions);
+                    }
+                });
+
     }
 
     @Override

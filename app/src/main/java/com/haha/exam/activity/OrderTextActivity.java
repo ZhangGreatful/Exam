@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -16,8 +17,10 @@ import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.adapter.LayoutAdapter;
 import com.haha.exam.adapter.TopicAdapter;
+import com.haha.exam.bean.AllQuestions;
 import com.haha.exam.bean.AnwerInfo;
 import com.haha.exam.bean.IsSave;
+import com.haha.exam.dao.ExamDao;
 import com.haha.exam.web.WebInterface;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.lzy.okgo.OkGo;
@@ -27,7 +30,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -37,12 +42,10 @@ import okhttp3.Response;
  * 点击收藏，进行2个部分的收藏
  * 1，本地收藏
  * 2，网络收藏 （只有登录后才能进行网络收藏）
- *
- *
  */
 public class OrderTextActivity extends BaseActivity implements View.OnClickListener {
 
-    private String questionid="1",tel="18266142739";
+    private String questionid = "1", tel = "18266142739";
     private RecyclerViewPager mRecyclerView;
     private LayoutAdapter layoutAdapter;
     private SlidingUpPanelLayout mLayout;
@@ -51,39 +54,89 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
     public static boolean isClicked = false;
     private int prePosition;
     private int curPosition;
+    private MainActivity mainActivity;
+    private AllQuestions allQuestions;
+    private Map<String, Integer> status = new HashMap<>();
 
     private Gson gson;
 
 
     private LinearLayout bianhao, shoucang, fenxiang, jieshi;
+    private TextView current, count;
     //    private MyHorizontalScrollView horizontalScrollView;
 //    private HorizontalScrollViewAdapter adapter;
 //    private List<String> datas = new ArrayList<>();
     private ImageView back;
-//    private int mScreenWitdh;
+    //    private int mScreenWitdh;
 //    private LinearLayout layout;
+    private ExamDao dao;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        initData();
+        dao = new ExamDao(OrderTextActivity.this);
         initView();
         initViewPager();
         initSlidingUoPanel();
         initList();
-        AnwerInfo anwerInfo = getAnwer();
+//        AnwerInfo anwerInfo = getAnwer();
 
-        List<AnwerInfo.DataBean.SubDataBean> datas = anwerInfo.getData().getData();
-        Log.i("data.size=", "" + datas.size());
+//        List<AnwerInfo.DataBean.SubDataBean> datas = anwerInfo.getData().getData();
+        OkGo.post(WebInterface.all_questions)
+                .tag(this)
+                .params("cartype", "hc")
+                .params("subject", "1")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        Toast.makeText(OrderTextActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
+                        gson = new Gson();
+                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+                        dao.addAllQuestions(allQuestions);
+                        List<AllQuestions.DataBean> datas = allQuestions.getData();
+                        System.out.print("datas  size=========" + datas.size());
+                        count.setText(String.valueOf(datas.size()));
+//        Log.i("data.size=", "" + datas.size());
 
-        if (layoutAdapter != null) {
-            layoutAdapter.setDataList(datas);
-        }
+                        if (layoutAdapter != null) {
+                            layoutAdapter.setDataList(datas);
+                        }
 
-        if (topicAdapter != null) {
-            topicAdapter.setDataNum(datas.size());
-        }
+                        if (topicAdapter != null) {
+                            topicAdapter.setDataNum(datas.size());
+                        }
+                        System.out.println("一共有问题==============" + allQuestions.getData().size());
+                    }
+
+//                    @Override
+//                    public void onCacheSuccess(String s, Call call) {
+//                        super.onCacheSuccess(s, call);
+//                        gson = new Gson();
+//                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+//                        dao.addAllQuestions(allQuestions);
+//                        List<AllQuestions.DataBean> datas = allQuestions.getData();
+//                        System.out.print("datas  size=========" + datas.size());
+//                        count.setText(String.valueOf(datas.size()));
+////        Log.i("data.size=", "" + datas.size());
+//
+//                        if (layoutAdapter != null) {
+//                            layoutAdapter.setDataList(datas);
+//                        }
+//
+//                        if (topicAdapter != null) {
+//                            topicAdapter.setDataNum(datas.size());
+//                        }
+//                    }
+                });
+
+//        for (int i = 0; i <allQuestions.getData().size(); i++) {
+//            status.put("isdo", allQuestions.getData().get(i).getIsdo());
+//            status.put("choose", allQuestions.getData().get(i).getChoose());
+//            status.put("isshoucang", allQuestions.getData().get(i).getIsshoucang());
+//        }
+
     }
 
     @Override
@@ -102,6 +155,9 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
         shoucang = (LinearLayout) findViewById(R.id.shou_cang);
         fenxiang = (LinearLayout) findViewById(R.id.fen_xiang);
         jieshi = (LinearLayout) findViewById(R.id.jie_shi);
+        current = (TextView) findViewById(R.id.current_page);
+        count = (TextView) findViewById(R.id.count);
+
 
         bianhao.setOnClickListener(this);
         jieshi.setOnClickListener(this);
@@ -110,6 +166,13 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //根据 Tag 取消请求
+        OkGo.getInstance().cancelTag(this);
     }
 
     private AnwerInfo getAnwer() {
@@ -158,7 +221,7 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
                     mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 }
                 mRecyclerView.smoothScrollToPosition(position);
-
+                current.setText(String.valueOf(curPosition + 1));
                 topicAdapter.notifyCurPosition(curPosition);
                 topicAdapter.notifyPrePosition(prePosition);
 
@@ -168,6 +231,7 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 
 
     }
+
 
     private void initSlidingUoPanel() {
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -216,6 +280,9 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
+                System.out.println("执行了滑动========");
+                layoutAdapter.notifyItemChanged(curPosition);
+
             }
 
             @Override
@@ -223,11 +290,13 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 //
             }
         });
+
         mRecyclerView.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
             @Override
             public void OnPageChanged(int oldPosition, int newPosition) {
                 Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
                 recyclerView.scrollToPosition(newPosition);
+                current.setText(String.valueOf(newPosition + 1));
                 isClicked = false;
                 jieshi.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -239,7 +308,7 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
                         }
                     }
                 });
-                layoutAdapter.notifyItemChanged(curPosition);
+//                layoutAdapter.notifyItemChanged(curPosition);
 
                 topicAdapter.notifyCurPosition(newPosition);
                 topicAdapter.notifyPrePosition(oldPosition);
@@ -283,16 +352,16 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.shou_cang:
                 //网络收藏
-                gson=new Gson();
+                gson = new Gson();
                 OkGo.post(WebInterface.is_save)
                         .tag(this)
-                        .params("questionid",questionid)
-                        .params("tel",tel)
+                        .params("questionid", questionid)
+                        .params("tel", tel)
                         .execute(new StringCallback() {
                             @Override
                             public void onSuccess(String s, Call call, Response response) {
-                                IsSave isSave=gson.fromJson(s,IsSave.class);
-                                Toast.makeText(OrderTextActivity.this,isSave.getMsg(),Toast.LENGTH_SHORT).show();
+                                IsSave isSave = gson.fromJson(s, IsSave.class);
+                                Toast.makeText(OrderTextActivity.this, isSave.getMsg(), Toast.LENGTH_SHORT).show();
                             }
                         });
                 break;

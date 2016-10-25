@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minHeight="50dp"
-    android:orientation="horizontal">
+    >
 
     <ImageView
-        android:id="@+id/chapter_num"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center_vertical"
+        android:id="@+id/chapter_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
         android:src="@drawable/coupon_problem" />
 
     <TextView
         android:id="@+id/chapter_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/chapter_icon"
         android:text="机动车驾驶相关知识"
         android:textColor="#4c4c4c"
-        android:textSize="19sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/chater_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="1dp"
         android:text="102"
+        android:layout_centerVertical="true"
+       android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
         android:textColor="#999999"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:text="题"
-        android:layout_marginRight="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
         android:textColor="#999999"
-        android:textSize="18sp" />
-</LinearLayout>
+        android:textSize="16sp" />
+</RelativeLayout>

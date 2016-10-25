@@ -56,22 +56,22 @@ public class HorizontalScrollViewAdapter {
                     .findViewById(R.id.choice_icon);
 
             viewHolder.mChoice_Content = (TextView) convertView.findViewById(R.id.content);
-            viewHolder.choice_A = (TextView) convertView
-                    .findViewById(R.id.choice_A);
-            viewHolder.choice_B = (TextView) convertView
-                    .findViewById(R.id.choice_B);
-            viewHolder.choice_C = (TextView) convertView
-                    .findViewById(R.id.choice_C);
-            viewHolder.choice_D = (TextView) convertView
-                    .findViewById(R.id.choice_D);
+//            viewHolder.choice_A = (TextView) convertView
+//                    .findViewById(R.id.choice_A);
+//            viewHolder.choice_B = (TextView) convertView
+//                    .findViewById(R.id.choice_B);
+//            viewHolder.choice_C = (TextView) convertView
+//                    .findViewById(R.id.choice_C);
+//            viewHolder.choice_D = (TextView) convertView
+//                    .findViewById(R.id.choice_D);
             viewHolder.is_wrong = (TextView) convertView.findViewById(R.id.is_right);
             viewHolder.answer = (TextView) convertView.findViewById(R.id.answer);
             viewHolder.answer_content = (TextView) convertView.findViewById(R.id.answer_content);
 
-            viewHolder.choice_1 = (LinearLayout) convertView.findViewById(R.id.choice_1);
-            viewHolder.choice_2 = (LinearLayout) convertView.findViewById(R.id.choice_2);
-            viewHolder.choice_3 = (LinearLayout) convertView.findViewById(R.id.choice_3);
-            viewHolder.choice_4 = (LinearLayout) convertView.findViewById(R.id.choice_4);
+//            viewHolder.choice_1 = (LinearLayout) convertView.findViewById(R.id.choice_1);
+//            viewHolder.choice_2 = (LinearLayout) convertView.findViewById(R.id.choice_2);
+//            viewHolder.choice_3 = (LinearLayout) convertView.findViewById(R.id.choice_3);
+//            viewHolder.choice_4 = (LinearLayout) convertView.findViewById(R.id.choice_4);
             viewHolder.explain = (LinearLayout) convertView.findViewById(R.id.explain);
 
 

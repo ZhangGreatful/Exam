@@ -14,6 +14,7 @@
 
     <ListView
         android:id="@+id/chapter_list"
+        android:background="@color/white"
         android:divider="@mipmap/chapter_divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
