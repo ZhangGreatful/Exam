@@ -22,38 +22,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.haha.exam.R;
 import com.haha.exam.activity.OrderTextActivity;
 import com.haha.exam.bean.AllQuestions;
-import com.haha.exam.bean.AnwerInfo;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 
 public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleViewHolder> {
 
     final Handler handler = new Handler();
-    private List<Integer> isdo = new ArrayList<>();
-    private List<Integer> choose = new ArrayList<>();
     private final Context mContext;
     private final RecyclerView mRecyclerView;
     private List<AllQuestions.DataBean> datas;
     private OrderTextActivity orderTextActivity;
-    private String answer;
-    String choice;
 
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
@@ -122,12 +111,6 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
 
     public void setDataList(List<AllQuestions.DataBean> datas) {
         this.datas = datas;
-
-        for (int i = 0; i < datas.size(); i++) {
-            isdo.add(datas.get(i).getIsdo());
-            choose.add(datas.get(i).getChoose());
-        }
-
         notifyDataSetChanged();
     }
 
@@ -145,209 +128,204 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
 
     @Override
     public void onBindViewHolder(final SimpleViewHolder holder, final int position) {
-//        AnwerInfo.DataBean.SubDataBean subDataBean = datas.get(position);
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                mRecyclerView.smoothScrollToPosition(position + 1);
+            }
+        };
         final AllQuestions.DataBean problem = datas.get(position);
-        holder.answer.setText(problem.getAnswer());
+
         holder.answer_explain.setText(problem.getDetail());
-        if (problem.getAnswer().equals("1")) {
-            answer = "1";
-        } else if (problem.getAnswer().equals("2")) {
-            answer = "2";
-        } else if (problem.getAnswer().equals("4")) {
-            answer = "3";
-        } else if (problem.getAnswer().equals("8")) {
-            answer = "4";
-        }
+        holder.iv_1.setImageResource(R.mipmap.a);
+        holder.iv_2.setImageResource(R.mipmap.b);
+        holder.iv_3.setImageResource(R.mipmap.c);
+        holder.iv_4.setImageResource(R.mipmap.d);
 //        该题没有做
-        if (isdo.get(position) == 0) {
+        if (problem.getIsdo() == 0) {
             holder.itemView.getTag();
             holder.answer.setVisibility(View.INVISIBLE);
             holder.ll_explain.setVisibility(View.INVISIBLE);
             System.out.println("size===========" + datas.size());
-//        holder.title.setText(subDataBean.getQuestionid() + ". " + subDataBean.getQuestion());
             holder.title.setText(problem.getSid() + ". " + problem.getQuestion());
-            if (problem.getType().equals("3")) {
+            if (problem.getType().equals("3")) {//选择题
                 holder.choice_3.setVisibility(View.GONE);
                 holder.choice_4.setVisibility(View.GONE);
-                holder.iv_1.setImageResource(R.mipmap.a);
-                holder.iv_2.setImageResource(R.mipmap.b);
+                if (problem.getAnswer().equals("0")) {
+                    holder.answer.setText("错");
+                } else {
+                    holder.answer.setText("对");
+                }
                 holder.tv_1.setText("对");
                 holder.tv_2.setText("错");
-            } else if (problem.getType().equals("2")) {
-                holder.iv_1.setImageResource(R.mipmap.a);
-                holder.iv_2.setImageResource(R.mipmap.b);
-                holder.iv_3.setImageResource(R.mipmap.c);
-                holder.iv_4.setImageResource(R.mipmap.d);
+                holder.choice_1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder.choice_2.setEnabled(false);
+                        problem.setIsdo(1);
+                        problem.setChoose(1);
+                        if (problem.getAnswer().equals("1")) {
+                            holder.iv_1.setImageResource(R.mipmap.right);
+                            holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
+                            handler.postDelayed(runnable, 200);
+
+                        } else {
+                            holder.answer.setVisibility(View.VISIBLE);
+                            holder.ll_explain.setVisibility(View.VISIBLE);
+                            holder.iv_1.setImageResource(R.mipmap.wrong);
+                            holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                        }
+                    }
+                });
+                holder.choice_2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        problem.setIsdo(1);
+                        problem.setChoose(2);
+                        holder.choice_1.setEnabled(false);
+                        if (problem.getAnswer().equals("0")) {
+                            holder.answer.setText("对");
+                            holder.iv_2.setImageResource(R.mipmap.right);
+                            holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
+                            handler.postDelayed(runnable, 200);
+                        } else {
+                            holder.answer.setVisibility(View.VISIBLE);
+                            holder.ll_explain.setVisibility(View.VISIBLE);
+                            holder.iv_2.setImageResource(R.mipmap.wrong);
+                            holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                        }
+                    }
+                });
+            } else if (problem.getType().equals("2")) {//选择题
                 holder.tv_1.setText(problem.getOption().get(0).substring(2));
                 holder.tv_2.setText(problem.getOption().get(1).substring(2));
                 holder.tv_3.setText(problem.getOption().get(2).substring(2));
                 holder.tv_4.setText(problem.getOption().get(3).substring(2));
+                if (problem.getAnswer().equals("1")) {
+                    holder.answer.setText("A");
+                } else if (problem.getAnswer().equals("2")) {
+                    holder.answer.setText("B");
+                } else if (problem.getAnswer().equals("4")) {
+                    holder.answer.setText("C");
+                } else if (problem.getAnswer().equals("8")) {
+                    holder.answer.setText("D");
+                }
+                holder.choice_1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder.choice_2.setEnabled(false);
+                        holder.choice_3.setEnabled(false);
+                        holder.choice_4.setEnabled(false);
+                        problem.setIsdo(1);
+                        problem.setChoose(1);
+                        if (problem.getAnswer().equals("1")) {
+                            holder.iv_1.setImageResource(R.mipmap.right);
+                            holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
+                            handler.postDelayed(runnable, 200);
+                        } else {
+                            holder.answer.setVisibility(View.VISIBLE);
+                            holder.ll_explain.setVisibility(View.VISIBLE);
+                            holder.iv_1.setImageResource(R.mipmap.wrong);
+                            holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                        }
+                    }
+                });
+                holder.choice_2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        problem.setIsdo(1);
+                        problem.setChoose(2);
+                        holder.choice_1.setEnabled(false);
+                        holder.choice_3.setEnabled(false);
+                        holder.choice_4.setEnabled(false);
+                        if (problem.getAnswer().equals("2")) {
+                            holder.iv_2.setImageResource(R.mipmap.right);
+                            holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
+                            handler.postDelayed(runnable, 200);
+                        } else {
+                            holder.answer.setVisibility(View.VISIBLE);
+                            holder.ll_explain.setVisibility(View.VISIBLE);
+                            holder.iv_2.setImageResource(R.mipmap.wrong);
+                            holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                        }
+                    }
+                });
+                holder.choice_3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        problem.setIsdo(1);
+                        problem.setChoose(3);
+                        holder.choice_2.setEnabled(false);
+                        holder.choice_1.setEnabled(false);
+                        holder.choice_4.setEnabled(false);
+                        if (problem.getAnswer().equals("4")) {
+                            holder.iv_3.setImageResource(R.mipmap.right);
+                            holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
+                            handler.postDelayed(runnable, 200);
+                        } else {
+                            holder.answer.setVisibility(View.VISIBLE);
+                            holder.ll_explain.setVisibility(View.VISIBLE);
+                            holder.iv_3.setImageResource(R.mipmap.wrong);
+                            holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                        }
+                    }
+                });
+                holder.choice_4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        problem.setIsdo(1);
+                        problem.setChoose(4);
+                        holder.choice_2.setEnabled(false);
+                        holder.choice_3.setEnabled(false);
+                        holder.choice_1.setEnabled(false);
+                        if (problem.getAnswer().equals("8")) {
+                            holder.iv_4.setImageResource(R.mipmap.right);
+                            holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
+                            handler.postDelayed(runnable, 200);
+                        } else {
+                            holder.answer.setVisibility(View.VISIBLE);
+                            holder.ll_explain.setVisibility(View.VISIBLE);
+                            holder.iv_4.setImageResource(R.mipmap.wrong);
+                            holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                        }
+                    }
+                });
             }
 
 
-            holder.choice_1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    choice = "1";
-                    if (choice.equals(answer)) {
-                        holder.choice_2.setEnabled(false);
-                        holder.choice_3.setEnabled(false);
-                        holder.choice_4.setEnabled(false);
-                        isdo.set(position, 1);
-                        choose.set(position, 1);
-
-
-                        holder.iv_1.setImageResource(R.mipmap.right);
-                        holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                handler.postDelayed(this, 200);
-//                                mRecyclerView.smoothScrollToPosition(position + 1);
-                            }
-                        };
-                    } else {
-                        holder.choice_2.setEnabled(false);
-                        holder.choice_3.setEnabled(false);
-                        holder.choice_4.setEnabled(false);
-                        isdo.set(position, 1);
-                        choose.set(position, 1);
-                        holder.answer.setVisibility(View.VISIBLE);
-                        holder.ll_explain.setVisibility(View.VISIBLE);
-                        holder.iv_1.setImageResource(R.mipmap.wrong);
-                        holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                    }
-                }
-            });
-            holder.choice_2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    choice = "2";
-                    if (choice.equals(answer)) {
-                        isdo.set(position, 1);
-                        choose.set(position, 2);
-                        holder.choice_1.setEnabled(false);
-                        holder.choice_3.setEnabled(false);
-                        holder.choice_4.setEnabled(false);
-                        holder.iv_2.setImageResource(R.mipmap.right);
-                        holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                handler.postDelayed(this, 200);
-//                                mRecyclerView.smoothScrollToPosition(position + 1);
-                            }
-                        };
-                    } else {
-                        isdo.set(position, 1);
-                        choose.set(position, 2);
-                        holder.choice_1.setEnabled(false);
-                        holder.choice_3.setEnabled(false);
-                        holder.choice_4.setEnabled(false);
-                        holder.answer.setVisibility(View.VISIBLE);
-                        holder.ll_explain.setVisibility(View.VISIBLE);
-                        holder.iv_2.setImageResource(R.mipmap.wrong);
-                        holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                    }
-                }
-            });
-            holder.choice_3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    choice = "3";
-                    if (choice.equals(answer)) {
-                        isdo.set(position, 1);
-                        choose.set(position, 3);
-                        holder.choice_2.setEnabled(false);
-                        holder.choice_1.setEnabled(false);
-                        holder.choice_4.setEnabled(false);
-                        holder.iv_3.setImageResource(R.mipmap.right);
-                        holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                handler.postDelayed(this, 200);
-//                                mRecyclerView.smoothScrollToPosition(position + 1);
-                            }
-                        };
-                    } else {
-                        isdo.set(position, 1);
-                        choose.set(position, 3);
-                        holder.choice_2.setEnabled(false);
-                        holder.choice_1.setEnabled(false);
-                        holder.choice_4.setEnabled(false);
-                        holder.answer.setVisibility(View.VISIBLE);
-                        holder.ll_explain.setVisibility(View.VISIBLE);
-                        holder.iv_3.setImageResource(R.mipmap.wrong);
-                        holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                    }
-                }
-            });
-            holder.choice_4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    choice = "4";
-                    if (choice.equals(answer)) {
-                        isdo.set(position, 1);
-                        choose.set(position, 4);
-                        holder.choice_2.setEnabled(false);
-                        holder.choice_3.setEnabled(false);
-                        holder.choice_1.setEnabled(false);
-                        holder.iv_4.setImageResource(R.mipmap.right);
-                        holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                handler.postDelayed(this, 200);
-//                                mRecyclerView.smoothScrollToPosition(position + 1);
-                            }
-                        };
-                    } else {
-                        isdo.set(position, 1);
-                        choose.set(position, 4);
-                        holder.choice_2.setEnabled(false);
-                        holder.choice_3.setEnabled(false);
-                        holder.choice_1.setEnabled(false);
-                        holder.answer.setVisibility(View.VISIBLE);
-                        holder.ll_explain.setVisibility(View.VISIBLE);
-                        holder.iv_4.setImageResource(R.mipmap.wrong);
-                        holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                    }
-                }
-            });
         } else {
 //            该题已经做过
             holder.choice_1.setEnabled(false);
             holder.choice_2.setEnabled(false);
             holder.choice_3.setEnabled(false);
             holder.choice_4.setEnabled(false);
-            if (String.valueOf(choose.get(position)).equals(answer)) {
-                if (choose.get(position) == 1) {
+            if (problem.getChoose() == (Integer.valueOf(problem.getAnswer()) / 2)) {
+                if (problem.getChoose() == 1) {
                     holder.iv_1.setImageResource(R.mipmap.right);
                     holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                } else if (choose.get(position) == 2) {
+                } else if (problem.getChoose() == 2) {
                     holder.iv_2.setImageResource(R.mipmap.right);
                     holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                } else if (choose.get(position) == 3) {
+                } else if (problem.getChoose() == 3) {
                     holder.iv_3.setImageResource(R.mipmap.right);
                     holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                } else if (choose.get(position) == 4) {
+                } else if (problem.getChoose() == 4) {
                     holder.iv_4.setImageResource(R.mipmap.right);
                     holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
                 }
             } else {
                 holder.answer.setVisibility(View.VISIBLE);
                 holder.ll_explain.setVisibility(View.VISIBLE);
-                if (choose.get(position) == 1) {
+                if (problem.getChoose() == 1) {
                     holder.iv_1.setImageResource(R.mipmap.wrong);
                     holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                } else if (choose.get(position) == 2) {
+                } else if (problem.getChoose() == 2) {
                     holder.iv_2.setImageResource(R.mipmap.wrong);
                     holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                } else if (choose.get(position) == 3) {
+                } else if (problem.getChoose() == 3) {
                     holder.iv_3.setImageResource(R.mipmap.wrong);
                     holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                } else if (choose.get(position) == 4) {
+                } else if (problem.getChoose() == 4) {
                     holder.iv_4.setImageResource(R.mipmap.wrong);
                     holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
                 }

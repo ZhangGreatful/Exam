@@ -39,6 +39,7 @@ import com.haha.exam.web.WebInterface;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
 
 import java.io.Serializable;
 import java.util.List;
@@ -54,14 +55,12 @@ import okhttp3.Response;
  */
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
-    private ExamDao dao;
 
     private FragmentTabHost mTabHost;
     private LayoutInflater inflater;
     private Class mFragmentArray[] = {HomeFragment.class, OrderFragment.class, ToolsFragment.class};
     private int mImageArray[] = {R.drawable.tab_home, R.drawable.tab_order, R.drawable.tab_favorable};
     private String textArray[] = {"考驾照", "驾考圈", "工具"};//暂时未用到
-
 
 
     public static List<AllQuestions.DataBean> questions;
@@ -78,13 +77,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private AMapLocationClient mLocationClient = null;
     //声明mLocationOption对象，定位参数
     public AMapLocationClientOption mLocationOption = null;
+    private ExamDao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dao = new ExamDao(MainActivity.this);
         gson = new Gson();
-        dao=new ExamDao(MainActivity.this);
+        dao = new ExamDao(MainActivity.this);
         fManager = getFragmentManager();
         fg_left_menu = (LeftFragment) fManager.findFragmentById(R.id.fg_left_menu);
         initViews();
@@ -108,6 +109,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onDestroy() {
         super.onDestroy();
         mLocationClient.onDestroy();//销毁定位客户端，同时销毁本地定位服务。
+        OkGo.getInstance().cancelTag(this);
 
     }
 
@@ -175,31 +177,81 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     //      获取城市列表，利用定位得到城市id
     private void initData() {
-        OkGo.get(WebInterface.all_citys)
+//        OkGo.get(WebInterface.all_citys)
+//                .tag(this)
+//                .cacheKey("all_citys")
+//                .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(String s, Call call, Response response) {
+//
+//                        allCity = gson.fromJson(s, AllCity.class);
+//                        System.out.println("数据请求成功");
+//                    }
+//
+//                    @Override
+//                    public void onCacheSuccess(String s, Call call) {
+//                        super.onCacheSuccess(s, call);
+//                        if (allCity == null) {
+//                            allCity = gson.fromJson(s, AllCity.class);
+//                            System.out.println(allCity.getMsg().size());
+//                            System.out.println("读取缓存数据成功");
+//                        }
+//
+//                    }
+//                });
+        String url=WebInterface.all_questions+"/cartype/"+"xc"+"/subject/"+"1";
+        OkGo.post(url)
                 .tag(this)
-                .cacheKey("all_citys")
-                .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+                .cacheMode(CacheMode.DEFAULT)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-
-                        allCity = gson.fromJson(s, AllCity.class);
-                        System.out.println("数据请求成功");
+                        Toast.makeText(MainActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
+                        gson = new Gson();
+                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+                        dao.addAllQuestions(allQuestions, "xc");
+                        List<AllQuestions.DataBean> datas = allQuestions.getData();
+                        System.out.print("datas  size=========" + datas.size());
+//                        count.setText(String.valueOf(datas.size()));
+////        Log.i("data.size=", "" + datas.size());
+//
+//                        if (layoutAdapter != null) {
+//                            layoutAdapter.setDataList(datas);
+//                        }
+//
+//                        if (topicAdapter != null) {
+//                            topicAdapter.setDataNum(datas.size());
+//                        }
+//                        System.out.println("一共有问题==============" + allQuestions.getData().size());
                     }
 
-                    @Override
-                    public void onCacheSuccess(String s, Call call) {
-                        super.onCacheSuccess(s, call);
-                        if (allCity == null) {
-                            allCity = gson.fromJson(s, AllCity.class);
-                            System.out.println(allCity.getMsg().size());
-                            System.out.println("读取缓存数据成功");
-                        }
-
-                    }
+//                    @Override
+//                    public void onCacheSuccess(String s, Call call) {
+//                        super.onCacheSuccess(s, call);
+//                        gson = new Gson();
+//                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+//                        dao.addAllQuestions(allQuestions);
+//                        List<AllQuestions.DataBean> datas = allQuestions.getData();
+//                        System.out.print("datas  size=========" + datas.size());
+//                        count.setText(String.valueOf(datas.size()));
+////        Log.i("data.size=", "" + datas.size());
+//
+//                        if (layoutAdapter != null) {
+//                            layoutAdapter.setDataList(datas);
+//                        }
+//
+//                        if (topicAdapter != null) {
+//                            topicAdapter.setDataNum(datas.size());
+//                        }
+//                    }
                 });
 
-
+//        for (int i = 0; i <allQuestions.getData().size(); i++) {
+//            status.put("isdo", allQuestions.getData().get(i).getIsdo());
+//            status.put("choose", allQuestions.getData().get(i).getChoose());
+//            status.put("isshoucang", allQuestions.getData().get(i).getIsshoucang());
+//        }
 
 
     }
@@ -267,7 +319,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     //      为tab键设置图片和文字
     private View getTabItemView(int index) {
         View view = inflater.inflate(R.layout.tab_item_view, null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageview_1);
         TextView textView = (TextView) view.findViewById(R.id.textview);
         imageView.setImageResource(mImageArray[index]);
         textView.setText(textArray[index]);

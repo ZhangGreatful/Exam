@@ -17,7 +17,7 @@ import com.haha.exam.dialog.PraticeDialog;
  */
 public class PracticeTextActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView moni, zuoti,header;
+    private ImageView moni, zuoti, header;
     private TextView login;
 
 
@@ -31,8 +31,8 @@ public class PracticeTextActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         moni = (ImageView) findViewById(R.id.iv_moni);
         zuoti = (ImageView) findViewById(R.id.iv_zuoti);
-        login= (TextView) findViewById(R.id.tv_login);
-        header= (ImageView) findViewById(R.id.iv_login_header);
+        login = (TextView) findViewById(R.id.tv_login);
+        header = (ImageView) findViewById(R.id.iv_login_header);
 
         moni.setOnClickListener(this);
         login.setOnClickListener(this);
@@ -53,18 +53,20 @@ public class PracticeTextActivity extends BaseActivity implements View.OnClickLi
                 dialog.setYesOnclickListener("确定", new PraticeDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
-                        Toast.makeText(PracticeTextActivity.this, "点击了--确定--按钮", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(PracticeTextActivity.this, PraticeActivity.class);
+                        startActivity(intent);
+                        finish();
                         dialog.dismiss();
                     }
                 });
                 break;
             case R.id.tv_login:
-                Intent intent=new Intent(PracticeTextActivity.this,LoginActivity.class);
+                Intent intent = new Intent(PracticeTextActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.iv_login_header:
-                Intent intent1=new Intent(PracticeTextActivity.this,LoginActivity.class);
+                Intent intent1 = new Intent(PracticeTextActivity.this, LoginActivity.class);
                 startActivity(intent1);
                 finish();
                 break;

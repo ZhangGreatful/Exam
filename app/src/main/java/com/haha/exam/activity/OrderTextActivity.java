@@ -58,7 +58,9 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
     private AllQuestions allQuestions;
     private Map<String, Integer> status = new HashMap<>();
 
+    private ExamDao dao;
     private Gson gson;
+    private List<AllQuestions.DataBean> datas;
 
 
     private LinearLayout bianhao, shoucang, fenxiang, jieshi;
@@ -69,74 +71,35 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
     private ImageView back;
     //    private int mScreenWitdh;
 //    private LinearLayout layout;
-    private ExamDao dao;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        initData();
-        dao = new ExamDao(OrderTextActivity.this);
+
         initView();
         initViewPager();
         initSlidingUoPanel();
         initList();
+        initData();
 //        AnwerInfo anwerInfo = getAnwer();
 
 //        List<AnwerInfo.DataBean.SubDataBean> datas = anwerInfo.getData().getData();
-        OkGo.post(WebInterface.all_questions)
-                .tag(this)
-                .params("cartype", "hc")
-                .params("subject", "1")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        Toast.makeText(OrderTextActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
-                        gson = new Gson();
-                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
-                        dao.addAllQuestions(allQuestions);
-                        List<AllQuestions.DataBean> datas = allQuestions.getData();
-                        System.out.print("datas  size=========" + datas.size());
-                        count.setText(String.valueOf(datas.size()));
-//        Log.i("data.size=", "" + datas.size());
 
-                        if (layoutAdapter != null) {
-                            layoutAdapter.setDataList(datas);
-                        }
+    }
 
-                        if (topicAdapter != null) {
-                            topicAdapter.setDataNum(datas.size());
-                        }
-                        System.out.println("一共有问题==============" + allQuestions.getData().size());
-                    }
+    private void initData() {
+        dao = new ExamDao(OrderTextActivity.this);
+        datas = dao.queryAllQuestions("xc", "1");
 
-//                    @Override
-//                    public void onCacheSuccess(String s, Call call) {
-//                        super.onCacheSuccess(s, call);
-//                        gson = new Gson();
-//                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
-//                        dao.addAllQuestions(allQuestions);
-//                        List<AllQuestions.DataBean> datas = allQuestions.getData();
-//                        System.out.print("datas  size=========" + datas.size());
-//                        count.setText(String.valueOf(datas.size()));
-////        Log.i("data.size=", "" + datas.size());
-//
-//                        if (layoutAdapter != null) {
-//                            layoutAdapter.setDataList(datas);
-//                        }
-//
-//                        if (topicAdapter != null) {
-//                            topicAdapter.setDataNum(datas.size());
-//                        }
-//                    }
-                });
+        if (layoutAdapter != null) {
+            layoutAdapter.setDataList(datas);
+        }
 
-//        for (int i = 0; i <allQuestions.getData().size(); i++) {
-//            status.put("isdo", allQuestions.getData().get(i).getIsdo());
-//            status.put("choose", allQuestions.getData().get(i).getChoose());
-//            status.put("isshoucang", allQuestions.getData().get(i).getIsshoucang());
-//        }
-
+        if (topicAdapter != null) {
+            topicAdapter.setDataNum(datas.size());
+        }
     }
 
     @Override
