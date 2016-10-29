@@ -31,16 +31,16 @@ public abstract class BaseActivity extends Activity {
 
 
         int titlebarResId = getTitlebarResId();
-        if (titlebarResId!=0) {
-            LinearLayout view=(LinearLayout) findViewById(R.id.base_view);
+        if (titlebarResId != 0) {
+            LinearLayout view = (LinearLayout) findViewById(R.id.base_view);
             view.removeViewAt(0);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(this, 50));
-            ViewGroup titleView=(ViewGroup) View.inflate(this, titlebarResId, null);
-            view.addView(titleView, 0,lp);
+            ViewGroup titleView = (ViewGroup) View.inflate(this, titlebarResId, null);
+            view.addView(titleView, 0, lp);
             view.setBackgroundDrawable(titleView.getBackground());
-            titlebar=titleView;
-        }else {
-            titlebar=findViewById(R.id.base_titlebar);
+            titlebar = titleView;
+        } else {
+            titlebar = findViewById(R.id.base_titlebar);
             leftBtn = findViewById(R.id.base_back_btn);
             leftBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -57,10 +57,10 @@ public abstract class BaseActivity extends Activity {
                     onClickRight();
                 }
             });
-            titltTv=(TextView) findViewById(R.id.base_title_tv);
+            titltTv = (TextView) findViewById(R.id.base_title_tv);
         }
 
-        contentView=(ViewGroup) findViewById(R.id.base_contentview);
+        contentView = (ViewGroup) findViewById(R.id.base_contentview);
         contentView.addView(View.inflate(this, getContentView(), null));
         setRightBtnVisible(false);
 
@@ -74,8 +74,7 @@ public abstract class BaseActivity extends Activity {
     /**
      * 设置状态栏背景状态
      */
-    private void setTranslucentStatus()
-    {
+    private void setTranslucentStatus() {
         //判断当前SDK版本号，如果是4.4以上，就是支持沉浸式状态栏的
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -98,18 +97,19 @@ public abstract class BaseActivity extends Activity {
      * 默认什么都不做
      */
     protected void onClickRight() {
-
+        System.out.println("显示dialog");
     }
 
     /**
      * 设置左侧按钮显示与隐藏
+     *
      * @param visible
      */
     public void setLeftBtnVisible(Boolean visible) {
-        if (leftBtn!=null) {
+        if (leftBtn != null) {
             if (visible) {
                 leftBtn.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 leftBtn.setVisibility(View.GONE);
             }
         }
@@ -118,13 +118,14 @@ public abstract class BaseActivity extends Activity {
 
     /**
      * 设置右侧按钮显示与隐藏
+     *
      * @param visible
      */
     public void setRightBtnVisible(Boolean visible) {
-        if (rightBtn!=null) {
+        if (rightBtn != null) {
             if (visible) {
                 rightBtn.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 rightBtn.setVisibility(View.GONE);
             }
         }
@@ -135,6 +136,7 @@ public abstract class BaseActivity extends Activity {
      * 获取自定义标题栏
      * 如果子类复写并返回不等于0的布局文件，将会覆盖默认标题
      * 返回0 将会采用默认标题
+     *
      * @return
      */
     protected int getTitlebarResId() {
@@ -143,11 +145,12 @@ public abstract class BaseActivity extends Activity {
 
     /**
      * 设置中间标题
+     *
      * @param title
      */
-    public void setTitle(String title){
-        if (titltTv!=null) {
-            if (titltTv!=null) {
+    public void setTitle(String title) {
+        if (titltTv != null) {
+            if (titltTv != null) {
                 titltTv.setText(title);
             }
         }
@@ -156,15 +159,16 @@ public abstract class BaseActivity extends Activity {
 
     /**
      * 设置右边你按钮文字属性
+     *
      * @param title
      */
-    public void setRtTitle(String title){
-        if (rightBtn!=null) {
+    public void setRtTitle(String title) {
+        if (rightBtn != null) {
             rightBtn.setText(title);
         }
     }
 
-    public View getTitleBar(){
+    public View getTitleBar() {
 
         return titlebar;
     }
@@ -172,6 +176,7 @@ public abstract class BaseActivity extends Activity {
 
     /**
      * 获取中间内容显示区
+     *
      * @return
      */
     protected abstract int getContentView();

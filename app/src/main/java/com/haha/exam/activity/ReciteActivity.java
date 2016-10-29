@@ -174,7 +174,7 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
 
-        topicAdapter = new TopicAdapter(this);
+        topicAdapter = new TopicAdapter(this,recyclerView);
 
         recyclerView.setLayoutManager(gridLayoutManager);
 

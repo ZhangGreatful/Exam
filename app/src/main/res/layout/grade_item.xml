@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:minHeight="55dp"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/xu_hao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="1."
+        android:textColor="@color/text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/ri_qi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="10-18"
+        android:textColor="@color/text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/fen_shu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:text="90分"
+        android:textColor="@color/wrong_choice_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/shi_jian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:text="20:00"
+        android:textColor="@color/text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/jie_guo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:text="马路杀手"
+        android:textColor="@color/right_choice_color"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:src="@mipmap/right_arrow" />
+</LinearLayout>

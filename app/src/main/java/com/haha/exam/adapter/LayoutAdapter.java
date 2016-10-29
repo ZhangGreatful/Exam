@@ -17,6 +17,7 @@
 package com.haha.exam.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,13 +28,24 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.activity.OrderTextActivity;
+import com.haha.exam.bean.AddRight;
 import com.haha.exam.bean.AllQuestions;
+import com.haha.exam.dao.ExamDao;
+import com.haha.exam.web.WebInterface;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 
 public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleViewHolder> {
@@ -43,13 +55,15 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
     private final RecyclerView mRecyclerView;
     private List<AllQuestions.DataBean> datas;
     private OrderTextActivity orderTextActivity;
+    private ExamDao dao;
+    private Gson gson=new Gson();
 
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title, tv_1, tv_2, tv_3, tv_4;
         public final TextView answer, is_wrong, answer_explain;
-        public final ImageView iv_1, iv_2, iv_3, iv_4;
-
+        public final ImageView iv_1, iv_2, iv_3, iv_4, iv_pic;
+        public Drawable drawable;
         public final LinearLayout ll_explain, choice_1, choice_2, choice_3, choice_4;
 
 
@@ -67,6 +81,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
             iv_2 = (ImageView) view.findViewById(R.id.iv_2);
             iv_3 = (ImageView) view.findViewById(R.id.iv_3);
             iv_4 = (ImageView) view.findViewById(R.id.iv_4);
+            iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
 
             ll_explain = (LinearLayout) view.findViewById(R.id.ll_anwer);
             choice_1 = (LinearLayout) view.findViewById(R.id.choice_1);
@@ -107,6 +122,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
         orderTextActivity = new OrderTextActivity();
         mContext = context;
         mRecyclerView = recyclerView;
+        dao = new ExamDao(context);
     }
 
     public void setDataList(List<AllQuestions.DataBean> datas) {
@@ -135,7 +151,18 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
             }
         };
         final AllQuestions.DataBean problem = datas.get(position);
-
+        String imageUrl=problem.getImage();
+        String videoUrl=problem.getVideo();
+        System.out.println("url==========="+imageUrl+videoUrl);
+        if (!imageUrl.equals("")) {
+            holder.iv_pic.setVisibility(View.VISIBLE);
+            Picasso.with(mContext).load(imageUrl).into(holder.iv_pic);
+        }else if (!videoUrl.equals("")){
+            holder.iv_pic.setVisibility(View.VISIBLE);
+            Picasso.with(mContext).load(videoUrl).into(holder.iv_pic);
+        }else {
+            holder.iv_pic.setVisibility(View.GONE);
+        }
         holder.answer_explain.setText(problem.getDetail());
         holder.iv_1.setImageResource(R.mipmap.a);
         holder.iv_2.setImageResource(R.mipmap.b);
@@ -147,8 +174,8 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
             holder.answer.setVisibility(View.INVISIBLE);
             holder.ll_explain.setVisibility(View.INVISIBLE);
             System.out.println("size===========" + datas.size());
-            holder.title.setText(problem.getSid() + ". " + problem.getQuestion());
-            if (problem.getType().equals("3")) {//选择题
+            holder.title.setText(problem.getQuestion());
+            if (problem.getType().equals("3")) {//单选题
                 holder.choice_3.setVisibility(View.GONE);
                 holder.choice_4.setVisibility(View.GONE);
                 if (problem.getAnswer().equals("0")) {
@@ -167,13 +194,26 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                         if (problem.getAnswer().equals("1")) {
                             holder.iv_1.setImageResource(R.mipmap.right);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                            handler.postDelayed(runnable, 200);
+                            if (mRecyclerView.getScrollState() == 0) {
+                                handler.postDelayed(runnable, 500);
+                            }
+                            OkGo.post(WebInterface.add_right)
+                                    .params("telphone","18266142739")
+                                    .params("questionid",problem.getSid())
+                                    .execute(new StringCallback() {
+                                        @Override
+                                        public void onSuccess(String s, Call call, Response response) {
+                                            AddRight addRight=gson.fromJson(s,AddRight.class);
+                                            Toast.makeText(mContext,addRight.getMsg(),Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
 
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_1.setImageResource(R.mipmap.wrong);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                            dao.addErrorQuestions(problem, "1");//添加错题到错题库
                         }
                     }
                 });
@@ -187,16 +227,19 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                             holder.answer.setText("对");
                             holder.iv_2.setImageResource(R.mipmap.right);
                             holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                            handler.postDelayed(runnable, 200);
+                            if (mRecyclerView.getScrollState() == 0) {
+                                handler.postDelayed(runnable, 500);
+                            }
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_2.setImageResource(R.mipmap.wrong);
                             holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                            dao.addErrorQuestions(problem, "1");//添加错题到错题库
                         }
                     }
                 });
-            } else if (problem.getType().equals("2")) {//选择题
+            } else if (problem.getType().equals("2")) {//单选题
                 holder.tv_1.setText(problem.getOption().get(0).substring(2));
                 holder.tv_2.setText(problem.getOption().get(1).substring(2));
                 holder.tv_3.setText(problem.getOption().get(2).substring(2));
@@ -221,12 +264,15 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                         if (problem.getAnswer().equals("1")) {
                             holder.iv_1.setImageResource(R.mipmap.right);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                            handler.postDelayed(runnable, 200);
+                            if (mRecyclerView.getScrollState() == 0) {
+                                handler.postDelayed(runnable, 500);
+                            }
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_1.setImageResource(R.mipmap.wrong);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                            dao.addErrorQuestions(problem, "1");//添加错题到错题库
                         }
                     }
                 });
@@ -241,12 +287,15 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                         if (problem.getAnswer().equals("2")) {
                             holder.iv_2.setImageResource(R.mipmap.right);
                             holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                            handler.postDelayed(runnable, 200);
+                            if (mRecyclerView.getScrollState() == 0) {
+                                handler.postDelayed(runnable, 500);
+                            }
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_2.setImageResource(R.mipmap.wrong);
                             holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                            dao.addErrorQuestions(problem, "1");//添加错题到错题库
                         }
                     }
                 });
@@ -254,19 +303,22 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                     @Override
                     public void onClick(View view) {
                         problem.setIsdo(1);
-                        problem.setChoose(3);
+                        problem.setChoose(4);
                         holder.choice_2.setEnabled(false);
                         holder.choice_1.setEnabled(false);
                         holder.choice_4.setEnabled(false);
                         if (problem.getAnswer().equals("4")) {
                             holder.iv_3.setImageResource(R.mipmap.right);
                             holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                            handler.postDelayed(runnable, 200);
+                            if (mRecyclerView.getScrollState() == 0) {
+                                handler.postDelayed(runnable, 500);
+                            }
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_3.setImageResource(R.mipmap.wrong);
                             holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                            dao.addErrorQuestions(problem, "1");//添加错题到错题库
                         }
                     }
                 });
@@ -274,19 +326,22 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                     @Override
                     public void onClick(View view) {
                         problem.setIsdo(1);
-                        problem.setChoose(4);
+                        problem.setChoose(8);
                         holder.choice_2.setEnabled(false);
                         holder.choice_3.setEnabled(false);
                         holder.choice_1.setEnabled(false);
                         if (problem.getAnswer().equals("8")) {
                             holder.iv_4.setImageResource(R.mipmap.right);
                             holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                            handler.postDelayed(runnable, 200);
+                            if (mRecyclerView.getScrollState() == 0) {
+                                handler.postDelayed(runnable, 500);
+                            }
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_4.setImageResource(R.mipmap.wrong);
                             holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+                            dao.addErrorQuestions(problem, "1");//添加错题到错题库
                         }
                     }
                 });
@@ -299,17 +354,17 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
             holder.choice_2.setEnabled(false);
             holder.choice_3.setEnabled(false);
             holder.choice_4.setEnabled(false);
-            if (problem.getChoose() == (Integer.valueOf(problem.getAnswer()) / 2)) {
+            if (problem.getChoose() == Integer.valueOf(problem.getAnswer())) {
                 if (problem.getChoose() == 1) {
                     holder.iv_1.setImageResource(R.mipmap.right);
                     holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
                 } else if (problem.getChoose() == 2) {
                     holder.iv_2.setImageResource(R.mipmap.right);
                     holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                } else if (problem.getChoose() == 3) {
+                } else if (problem.getChoose() == 4) {
                     holder.iv_3.setImageResource(R.mipmap.right);
                     holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                } else if (problem.getChoose() == 4) {
+                } else if (problem.getChoose() == 8) {
                     holder.iv_4.setImageResource(R.mipmap.right);
                     holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
                 }
@@ -322,14 +377,15 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                 } else if (problem.getChoose() == 2) {
                     holder.iv_2.setImageResource(R.mipmap.wrong);
                     holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                } else if (problem.getChoose() == 3) {
+                } else if (problem.getChoose() == 4) {
                     holder.iv_3.setImageResource(R.mipmap.wrong);
                     holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                } else if (problem.getChoose() == 4) {
+                } else if (problem.getChoose() == 8) {
                     holder.iv_4.setImageResource(R.mipmap.wrong);
                     holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
                 }
             }
+
         }
     }
 

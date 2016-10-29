@@ -5,6 +5,15 @@ package com.haha.exam.web;
  */
 public class WebInterface {
 
+    //    http://api.jiakao.exueche.com/index.php/Home/index/register/username/[账号]/password/[密码]
+    public static String register = "http://api.jiakao.exueche.com/index.php/Home/index/register";//注册接口  username  password
+
+    //    http://api.jiakao.exueche.com/index.php/Home/index/checklogin/username/[账号]/password/[密码]
+    public static String check_login = "http://api.jiakao.exueche.com/index.php/Home/index/checklogin";//登录接口  username  password
+    //    http://api.jiakao.exueche.com/index.php/Home/index/sendcode/tel/[手机号]
+    public static String send_code = "http://api.jiakao.exueche.com/index.php/Home/index/sendcode";//验证码  tel
+
+
     //    cartype 车辆类型（小车'xc' 货车'hc' 客车'kc' 摩托车'mtc' 公共'publics'）
 //    接口都区分科目，字段是subject，1是科一，4是科四
 //course (科目1/4)  chapter_id(题库章节)  type(1:多选 2:单选 3:判断)

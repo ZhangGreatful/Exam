@@ -1,5 +1,6 @@
 package com.haha.exam.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import com.haha.exam.bean.AllQuestions;
 import com.haha.exam.bean.AnwerInfo;
 import com.haha.exam.bean.IsSave;
 import com.haha.exam.dao.ExamDao;
+import com.haha.exam.dao.DatabaseHelper;
 import com.haha.exam.web.WebInterface;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.lzy.okgo.OkGo;
@@ -59,7 +61,8 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
     private Map<String, Integer> status = new HashMap<>();
 
     private ExamDao dao;
-    private Gson gson;
+    private DatabaseHelper dbHelper;
+    private Gson gson=new Gson();
     private List<AllQuestions.DataBean> datas;
 
 
@@ -91,7 +94,66 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 
     private void initData() {
         dao = new ExamDao(OrderTextActivity.this);
-        datas = dao.queryAllQuestions("xc", "1");
+        Intent intent = getIntent();
+        if (intent.getIntExtra("knowtype", 0) != 0) {
+            int i = intent.getIntExtra("knowtype", 0);
+            String msg = String.valueOf(i);
+            System.out.println("knowtype==========" + msg);
+            datas = dao.getKnowledgetypeQuestions("xc", msg);
+        } else if (intent.getIntExtra("chapterid", 0) != 0) {
+            int j = intent.getIntExtra("chapterid", 0);
+            String msg = String.valueOf(j);
+            System.out.println("chapterid========" + msg);
+            datas = dao.getChapterQuestions("xc", msg);
+        } else if (!intent.getStringExtra("allerror").equals("0")) {
+//            datas=dao.queryAllErrorQuestions("xc","one");
+//            从网络获取错题
+            OkGo.post(WebInterface.check_error)
+                    .tag(this)
+                    .params("telphone", "18266142739")
+                    .params("chapterid", intent.getStringExtra("allerror"))
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onSuccess(String s, Call call, Response response) {
+                            Toast.makeText(OrderTextActivity.this, "从网络获取错题成功", Toast.LENGTH_SHORT).show();
+                            AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+                            datas = allQuestions.getData();
+//                            if (layoutAdapter != null) {
+//                                layoutAdapter.setDataList(datas);
+//                            }
+//                            count.setText("" + datas.size());
+//                            if (topicAdapter != null) {
+//                                topicAdapter.setDataNum(datas.size());
+//                            }
+//                            count.setText("" + datas.size());
+                        }
+                    });
+        } else if (intent.getStringExtra("allerror").equals("0")){
+//            从网络获取错题
+            OkGo.post(WebInterface.check_error)
+                    .tag(this)
+                    .params("telphone", "18266142739")
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onSuccess(String s, Call call, Response response) {
+                            Toast.makeText(OrderTextActivity.this, "从网络获取错题成功", Toast.LENGTH_SHORT).show();
+                            AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+                            datas = allQuestions.getData();
+//                            if (layoutAdapter != null) {
+//                                layoutAdapter.setDataList(datas);
+//                            }
+//                            count.setText("" + datas.size());
+//                            if (topicAdapter != null) {
+//                                topicAdapter.setDataNum(datas.size());
+//                            }
+//                            count.setText("" + datas.size());
+                        }
+                    });
+        }else {
+            datas = dao.queryAllQuestions("xc");
+        }
+
+        count.setText("" + datas.size());
 
         if (layoutAdapter != null) {
             layoutAdapter.setDataList(datas);
@@ -167,7 +229,7 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
 
-        topicAdapter = new TopicAdapter(this);
+        topicAdapter = new TopicAdapter(this, recyclerView);
 
         recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -183,7 +245,8 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
                         (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
                     mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 }
-                mRecyclerView.smoothScrollToPosition(position);
+//                mRecyclerView.smoothScrollToPosition(position);
+                mRecyclerView.scrollToPosition(position);
                 current.setText(String.valueOf(curPosition + 1));
                 topicAdapter.notifyCurPosition(curPosition);
                 topicAdapter.notifyPrePosition(prePosition);
@@ -244,13 +307,29 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
                 System.out.println("执行了滑动========");
-                layoutAdapter.notifyItemChanged(curPosition);
+                jieshi.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switch (view.getId()) {
+                            case R.id.jie_shi:
+                                System.out.println("点击了解释");
+                                if (isClicked == false) {
+                                    isClicked = true;
+                                } else {
+                                    isClicked = false;
+                                }
+                                layoutAdapter.notifyItemChanged(curPosition);
+                                break;
+                        }
+                    }
+                });
+//                layoutAdapter.notifyItemChanged(curPosition);
 
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-//
+                isClicked = false;
             }
         });
 
@@ -260,17 +339,6 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
                 Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
                 recyclerView.scrollToPosition(newPosition);
                 current.setText(String.valueOf(newPosition + 1));
-                isClicked = false;
-                jieshi.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (isClicked == false) {
-                            isClicked = true;
-                        } else {
-                            isClicked = false;
-                        }
-                    }
-                });
 //                layoutAdapter.notifyItemChanged(curPosition);
 
                 topicAdapter.notifyCurPosition(newPosition);
@@ -327,6 +395,10 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
                                 Toast.makeText(OrderTextActivity.this, isSave.getMsg(), Toast.LENGTH_SHORT).show();
                             }
                         });
+
+//                本地收藏到数据库
+                dao.addCollectQuestions(datas.get(curPosition + 1), "one");
+
                 break;
 
         }

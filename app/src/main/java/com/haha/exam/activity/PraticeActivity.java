@@ -18,10 +18,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.haha.exam.R;
+import com.haha.exam.adapter.LayoutAdapter;
 import com.haha.exam.adapter.PracticeAdapter;
 import com.haha.exam.adapter.ReciteAdapter;
 import com.haha.exam.adapter.TopicAdapter;
 import com.haha.exam.bean.AllQuestions;
+import com.haha.exam.dao.ExamDao;
 import com.haha.exam.web.WebInterface;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.lzy.okgo.OkGo;
@@ -46,11 +48,11 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
     private SlidingUpPanelLayout mLayout;
     private TopicAdapter topicAdapter;
     private RecyclerView recyclerView;
-    public static boolean isClicked = false;
     private int prePosition;
     private int curPosition;
     private MainActivity mainActivity;
     private AllQuestions allQuestions;
+    private ExamDao dao;
     private Gson gson = new Gson();
 
 
@@ -60,6 +62,7 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
     TextView timeView;
     Timer timer;
     TimerTask timerTask;
+    //    计时器
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             System.out.println("handle!");
@@ -128,38 +131,28 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        dao = new ExamDao(PraticeActivity.this);
         initView();
         initTime();
         initViewPager();
         initSlidingUoPanel();
         initList();
-//        AnwerInfo anwerInfo = getAnwer();
+        initData();
+    }
 
-        OkGo.post(WebInterface.all_questions)
-                .tag(this)
-                .params("cartype", "hc")
-                .params("subject", "1")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        Toast.makeText(PraticeActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
-                        allQuestions = gson.fromJson(s, AllQuestions.class);
-                        List<AllQuestions.DataBean> datas = allQuestions.getData();
-//        List<AllQuestions.DataBean> datas=mainActivity.questions;
-//        Log.i("data.size=", "" + datas.size());
+    //      初始化数据
+    private void initData() {
+//     随机从数据库中抽取80道单选题，20道判断题
+        List<AllQuestions.DataBean> datas = dao.getSubject1PractiseQuestions("xc");
+        System.out.println("模拟考试题目长度是： " + datas.size());
+        if (practiceAdapter != null) {
+            practiceAdapter.setDataList(datas);
+        }
 
-                        if (practiceAdapter != null) {
-                            practiceAdapter.setDataList(datas);
-                        }
-
-                        if (topicAdapter != null) {
-                            topicAdapter.setDataNum(datas.size());
-                        }
-                        System.out.println("一共有问题==============" + allQuestions.getData().size());
-//                        dao.addAllQuestions(allQuestions);
-                    }
-                });
+        if (topicAdapter != null) {
+            topicAdapter.setDataNum(datas.size());
+            topicAdapter.setDataList(datas);
+        }
     }
 
     private void initTime() {
@@ -208,39 +201,14 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
         back = (ImageView) findViewById(R.id.back);
         image = (ImageView) findViewById(R.id.iv_up);
         back.setOnClickListener(this);
-//        layout= (LinearLayout) findViewById(R.id.id_gallery);
-//        horizontalScrollView = (MyHorizontalScrollView) findViewById(R.id.id_horizontalScrollView);
-//        adapter = new HorizontalScrollViewAdapter(this, datas);
-//        //添加滚动回调
-//        horizontalScrollView
-//                .setCurrentImageChangeListener(new MyHorizontalScrollView.CurrentImageChangeListener() {
-//                    @Override
-//                    public void onCurrentImgChanged(int position,
-//                                                    View viewIndicator) {
-////                        mImg.setImageResource(mDatas.get(position));
-//                    }
-//                });
-//        //添加点击回调
-//        horizontalScrollView.setOnItemClickListener(new MyHorizontalScrollView.OnItemClickListener() {
-//
-//            @Override
-//            public void onClick(View view, int position) {
-////                mImg.setImageResource(mDatas.get(position));
-////                view.setBackgroundColor(Color.parseColor("#AA024DA4"));
-//            }
-//        });
-//
-//        //设置适配器
-//        horizontalScrollView.initDatas(adapter);
     }
 
     private void initList() {
         recyclerView = (RecyclerView) findViewById(R.id.list);
 
-
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
 
-        topicAdapter = new TopicAdapter(this);
+        topicAdapter = new TopicAdapter(this, recyclerView);
 
         recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -250,15 +218,13 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
         topicAdapter.setOnTopicClickListener(new TopicAdapter.OnTopicClickListener() {
             @Override
             public void onClick(TopicAdapter.TopicViewHolder holder, int position) {
-
                 curPosition = position;
                 Log.i("点击了==>", position + "");
                 if (mLayout != null &&
                         (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
                     mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 }
-                mRecyclerView.smoothScrollToPosition(position);
-
+                mRecyclerView.scrollToPosition(position);
                 topicAdapter.notifyCurPosition(curPosition);
                 topicAdapter.notifyPrePosition(prePosition);
 
@@ -269,6 +235,7 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+
     private void initSlidingUoPanel() {
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
@@ -278,17 +245,17 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
         SlidingUpPanelLayout.LayoutParams params = new SlidingUpPanelLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (height * 0.8f));
         dragView.setLayoutParams(params);
 
+
         mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i("", "onPanelSlide, offset " + slideOffset);
             }
 
-//            状态监听
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 Log.i("", "onPanelStateChanged " + newState);
-                if (newState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)){
+                if (newState== SlidingUpPanelLayout.PanelState.EXPANDED){
                     image.setImageResource(R.mipmap.down);
                 }else {
                     image.setImageResource(R.mipmap.up);
@@ -300,8 +267,6 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
             public void onClick(View view) {
 
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-
-
             }
         });
     }
@@ -323,19 +288,21 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
+                System.out.println("执行了滑动========");
+//                layoutAdapter.notifyItemChanged(curPosition);
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-    //
             }
         });
+
         mRecyclerView.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
             @Override
             public void OnPageChanged(int oldPosition, int newPosition) {
                 Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
                 recyclerView.scrollToPosition(newPosition);
-                practiceAdapter.notifyItemChanged(curPosition);
+//                layoutAdapter.notifyItemChanged(curPosition);
 
                 topicAdapter.notifyCurPosition(newPosition);
                 topicAdapter.notifyPrePosition(oldPosition);
@@ -377,8 +344,6 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
         }
         minute = -1;
         second = -1;
-
-        OkGo.getInstance().cancelTag(this);
 
         super.onDestroy();
     }

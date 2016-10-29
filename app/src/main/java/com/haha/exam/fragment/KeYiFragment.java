@@ -11,8 +11,12 @@ import android.widget.LinearLayout;
 
 import com.haha.exam.R;
 import com.haha.exam.activity.ChapterActivity;
+import com.haha.exam.activity.MyErrorActivity;
+import com.haha.exam.activity.MyGradeActivity;
 import com.haha.exam.activity.OrderTextActivity;
+import com.haha.exam.activity.PracticeStatisticsActivity;
 import com.haha.exam.activity.PracticeTextActivity;
+import com.haha.exam.activity.RandomTextActivity;
 import com.haha.exam.activity.ReciteActivity;
 import com.haha.exam.activity.SpecialTextActivity;
 import com.haha.exam.adapter.ChapterAdapter;
@@ -72,14 +76,18 @@ public class KeYiFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()){
             case R.id.shun_xu:
                 Intent intent=new Intent(getActivity(), OrderTextActivity.class);
+                intent.putExtra("chapterid",0);
+                intent.putExtra("knowtype",0);
                 startActivity(intent);
                 break;
             case R.id.zhuan_xiang:
                 Intent intent1=new Intent(getActivity(), SpecialTextActivity.class);
+                intent1.putExtra("chapterid",0);
                 startActivity(intent1);
                 break;
             case R.id.zhang_jie:
                 Intent intent2=new Intent(getActivity(), ChapterActivity.class);
+                intent2.putExtra("knowtype",0);
                 startActivity(intent2);
                 break;
             case R.id.bei_ti:
@@ -87,20 +95,20 @@ public class KeYiFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent3);
                 break;
             case R.id.sui_ji:
-                Intent intent4=new Intent(getActivity(), SpecialTextActivity.class);
-//                startActivity(intent4);
+                Intent intent4=new Intent(getActivity(), RandomTextActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.mo_ni:
                 Intent intent5=new Intent(getActivity(), PracticeTextActivity.class);
                 startActivity(intent5);
                 break;
             case R.id.cheng_ji:
-                Intent intent6=new Intent(getActivity(), SpecialTextActivity.class);
+                Intent intent6=new Intent(getActivity(), MyGradeActivity.class);
                 startActivity(intent6);
                 break;
             case R.id.tong_ji:
-                Intent intent7=new Intent(getActivity(), SpecialTextActivity.class);
-//                startActivity(intent7);
+                Intent intent7=new Intent(getActivity(), PracticeStatisticsActivity.class);
+                startActivity(intent7);
                 break;
             case R.id.pai_hang:
                 Intent intent8=new Intent(getActivity(), SpecialTextActivity.class);
@@ -119,8 +127,8 @@ public class KeYiFragment extends Fragment implements View.OnClickListener {
 //                startActivity(intent11);
                 break;
             case R.id.cuo_ti:
-                Intent intent12=new Intent(getActivity(), SpecialTextActivity.class);
-//                startActivity(intent12);
+                Intent intent12=new Intent(getActivity(), MyErrorActivity.class);
+                startActivity(intent12);
                 break;
             case R.id.shou_cang:
                 Intent intent13=new Intent(getActivity(), SpecialTextActivity.class);

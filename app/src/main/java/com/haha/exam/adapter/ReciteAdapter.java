@@ -150,7 +150,7 @@ public class ReciteAdapter extends RecyclerView.Adapter<ReciteAdapter.SimpleView
         holder.choice_4.setEnabled(false);
         System.out.println("size===========" + datas.size());
         holder.title.setText(problem.getSid() + ". " + problem.getQuestion());
-//        选择题
+//        判断题
         if (problem.getType().equals("3")) {
             holder.choice_3.setVisibility(View.GONE);
             holder.choice_4.setVisibility(View.GONE);
@@ -171,7 +171,7 @@ public class ReciteAdapter extends RecyclerView.Adapter<ReciteAdapter.SimpleView
                 holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
             }
         }
-//        判断题
+//        选择题
         else if (problem.getType().equals("2")) {
             holder.tv_1.setText(problem.getOption().get(0).substring(2));
             holder.tv_2.setText(problem.getOption().get(1).substring(2));

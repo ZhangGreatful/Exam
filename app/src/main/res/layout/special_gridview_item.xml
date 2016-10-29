@@ -2,30 +2,57 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
     android:background="@drawable/gridview_item"
-    android:orientation="horizontal">
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_num"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/coupon_problem" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="时间题"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="40题"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/problems_divider" />
+    </RelativeLayout>
 
     <ImageView
-        android:id="@+id/iv_num"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="20dp"
-        android:src="@drawable/coupon_problem" />
-
-    <TextView
-        android:id="@+id/tv_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="时间题"
-        android:paddingLeft="10dp"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/tv_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:paddingLeft="20dp"
-        android:text="40题" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/problems_divider_bottom" />
 </LinearLayout>

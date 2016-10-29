@@ -17,4 +17,5 @@
     <color name="wrong_choice_color">#ff5454</color><!--错误选项的字体颜色-->
     <color name="explain_color">#d21320</color><!--最佳解释的字体颜色-->
     <color name="is_right_color">#ff5454</color><!--答题错误的字体颜色-->
+    <color name="time">#999999</color>
 </resources>

@@ -3,6 +3,8 @@ package com.haha.exam.adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.haha.exam.R;
+import com.haha.exam.bean.AllQuestions;
+
+import java.util.List;
 
 
 /**
@@ -17,16 +22,38 @@ import com.haha.exam.R;
  */
 public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHolder> {
 
+
+    public static int message;
+    public static Handler myHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            System.out.println("发送过来的消息是： "+msg.arg1);
+            switch (msg.arg1) {
+                case 1:
+                    message = 1;
+                    break;
+                case 2:
+                    message = 2;
+                    break;
+
+            }
+        }
+    };
     private Context mContext;
     private final LayoutInflater inflater;
     private final Resources resources;
+    private List<AllQuestions.DataBean> datas;
+    private PracticeAdapter adapter;
+    private RecyclerView recyclerView;
+    private List<String> isRight;
 
 
-    public TopicAdapter(Context mContext) {
+    public TopicAdapter(Context mContext, RecyclerView recyclerView) {
         this.mContext = mContext;
+        this.recyclerView = recyclerView;
         inflater = LayoutInflater.from(mContext);
         resources = mContext.getResources();
-
     }
 
     @Override
@@ -43,14 +70,15 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
         holder.tv_id.setTextColor(Color.parseColor("#b3afaf"));
         holder.tv_id.setBackgroundResource(R.drawable.bg_topic_no);
         if (prePosition == position) {
-            holder.tv_id.setBackgroundResource(R.drawable.bg_topic_no);
-            holder.tv_id.setTextColor(Color.parseColor("#b3afaf"));
-
+                holder.tv_id.setBackgroundResource(R.mipmap.green_circle);
+                holder.tv_id.setTextColor(Color.parseColor("#b3afaf"));
         }
+
         if (curPosition == position) {
             holder.tv_id.setBackgroundResource(R.drawable.bg_topic_ok);
             holder.tv_id.setTextColor(Color.parseColor("#ffffff"));
         }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +116,11 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
 
     public void setDataNum(int num) {
         this.num = num;
+        notifyDataSetChanged();
+    }
+
+    public void setDataList(List<AllQuestions.DataBean> datas) {
+        this.datas = datas;
         notifyDataSetChanged();
     }
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:Android="http://schemas.android.com/apk/res/android">
+    <item
+        Android:id="@+id/user_faceback_drawable"
+        Android:drawable="@drawable/ma_lu_sha_shou" />
+    <item
+        Android:id="@+id/user_face_drawable"
+        Android:drawable="@drawable/grader_header"
+        Android:left="20dip"
+        Android:bottom="-60dp"
+        Android:right="600dip"
+        Android:top="500dip" />
+</layer-list>

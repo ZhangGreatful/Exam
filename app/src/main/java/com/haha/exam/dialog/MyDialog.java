@@ -59,7 +59,7 @@ public class MyDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pratice_dialog);
+        setContentView(R.layout.my_dialog);
         //按空白处不能取消动画
         setCanceledOnTouchOutside(false);
 

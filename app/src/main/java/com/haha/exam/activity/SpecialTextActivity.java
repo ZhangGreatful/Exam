@@ -1,8 +1,10 @@
 package com.haha.exam.activity;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -10,6 +12,7 @@ import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.adapter.GridAdapter;
 import com.haha.exam.bean.SpecialType;
+import com.haha.exam.view.MyGridView;
 import com.haha.exam.web.WebInterface;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -83,6 +86,15 @@ public class SpecialTextActivity extends BaseActivity implements View.OnClickLis
 
     private void initView() {
         gridView = (GridView) findViewById(R.id.special_subject);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                System.out.println("点击了第  " + position);
+                Intent intent = new Intent(SpecialTextActivity.this, OrderTextActivity.class);
+                intent.putExtra("knowtype", position + 1);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.haha.exam.view.circleimageview;
+package com.haha.exam.view;
 
 import java.util.HashMap;
 import java.util.Map;

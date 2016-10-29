@@ -1,8 +1,10 @@
 package com.haha.exam.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -11,6 +13,7 @@ import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.adapter.ChapterAdapter;
 import com.haha.exam.bean.ChapterQuestion;
+import com.haha.exam.dao.ExamDao;
 import com.haha.exam.dialog.MyDialog;
 import com.haha.exam.web.WebInterface;
 import com.lzy.okgo.OkGo;
@@ -75,7 +78,14 @@ public class ChapterActivity extends BaseActivity implements View.OnClickListene
 
     private void initView() {
         listView = (ListView) findViewById(R.id.chapter_list);
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(ChapterActivity.this, OrderTextActivity.class);
+                intent.putExtra("chapterid", position + 1);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
