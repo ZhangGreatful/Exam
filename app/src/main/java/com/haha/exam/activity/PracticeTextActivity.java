@@ -13,7 +13,7 @@ import com.haha.exam.dialog.MyDialog;
 import com.haha.exam.dialog.PraticeDialog;
 
 /**
- * ]模拟考试登录界面
+ * 模拟考试登录界面
  */
 public class PracticeTextActivity extends BaseActivity implements View.OnClickListener {
 

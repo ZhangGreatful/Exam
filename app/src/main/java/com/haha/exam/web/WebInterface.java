@@ -3,7 +3,7 @@ package com.haha.exam.web;
 /**
  * Created by Administrator on 2016/10/20.
  */
-public class WebInterface {
+public class    WebInterface {
 
     //    http://api.jiakao.exueche.com/index.php/Home/index/register/username/[账号]/password/[密码]
     public static String register = "http://api.jiakao.exueche.com/index.php/Home/index/register";//注册接口  username  password
@@ -23,6 +23,9 @@ public class WebInterface {
     public static String knowledge_type = "http://api.jiakao.exueche.com/index.php/Home/index/questionknowledgetype";//专项练习列表
     public static String knowledge_get_type = "http://api.jiakao.exueche.com/index.php/Home/index/knowledgetype/knowtype/1/cartype/publics";//专项练习列表的题目
     public static String all_citys = "http://api.jiakao.exueche.com/index.php/Home/index/allcitys";
+//    http://api.jiakao.exueche.com/index.php/Home/index/drivingschool/cityid/[城市id]
+    public static String driving_school="http://api.jiakao.exueche.com/index.php/Home/index/drivingschool";//根据id查询驾校
+
     public static String all_questions = "http://api.jiakao.exueche.com/index.php/Home/index/allquestions";//货车可以所有题目
 
     //    http://api.jiakao.exueche.com/index.php/Home/index/person/telphone/18266142739/name/%E6%9C%B1%E5%A0%83%E7%BD%A1/cartype/xc/area/100/picture/123/school/%E6%83%A0%E8%BE%BE%E9%A9%BE%E6%A0%A1

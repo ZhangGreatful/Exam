@@ -47,7 +47,7 @@ public class ChapterActivity extends BaseActivity implements View.OnClickListene
 
     private void initData() {
         gson = new Gson();
-        OkGo.post("http://api.jiakao.exueche.com/index.php/Home/index/chapterquestion")
+        OkGo.post(WebInterface.chapter_question)
                 .params("cartype", "xc")
                 .tag(this)
                 .cacheMode(CacheMode.DEFAULT)

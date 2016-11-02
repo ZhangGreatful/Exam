@@ -83,7 +83,13 @@
         <activity android:name=".activity.MyGradeActivity" />
         <activity android:name=".activity.RandomTextActivity" />
         <activity android:name=".activity.PracticeStatisticsActivity" />
-        <activity android:name=".activity.MyErrorActivity"></activity>
+        <activity android:name=".activity.MyErrorActivity" />
+        <activity android:name=".activity.PracticeResultActivity" />
+        <activity android:name=".activity.ErrorQuestionActivity" />
+        <activity android:name=".activity.CollectActivity" />
+        <activity android:name=".activity.CollectQuestionActivity" />
+        <activity android:name=".activity.SelectCityActivity" />
+        <activity android:name=".activity.SelectSchoolActivity"></activity>
     </application>
 
 </manifest>

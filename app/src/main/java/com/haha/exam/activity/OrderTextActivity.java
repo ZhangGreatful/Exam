@@ -2,6 +2,8 @@ package com.haha.exam.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,26 +49,32 @@ import okhttp3.Response;
  */
 public class OrderTextActivity extends BaseActivity implements View.OnClickListener {
 
-    private String questionid = "1", tel = "18266142739";
+    public Handler handler = new Handler();
+    Message msg = handler.obtainMessage();
+
+    private String tel = "18266142739";
     private RecyclerViewPager mRecyclerView;
     private LayoutAdapter layoutAdapter;
     private SlidingUpPanelLayout mLayout;
     private TopicAdapter topicAdapter;
     private RecyclerView recyclerView;
-    public static boolean isClicked = false;
     private int prePosition;
-    private int curPosition;
+    public static int curPosition;
     private MainActivity mainActivity;
     private AllQuestions allQuestions;
+    public static int isClicked;
     private Map<String, Integer> status = new HashMap<>();
 
     private ExamDao dao;
     private DatabaseHelper dbHelper;
-    private Gson gson=new Gson();
+    private Gson gson = new Gson();
     private List<AllQuestions.DataBean> datas;
 
 
-    private LinearLayout bianhao, shoucang, fenxiang, jieshi;
+    private LinearLayout bianhao;
+    private LinearLayout shoucang;
+    private LinearLayout fenxiang;
+    public LinearLayout jieshi;
     private TextView current, count;
     //    private MyHorizontalScrollView horizontalScrollView;
 //    private HorizontalScrollViewAdapter adapter;
@@ -80,7 +88,6 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        initData();
-
         initView();
         initViewPager();
         initSlidingUoPanel();
@@ -105,51 +112,7 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
             String msg = String.valueOf(j);
             System.out.println("chapterid========" + msg);
             datas = dao.getChapterQuestions("xc", msg);
-        } else if (!intent.getStringExtra("allerror").equals("0")) {
-//            datas=dao.queryAllErrorQuestions("xc","one");
-//            从网络获取错题
-            OkGo.post(WebInterface.check_error)
-                    .tag(this)
-                    .params("telphone", "18266142739")
-                    .params("chapterid", intent.getStringExtra("allerror"))
-                    .execute(new StringCallback() {
-                        @Override
-                        public void onSuccess(String s, Call call, Response response) {
-                            Toast.makeText(OrderTextActivity.this, "从网络获取错题成功", Toast.LENGTH_SHORT).show();
-                            AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
-                            datas = allQuestions.getData();
-//                            if (layoutAdapter != null) {
-//                                layoutAdapter.setDataList(datas);
-//                            }
-//                            count.setText("" + datas.size());
-//                            if (topicAdapter != null) {
-//                                topicAdapter.setDataNum(datas.size());
-//                            }
-//                            count.setText("" + datas.size());
-                        }
-                    });
-        } else if (intent.getStringExtra("allerror").equals("0")){
-//            从网络获取错题
-            OkGo.post(WebInterface.check_error)
-                    .tag(this)
-                    .params("telphone", "18266142739")
-                    .execute(new StringCallback() {
-                        @Override
-                        public void onSuccess(String s, Call call, Response response) {
-                            Toast.makeText(OrderTextActivity.this, "从网络获取错题成功", Toast.LENGTH_SHORT).show();
-                            AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
-                            datas = allQuestions.getData();
-//                            if (layoutAdapter != null) {
-//                                layoutAdapter.setDataList(datas);
-//                            }
-//                            count.setText("" + datas.size());
-//                            if (topicAdapter != null) {
-//                                topicAdapter.setDataNum(datas.size());
-//                            }
-//                            count.setText("" + datas.size());
-                        }
-                    });
-        }else {
+        } else {
             datas = dao.queryAllQuestions("xc");
         }
 
@@ -157,11 +120,13 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 
         if (layoutAdapter != null) {
             layoutAdapter.setDataList(datas);
+            topicAdapter.setDataList(datas);
         }
 
         if (topicAdapter != null) {
             topicAdapter.setDataNum(datas.size());
         }
+
     }
 
     @Override
@@ -185,9 +150,22 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 
 
         bianhao.setOnClickListener(this);
-        jieshi.setOnClickListener(this);
+
         shoucang.setOnClickListener(this);
         fenxiang.setOnClickListener(this);
+        jieshi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isClicked == 1) {
+                    isClicked = 0;
+                } else {
+                    isClicked = 1;
+                }
+                System.out.println("currentPosition====" + curPosition);
+                System.out.println("isClicked=========" + isClicked);
+                layoutAdapter.notifyItemChanged(curPosition);
+            }
+        });
 
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(this);
@@ -307,29 +285,14 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
                 System.out.println("执行了滑动========");
-                jieshi.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        switch (view.getId()) {
-                            case R.id.jie_shi:
-                                System.out.println("点击了解释");
-                                if (isClicked == false) {
-                                    isClicked = true;
-                                } else {
-                                    isClicked = false;
-                                }
-                                layoutAdapter.notifyItemChanged(curPosition);
-                                break;
-                        }
-                    }
-                });
+
 //                layoutAdapter.notifyItemChanged(curPosition);
 
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                isClicked = false;
+                isClicked = 0;
             }
         });
 
@@ -338,9 +301,11 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
             public void OnPageChanged(int oldPosition, int newPosition) {
                 Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
                 recyclerView.scrollToPosition(newPosition);
+                System.out.println("newPosition======" + newPosition);
+                System.out.println("oldPosition======" + oldPosition);
                 current.setText(String.valueOf(newPosition + 1));
 //                layoutAdapter.notifyItemChanged(curPosition);
-
+                curPosition = newPosition;
                 topicAdapter.notifyCurPosition(newPosition);
                 topicAdapter.notifyPrePosition(oldPosition);
 
@@ -359,7 +324,6 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
         });
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -373,20 +337,12 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
                 }
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                 break;
-            case R.id.jie_shi:
-                if (isClicked == false) {
-                    isClicked = true;
-                } else {
-                    isClicked = false;
-                }
-                layoutAdapter.notifyItemChanged(curPosition);
-                break;
             case R.id.shou_cang:
                 //网络收藏
                 gson = new Gson();
                 OkGo.post(WebInterface.is_save)
                         .tag(this)
-                        .params("questionid", questionid)
+                        .params("questionid", datas.get(curPosition).getSid())
                         .params("tel", tel)
                         .execute(new StringCallback() {
                             @Override

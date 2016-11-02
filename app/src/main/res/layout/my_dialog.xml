@@ -48,23 +48,25 @@
             <Button
                 android:id="@+id/no"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
                 android:background="@drawable/cancel_drawable"
                 android:gravity="center"
-                android:layout_marginRight="15dp"
                 android:text="否"
                 android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/yes"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/ensure_drawable"
                 android:gravity="center"
-                android:text="是"
                 android:paddingLeft="15dp"
+                android:text="是"
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>

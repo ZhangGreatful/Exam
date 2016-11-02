@@ -23,14 +23,14 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/coupon_problem" />
+                 />
+                 />
 
             <TextView
                 android:id="@+id/tv_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
-                android:text="时间题"
                 android:textSize="18sp" />
 
             <TextView
@@ -38,7 +38,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="40题"
                 android:textSize="16sp" />
         </LinearLayout>
 

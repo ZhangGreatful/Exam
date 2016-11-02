@@ -23,6 +23,7 @@ import com.haha.exam.adapter.PracticeAdapter;
 import com.haha.exam.adapter.ReciteAdapter;
 import com.haha.exam.adapter.TopicAdapter;
 import com.haha.exam.bean.AllQuestions;
+import com.haha.exam.bean.IsSave;
 import com.haha.exam.dao.ExamDao;
 import com.haha.exam.web.WebInterface;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
@@ -31,7 +32,9 @@ import com.lzy.okgo.callback.StringCallback;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,6 +43,8 @@ import okhttp3.Response;
 
 /**
  * 模拟考试做题页面
+ * 点击完交卷后，首先跳转到考试成绩界面，展示本次模拟考试成绩结果
+ * 同时，还应将考试结果保存到数据库，在我的成绩界面展示出来
  */
 public class PraticeActivity extends BaseActivity implements View.OnClickListener {
 
@@ -48,12 +53,16 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
     private SlidingUpPanelLayout mLayout;
     private TopicAdapter topicAdapter;
     private RecyclerView recyclerView;
-    private int prePosition;
+    private int prePosition = 0;
     private int curPosition;
     private MainActivity mainActivity;
     private AllQuestions allQuestions;
     private ExamDao dao;
     private Gson gson = new Gson();
+    public static int time;
+    private TextView rightCount, errorCount;
+    public static int right, error;
+    private List<AllQuestions.DataBean> datas;
 
 
     static int minute = -1;
@@ -66,6 +75,7 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             System.out.println("handle!");
+            time++;
             if (minute == 0) {
                 if (second == 0) {
                     timeView.setText("Time out !");
@@ -132,6 +142,8 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dao = new ExamDao(PraticeActivity.this);
+        time = 0;
+        right = 0;
         initView();
         initTime();
         initViewPager();
@@ -143,7 +155,7 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
     //      初始化数据
     private void initData() {
 //     随机从数据库中抽取80道单选题，20道判断题
-        List<AllQuestions.DataBean> datas = dao.getSubject1PractiseQuestions("xc");
+        datas = dao.getSubject1PractiseQuestions("xc");
         System.out.println("模拟考试题目长度是： " + datas.size());
         if (practiceAdapter != null) {
             practiceAdapter.setDataList(datas);
@@ -177,6 +189,7 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
         timer = new Timer();
         timer.schedule(timerTask, 0, 1000);
 
+
     }
 
 
@@ -196,11 +209,15 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
         fenxiang = (LinearLayout) findViewById(R.id.fen_xiang);
         jiaojuan = (LinearLayout) findViewById(R.id.jiao_juan);
         timeView = (TextView) findViewById(R.id.myTime);
+        rightCount = (TextView) findViewById(R.id.tv_right);
+        errorCount = (TextView) findViewById(R.id.tv_error);
 
 
         back = (ImageView) findViewById(R.id.back);
         image = (ImageView) findViewById(R.id.iv_up);
         back.setOnClickListener(this);
+        jiaojuan.setOnClickListener(this);
+        shoucang.setOnClickListener(this);
     }
 
     private void initList() {
@@ -228,7 +245,7 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
                 topicAdapter.notifyCurPosition(curPosition);
                 topicAdapter.notifyPrePosition(prePosition);
 
-                prePosition = curPosition;
+//                prePosition = curPosition;
             }
         });
 
@@ -255,9 +272,9 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 Log.i("", "onPanelStateChanged " + newState);
-                if (newState== SlidingUpPanelLayout.PanelState.EXPANDED){
+                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     image.setImageResource(R.mipmap.down);
-                }else {
+                } else {
                     image.setImageResource(R.mipmap.up);
                 }
             }
@@ -294,6 +311,8 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+                right = practiceAdapter.rightCount;
+                error = practiceAdapter.error_count;
             }
         });
 
@@ -303,7 +322,11 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
                 Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
                 recyclerView.scrollToPosition(newPosition);
 //                layoutAdapter.notifyItemChanged(curPosition);
+                rightCount.setText(String.valueOf(practiceAdapter.rightCount));
+                errorCount.setText(String.valueOf(practiceAdapter.error_count));
 
+                curPosition = newPosition;
+                prePosition = oldPosition;
                 topicAdapter.notifyCurPosition(newPosition);
                 topicAdapter.notifyPrePosition(oldPosition);
 
@@ -328,12 +351,36 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
             case R.id.back:
                 finish();
                 break;
+            case R.id.jiao_juan:
+                Intent intent = new Intent(PraticeActivity.this, PracticeResultActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.shou_cang:
+//                网络收藏
+                OkGo.post(WebInterface.is_save)
+                        .tag(this)
+                        .params("questionid", datas.get(curPosition).getSid())
+                        .params("tel", "18266142739")
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(String s, Call call, Response response) {
+                                IsSave isSave = gson.fromJson(s, IsSave.class);
+                                Toast.makeText(PraticeActivity.this, isSave.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+//                本地收藏
+
+                break;
+
         }
     }
 
     @Override
-    protected void onDestroy() {
-//        结束计时
+    protected void onStop() {
+        super.onStop();
+        //        结束计时
         Log.v(tag, "log---------->onDestroy!");
         if (timer != null) {
             timer.cancel();
@@ -344,6 +391,10 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
         }
         minute = -1;
         second = -1;
+    }
+
+    @Override
+    protected void onDestroy() {
 
         super.onDestroy();
     }

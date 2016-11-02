@@ -40,7 +40,7 @@ import okhttp3.Response;
  */
 public class RandomTextActivity extends BaseActivity implements View.OnClickListener {
 
-    private String questionid = "1", tel = "18266142739";
+    private String tel = "18266142739";
     private RecyclerViewPager mRecyclerView;
     private LayoutAdapter layoutAdapter;
     private SlidingUpPanelLayout mLayout;
@@ -153,7 +153,7 @@ public class RandomTextActivity extends BaseActivity implements View.OnClickList
                 recyclerView.scrollToPosition(newPosition);
                 current.setText(String.valueOf(newPosition + 1));
 //                layoutAdapter.notifyItemChanged(curPosition);
-
+                curPosition=newPosition;
                 topicAdapter.notifyCurPosition(newPosition);
                 topicAdapter.notifyPrePosition(oldPosition);
 
@@ -240,6 +240,7 @@ public class RandomTextActivity extends BaseActivity implements View.OnClickList
 
         if (layoutAdapter != null) {
             layoutAdapter.setDataList(datas);
+            topicAdapter.setDataList(datas);
         }
 
         if (topicAdapter != null) {
@@ -272,7 +273,7 @@ public class RandomTextActivity extends BaseActivity implements View.OnClickList
                 gson = new Gson();
                 OkGo.post(WebInterface.is_save)
                         .tag(this)
-                        .params("questionid", questionid)
+                        .params("questionid", datas.get(curPosition).getSid())
                         .params("tel", tel)
                         .execute(new StringCallback() {
                             @Override

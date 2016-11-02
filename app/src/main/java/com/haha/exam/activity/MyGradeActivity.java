@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
@@ -21,6 +22,7 @@ public class MyGradeActivity extends BaseActivity implements AdapterView.OnItemC
 
     private ListView listView;
     private GradeAdapter adapter;
+    private LinearLayout item, item2;
     Button button;
     GradePopupWindow popupWindow;
 
@@ -37,12 +39,16 @@ public class MyGradeActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     private void initView() {
-        button = (Button) findViewById(R.id.btn);
         listView = (ListView) findViewById(R.id.grader_list);
+
+        item = (LinearLayout) findViewById(R.id.item);
+        item2 = (LinearLayout) findViewById(R.id.item2);
+
+
         adapter = new GradeAdapter(MyGradeActivity.this);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        button.setOnClickListener(new View.OnClickListener() {
+        item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popupWindow = new GradePopupWindow(MyGradeActivity.this, itemsOnClick);

@@ -1,13 +1,11 @@
 package com.haha.exam.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.haha.exam.R;
@@ -17,6 +15,7 @@ import java.util.List;
 
 /**
  * 我的错题题目类型列表
+ *
  * Created by Administrator on 2016/10/29.
  */
 public class ErrorAdapter extends BaseAdapter {
@@ -33,6 +32,7 @@ public class ErrorAdapter extends BaseAdapter {
         this.datas=datas;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
 
     @Override
     public int getCount() {

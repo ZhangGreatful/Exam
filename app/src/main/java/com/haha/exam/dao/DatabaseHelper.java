@@ -53,6 +53,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             " sid text, subject text, chapterid text, type text, knowledgetype text," +
             " contenttype text, question text, answer text, detail text, option text, image text, video text," +
             " upstatus text, isdo integer, choose integer, isshoucang integer)";
+    final String my_grade_sql = "create  table  grade (id integer primary key autoincrement," +
+            " sid text, subject text, chapterid text, cartype text, date text, time text," +
+            " rightcount integer, option text, grade text)";
 
     /**
      * 在SQLiteOpenHelper的子类当中，必须有该构造函数
@@ -91,6 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(four_collect_sql);//创建收藏的表   科四
         sqLiteDatabase.execSQL(one_error_sql);//创建错题表   科一
         sqLiteDatabase.execSQL(four_error_sql);//创建错题表   科四
+        sqLiteDatabase.execSQL(my_grade_sql);//我的成绩列表
         System.out.println("创建数据库，执行sql语句，创建8个table表格，");
     }
 

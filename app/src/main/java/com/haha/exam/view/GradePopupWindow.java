@@ -20,14 +20,25 @@ public class GradePopupWindow extends PopupWindow {
 
     private TextView cancel, check;
     private View view;
+    private TextView fenshu, date, time, texttime, rightCount, errorCount, rightPercent;
 
     public GradePopupWindow(Activity context, View.OnClickListener itemsOnClick) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.grage_popup, null);
+
         cancel = (TextView) view.findViewById(R.id.cancel);
         check = (TextView) view.findViewById(R.id.check);
+
+        fenshu = (TextView) view.findViewById(R.id.fen_shu);
+        date = (TextView) view.findViewById(R.id.date);
+        time = (TextView) view.findViewById(R.id.time);
+        texttime = (TextView) view.findViewById(R.id.text_time);
+        rightCount = (TextView) view.findViewById(R.id.right_count);
+        errorCount = (TextView) view.findViewById(R.id.wrong_count);
+        rightPercent = (TextView) view.findViewById(R.id.right_percent);
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

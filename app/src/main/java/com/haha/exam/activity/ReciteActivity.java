@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -21,6 +22,8 @@ import com.haha.exam.adapter.ReciteAdapter;
 import com.haha.exam.adapter.TopicAdapter;
 import com.haha.exam.bean.AllQuestions;
 import com.haha.exam.bean.AnwerInfo;
+import com.haha.exam.bean.IsSave;
+import com.haha.exam.dao.ExamDao;
 import com.haha.exam.web.WebInterface;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.lzy.okgo.OkGo;
@@ -51,7 +54,10 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
     private int curPosition;
     private MainActivity mainActivity;
     private AllQuestions allQuestions;
+    private List<AllQuestions.DataBean> datas;
     private Gson gson = new Gson();
+    private ExamDao dao;
+    private TextView currentPage, count;
 
 
     private LinearLayout bianhao, shoucang, fenxiang, jieshi;
@@ -63,37 +69,52 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        dao = new ExamDao(ReciteActivity.this);
         initView();
         initViewPager();
         initSlidingUoPanel();
         initList();
-//        AnwerInfo anwerInfo = getAnwer();
+        initData();
 
-        OkGo.post(WebInterface.all_questions)
-                .tag(this)
-                .params("cartype", "hc")
-                .params("subject", "1")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        Toast.makeText(ReciteActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
-                        allQuestions = gson.fromJson(s, AllQuestions.class);
-                        List<AllQuestions.DataBean> datas = allQuestions.getData();
-//        List<AllQuestions.DataBean> datas=mainActivity.questions;
-//        Log.i("data.size=", "" + datas.size());
+    }
 
-                        if (reciteAdapter != null) {
-                            reciteAdapter.setDataList(datas);
-                        }
+    private void initData() {
+        //        从网络获取
+//        OkGo.post(WebInterface.all_questions)
+//                .tag(this)
+//                .params("cartype", "hc")
+//                .params("subject", "1")
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(String s, Call call, Response response) {
+//                        Toast.makeText(ReciteActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
+//                        allQuestions = gson.fromJson(s, AllQuestions.class);
+//                        datas = allQuestions.getData();
+//                        count.setText(datas.size() + "");
+//                        if (reciteAdapter != null) {
+//                            reciteAdapter.setDataList(datas);
+//                            topicAdapter.setDataList(datas);
+//                        }
+//
+//                        if (topicAdapter != null) {
+//                            topicAdapter.setDataNum(datas.size());
+//                        }
+//                        System.out.println("一共有问题==============" + allQuestions.getData().size());
+////                        dao.addAllQuestions(allQuestions);
+//                    }
+//                });
 
-                        if (topicAdapter != null) {
-                            topicAdapter.setDataNum(datas.size());
-                        }
-                        System.out.println("一共有问题==============" + allQuestions.getData().size());
-//                        dao.addAllQuestions(allQuestions);
-                    }
-                });
+//        从数据库获取
+        datas = dao.queryAllQuestions("xc");
+        count.setText(datas.size() + "");
+        if (reciteAdapter != null) {
+            reciteAdapter.setDataList(datas);
+            topicAdapter.setDataList(datas);
+        }
+
+        if (topicAdapter != null) {
+            topicAdapter.setDataNum(datas.size());
+        }
 
     }
 
@@ -113,9 +134,13 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
         shoucang = (LinearLayout) findViewById(R.id.shou_cang);
         fenxiang = (LinearLayout) findViewById(R.id.fen_xiang);
         jieshi = (LinearLayout) findViewById(R.id.jie_shi);
+        currentPage = (TextView) findViewById(R.id.current_page);
+        count = (TextView) findViewById(R.id.count);
 
         bianhao.setOnClickListener(this);
         jieshi.setOnClickListener(this);
+        shoucang.setOnClickListener(this);
+        fenxiang.setOnClickListener(this);
 
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(this);
@@ -145,36 +170,13 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
 //        horizontalScrollView.initDatas(adapter);
     }
 
-    private AnwerInfo getAnwer() {
-
-        try {
-            InputStream in = getAssets().open("anwer.json");
-            AnwerInfo anwerInfo = JSON.parseObject(inputStream2String(in), AnwerInfo.class);
-
-            return anwerInfo;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("data.size=", e.toString());
-        }
-
-        return null;
-    }
-
-    public String inputStream2String(InputStream is) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int i = -1;
-        while ((i = is.read()) != -1) {
-            baos.write(i);
-        }
-        return baos.toString();
-    }
 
     private void initList() {
         recyclerView = (RecyclerView) findViewById(R.id.list);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 6);
 
-        topicAdapter = new TopicAdapter(this,recyclerView);
+        topicAdapter = new TopicAdapter(this, recyclerView);
 
         recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -190,7 +192,7 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
                         (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
                     mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 }
-                mRecyclerView.smoothScrollToPosition(position);
+                mRecyclerView.scrollToPosition(position);
 
                 topicAdapter.notifyCurPosition(curPosition);
                 topicAdapter.notifyPrePosition(prePosition);
@@ -272,8 +274,10 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
                         }
                     }
                 });
+                currentPage.setText(newPosition + 1 + "");
                 reciteAdapter.notifyItemChanged(curPosition);
-
+                curPosition = newPosition;
+                prePosition = oldPosition;
                 topicAdapter.notifyCurPosition(newPosition);
                 topicAdapter.notifyPrePosition(oldPosition);
 
@@ -291,8 +295,6 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
             }
         });
     }
-
-
 
 
     @Override
@@ -315,6 +317,25 @@ public class ReciteActivity extends BaseActivity implements View.OnClickListener
                     isClicked = false;
                 }
                 reciteAdapter.notifyItemChanged(curPosition);
+                break;
+            case R.id.shou_cang:
+                //网络收藏
+                gson = new Gson();
+                OkGo.post(WebInterface.is_save)
+                        .tag(this)
+                        .params("questionid", datas.get(curPosition).getSid())
+                        .params("tel", "18266142739")
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(String s, Call call, Response response) {
+                                IsSave isSave = gson.fromJson(s, IsSave.class);
+                                Toast.makeText(ReciteActivity.this, isSave.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+//                本地收藏到数据库
+//                dao.addCollectQuestions(datas.get(curPosition + 1), "one");
+
                 break;
         }
     }

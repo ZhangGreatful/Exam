@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.haha.exam.R;
 import com.haha.exam.activity.ChapterActivity;
+import com.haha.exam.activity.CollectActivity;
 import com.haha.exam.activity.MyErrorActivity;
 import com.haha.exam.activity.MyGradeActivity;
 import com.haha.exam.activity.OrderTextActivity;
@@ -131,8 +132,8 @@ public class KeYiFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent12);
                 break;
             case R.id.shou_cang:
-                Intent intent13=new Intent(getActivity(), SpecialTextActivity.class);
-//                startActivity(intent13);
+                Intent intent13=new Intent(getActivity(), CollectActivity.class);
+                startActivity(intent13);
                 break;
         }
     }

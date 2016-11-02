@@ -71,6 +71,28 @@ public class ExamDao {
         db.close();
     }
 
+    //    "create  table  grade (id integer primary key autoincrement," +
+//            " sid text, subject text, chapterid text, cartype text, date text, time text," +
+//            " rightcount integer, option text, grade text)";
+    public void addMyGrade(String date, String time, String subject, String cartype, String sid,
+                           String chapterid, int rightcount, String option, String grade) {
+        if (db.isOpen()) {
+            ContentValues values = new ContentValues();
+            values.put("sid", sid);
+            values.put("subject", subject);
+            values.put("chapterid", chapterid);
+            values.put("cartype", cartype);
+            values.put("date", date);
+            values.put("time", time);
+            values.put("rightcount", rightcount);
+            values.put("option", option);
+            values.put("grade", grade);
+            db.insert("grade", "", values);
+        }
+        System.out.println("我的成绩插入数据看成功");
+        db.close();
+    }
+
     //          收藏数据
     public void addCollectQuestions(AllQuestions.DataBean dataBean, String subject) {
         String table_name = subject + "_collection_questions";
@@ -138,6 +160,7 @@ public class ExamDao {
             values.put("choose", dataBean.getChoose());
             values.put("isshoucang", dataBean.getIsshoucang());
             db.insert(table_name, "", values);
+
         }
         System.out.println("添加错题数据成功");
         db.close();
@@ -194,9 +217,9 @@ public class ExamDao {
     }
 
     //          获取表格内全部问题
-    public List<AllQuestions.DataBean> queryAllErrorQuestions(String cartype,String subject) {
+    public List<AllQuestions.DataBean> queryAllErrorQuestions(String cartype, String subject) {
         List<AllQuestions.DataBean> list = new ArrayList<AllQuestions.DataBean>();
-        String table_name = subject+"_error_questions";
+        String table_name = subject + "_error_questions";
 //        获取数据库实例
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + table_name, null);
@@ -246,7 +269,7 @@ public class ExamDao {
         List<AllQuestions.DataBean> list = new ArrayList<>();
         String table_name = cartype + "_questions";
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + table_name +  " order by random() ;", null);
+        Cursor cursor = db.rawQuery("select * from " + table_name + " order by random() ;", null);
         if (cursor.moveToFirst()) {
             do {
                 AllQuestions.DataBean bean = new AllQuestions.DataBean();
@@ -279,7 +302,7 @@ public class ExamDao {
 
             } while (cursor.moveToNext());
         }
-        System.out.println("获取随机练习数据成功，共有数据："+list.size());
+        System.out.println("获取随机练习数据成功，共有数据：" + list.size());
         return list;
     }
 
@@ -456,12 +479,24 @@ public class ExamDao {
         return list;
     }
 
+    //    删除错题
+    public void deleteQuestion(String subject, String sid) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String table_name = subject + "_error_sql";
+        db.delete(table_name, "sid= ?", new String[]{sid});
+    }
+
     //      删除表
     public void DeleteDatabase(String cartype) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String table = cartype + "_questions";
         db.execSQL("DELETE FROM " + table);
         db.close();
+    }
+
+    //    更新表
+    public void updateQuestions() {
+
     }
 
     // 获取长度

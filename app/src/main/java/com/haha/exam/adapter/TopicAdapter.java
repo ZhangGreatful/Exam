@@ -22,36 +22,22 @@ import java.util.List;
  */
 public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHolder> {
 
-
-    public static int message;
-    public static Handler myHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            System.out.println("发送过来的消息是： "+msg.arg1);
-            switch (msg.arg1) {
-                case 1:
-                    message = 1;
-                    break;
-                case 2:
-                    message = 2;
-                    break;
-
-            }
-        }
-    };
+    private PracticeAdapter practiceAdapter;
     private Context mContext;
-    private final LayoutInflater inflater;
-    private final Resources resources;
+    private  LayoutInflater inflater;
+    private  Resources resources;
     private List<AllQuestions.DataBean> datas;
     private PracticeAdapter adapter;
     private RecyclerView recyclerView;
     private List<String> isRight;
 
-
+public TopicAdapter(Context context){
+    this.mContext=context;
+}
     public TopicAdapter(Context mContext, RecyclerView recyclerView) {
         this.mContext = mContext;
         this.recyclerView = recyclerView;
+        practiceAdapter=new PracticeAdapter(mContext,recyclerView);
         inflater = LayoutInflater.from(mContext);
         resources = mContext.getResources();
     }
@@ -70,8 +56,20 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
         holder.tv_id.setTextColor(Color.parseColor("#b3afaf"));
         holder.tv_id.setBackgroundResource(R.drawable.bg_topic_no);
         if (prePosition == position) {
-                holder.tv_id.setBackgroundResource(R.mipmap.green_circle);
+            if (datas.get(position).getIsdo()==1) {//做了该题目
+//                判断对错
+                if (datas.get(position).getAnswer().equals(String.valueOf(datas.get(position).getChoose()))) {
+                    holder.tv_id.setBackgroundResource(R.mipmap.green_circle);
+                    holder.tv_id.setTextColor(Color.parseColor("#76d437"));
+                }else if (!datas.get(position).getAnswer().equals(String.valueOf(datas.get(position).getChoose()))){
+                    holder.tv_id.setBackgroundResource(R.mipmap.red_circle);
+                    holder.tv_id.setTextColor(Color.parseColor("#ff5454"));
+                }
+            }else if (datas.get(position).getIsdo()==0){
+                holder.tv_id.setBackgroundResource(R.drawable.bg_topic_no);
                 holder.tv_id.setTextColor(Color.parseColor("#b3afaf"));
+            }
+
         }
 
         if (curPosition == position) {
