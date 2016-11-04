@@ -55,7 +55,7 @@
             android:name="com.amap.api.v2.apikey"
             android:value="39fddc646692fa8313ff5e0b89d5f0e7" />
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -89,7 +89,10 @@
         <activity android:name=".activity.CollectActivity" />
         <activity android:name=".activity.CollectQuestionActivity" />
         <activity android:name=".activity.SelectCityActivity" />
-        <activity android:name=".activity.SelectSchoolActivity"></activity>
+        <activity android:name=".activity.SelectSchoolActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.Subject1Activity" />
+        <activity android:name=".activity.SubjectOneActivity"></activity>
     </application>
 
 </manifest>

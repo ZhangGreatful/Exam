@@ -86,6 +86,7 @@ public class PracticeResultActivity extends BaseActivity implements View.OnClick
             iv_result.setImageResource(R.mipmap.gong_xi_tong_guo);
         }
 
+
         error_review.setOnClickListener(this);
         re_exam.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -116,6 +117,11 @@ public class PracticeResultActivity extends BaseActivity implements View.OnClick
             case R.id.re_exam:
                 Intent intent = new Intent(PracticeResultActivity.this, PraticeActivity.class);
                 startActivity(intent);
+                finish();
+                break;
+            case R.id.error_review:
+                Intent intent1 = new Intent(PracticeResultActivity.this, ErrorQuestionActivity.class);
+                startActivity(intent1);
                 finish();
                 break;
         }

@@ -1,9 +1,11 @@
 package com.haha.exam.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,12 +21,14 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.adapter.LayoutAdapter;
+import com.haha.exam.adapter.PracticeAdapter;
 import com.haha.exam.adapter.TopicAdapter;
 import com.haha.exam.bean.AllQuestions;
 import com.haha.exam.bean.AnwerInfo;
 import com.haha.exam.bean.IsSave;
 import com.haha.exam.dao.ExamDao;
 import com.haha.exam.dao.DatabaseHelper;
+import com.haha.exam.utils.SPUtils;
 import com.haha.exam.web.WebInterface;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.lzy.okgo.OkGo;
@@ -37,6 +41,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -49,12 +54,10 @@ import okhttp3.Response;
  */
 public class OrderTextActivity extends BaseActivity implements View.OnClickListener {
 
-    public Handler handler = new Handler();
-    Message msg = handler.obtainMessage();
-
     private String tel = "18266142739";
     private RecyclerViewPager mRecyclerView;
     private LayoutAdapter layoutAdapter;
+    private PracticeAdapter practiceAdapter;
     private SlidingUpPanelLayout mLayout;
     private TopicAdapter topicAdapter;
     private RecyclerView recyclerView;
@@ -64,6 +67,7 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
     private AllQuestions allQuestions;
     public static int isClicked;
     private Map<String, Integer> status = new HashMap<>();
+    private SPUtils sp = new SPUtils();
 
     private ExamDao dao;
     private DatabaseHelper dbHelper;
@@ -76,6 +80,8 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
     private LinearLayout fenxiang;
     public LinearLayout jieshi;
     private TextView current, count;
+    private TextView right, error, unanswer;
+    private ImageView close;
     //    private MyHorizontalScrollView horizontalScrollView;
 //    private HorizontalScrollViewAdapter adapter;
 //    private List<String> datas = new ArrayList<>();
@@ -96,6 +102,8 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 //        AnwerInfo anwerInfo = getAnwer();
 
 //        List<AnwerInfo.DataBean.SubDataBean> datas = anwerInfo.getData().getData();
+        int currentPage = (int) sp.get(this, "currentPage", 1);
+        mRecyclerView.scrollToPosition(currentPage);
 
     }
 
@@ -139,6 +147,7 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
         return R.layout.text_bar;
     }
 
+
     private void initView() {
 
         bianhao = (LinearLayout) findViewById(R.id.bian_hao);
@@ -147,6 +156,9 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
         jieshi = (LinearLayout) findViewById(R.id.jie_shi);
         current = (TextView) findViewById(R.id.current_page);
         count = (TextView) findViewById(R.id.count);
+        right = (TextView) findViewById(R.id.tv_right);
+        error = (TextView) findViewById(R.id.tv_error);
+        close = (ImageView) findViewById(R.id.close);
 
 
         bianhao.setOnClickListener(this);
@@ -174,33 +186,36 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+
+        sp.put(this, "currentPage", curPosition);
         //根据 Tag 取消请求
         OkGo.getInstance().cancelTag(this);
     }
 
-    private AnwerInfo getAnwer() {
-
-        try {
-            InputStream in = getAssets().open("anwer.json");
-            AnwerInfo anwerInfo = JSON.parseObject(inputStream2String(in), AnwerInfo.class);
-
-            return anwerInfo;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("data.size=", e.toString());
-        }
-
-        return null;
-    }
-
-    public String inputStream2String(InputStream is) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int i = -1;
-        while ((i = is.read()) != -1) {
-            baos.write(i);
-        }
-        return baos.toString();
-    }
+//    private AnwerInfo getAnwer() {
+//
+//        try {
+//            InputStream in = getAssets().open("anwer.json");
+//            AnwerInfo anwerInfo = JSON.parseObject(inputStream2String(in), AnwerInfo.class);
+//
+//            return anwerInfo;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Log.e("data.size=", e.toString());
+//        }
+//
+//        return null;
+//    }
+//
+//    public String inputStream2String(InputStream is) throws IOException {
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        int i = -1;
+//        while ((i = is.read()) != -1) {
+//            baos.write(i);
+//        }
+//        return baos.toString();
+//    }
 
     private void initList() {
         recyclerView = (RecyclerView) findViewById(R.id.list);
@@ -285,14 +300,18 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
 //                updateState(scrollState);
                 System.out.println("执行了滑动========");
-
 //                layoutAdapter.notifyItemChanged(curPosition);
-
+                isClicked = 0;
+                layoutAdapter.notifyItemChanged(prePosition);
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                isClicked = 0;
+//                right = practiceAdapter.rightCount;
+//                error = practiceAdapter.error_count;
+                right.setText(String.valueOf(layoutAdapter.rightCount));
+                error.setText(String.valueOf(layoutAdapter.errorCount));
+                unanswer.setText(String.valueOf(datas.size()-layoutAdapter.rightCount-layoutAdapter.errorCount));
             }
         });
 
@@ -301,11 +320,12 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
             public void OnPageChanged(int oldPosition, int newPosition) {
                 Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
                 recyclerView.scrollToPosition(newPosition);
-                System.out.println("newPosition======" + newPosition);
-                System.out.println("oldPosition======" + oldPosition);
-                current.setText(String.valueOf(newPosition + 1));
 //                layoutAdapter.notifyItemChanged(curPosition);
+//                rightCount.setText(String.valueOf(practiceAdapter.rightCount));
+//                errorCount.setText(String.valueOf(practiceAdapter.error_count));
+                current.setText(String.valueOf(newPosition + 1));
                 curPosition = newPosition;
+                prePosition = oldPosition;
                 topicAdapter.notifyCurPosition(newPosition);
                 topicAdapter.notifyPrePosition(oldPosition);
 

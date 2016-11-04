@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/mine_head_background"
+    android:orientation="vertical">
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@mipmap/up_background"
+        android:fadingEdge="@null"
+        android:scrollbars="none">
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="49dp"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/btn1"
+                    style="@style/radioButton"
+                    android:layout_marginLeft="15dp"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@mipmap/one_background"
+                    android:text="第一章" />
+
+                <RadioButton
+                    android:id="@+id/btn2"
+                    style="@style/radioButton"
+                    android:layout_marginLeft="15dp"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    d
+                    android:background="@drawable/select"
+                    android:text="第二章" />
+
+                <RadioButton
+                    android:id="@+id/btn3"
+                    style="@style/radioButton"
+                    android:layout_marginLeft="15dp"
+                    android:button="@null"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:background="@mipmap/three_background"
+                    android:text="第三章" />
+
+                <RadioButton
+                    android:id="@+id/btn4"
+                    style="@style/radioButton"
+                    android:layout_marginLeft="15dp"
+                    android:button="@null"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:background="@mipmap/four_background"
+                    android:text="第四章" />
+
+                <RadioButton
+                    android:id="@+id/btn5"
+                    style="@style/radioButton"
+                    android:layout_marginLeft="15dp"
+                    android:button="@null"
+                    android:background="@mipmap/one_background"
+                    android:text="five" />
+            </RadioGroup>
+
+            <!--<ImageView-->
+                <!--android:id="@+id/img1"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="4dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:background="#33b5e5" />-->
+        </RelativeLayout>
+    </HorizontalScrollView>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+</LinearLayout>

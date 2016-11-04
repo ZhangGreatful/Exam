@@ -114,6 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="分"
+                android:layout_marginTop="5dp"
                 android:textColor="#333333"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -139,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:text="分"
                 android:textColor="#333333"
+                android:layout_marginTop="5dp"
                 android:textSize="20sp" />
 
             <TextView
@@ -155,6 +157,7 @@
                 android:layout_height="wrap_content"
                 android:text="秒"
                 android:textColor="#333333"
+                android:layout_marginTop="5dp"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>

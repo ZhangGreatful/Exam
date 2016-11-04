@@ -48,14 +48,19 @@ public TopicAdapter(Context context){
         View view = inflater.inflate(R.layout.item_topic, parent, false);
         return new TopicViewHolder(view);
     }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     @Override
     public void onBindViewHolder(final TopicAdapter.TopicViewHolder holder, final int position) {
 
+        holder.itemView.getTag();
         holder.tv_id.setText((position + 1) + "");
         holder.tv_id.setTextColor(Color.parseColor("#b3afaf"));
         holder.tv_id.setBackgroundResource(R.drawable.bg_topic_no);
-        if (prePosition == position) {
+//        if (prePosition == position) {
             if (datas.get(position).getIsdo()==1) {//做了该题目
 //                判断对错
                 if (datas.get(position).getAnswer().equals(String.valueOf(datas.get(position).getChoose()))) {
@@ -70,7 +75,7 @@ public TopicAdapter(Context context){
                 holder.tv_id.setTextColor(Color.parseColor("#b3afaf"));
             }
 
-        }
+//        }
 
         if (curPosition == position) {
             holder.tv_id.setBackgroundResource(R.drawable.bg_topic_ok);
@@ -127,6 +132,7 @@ public TopicAdapter(Context context){
     public int getItemCount() {
         return num;
     }
+
 
 
     public static class TopicViewHolder extends RecyclerView.ViewHolder {

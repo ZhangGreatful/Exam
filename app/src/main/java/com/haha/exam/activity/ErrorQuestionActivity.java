@@ -43,8 +43,8 @@ import okhttp3.Response;
 
 /**
  * 错题展示界面
- *
- *
+ * <p/>
+ * <p/>
  * Created by Administrator on 2016/10/31.
  */
 public class ErrorQuestionActivity extends BaseActivity implements View.OnClickListener {
@@ -56,7 +56,7 @@ public class ErrorQuestionActivity extends BaseActivity implements View.OnClickL
     private RecyclerView recyclerView;
     public static boolean isClicked = false;
     private int prePosition;
-    private int curPosition;
+    private static int curPosition;
     private MainActivity mainActivity;
     private AllQuestions allQuestions;
 
@@ -85,12 +85,11 @@ public class ErrorQuestionActivity extends BaseActivity implements View.OnClickL
         dao = new ExamDao(ErrorQuestionActivity.this);
         Intent intent = getIntent();
 //        获取对应chapterid的题目（从网络获取题目）
-        if (!intent.getStringExtra("allerror").equals("0")) {
+        if (intent.getStringExtra("allerror").equals("0")) {//获取全部错题
 //            从网络获取错题
             OkGo.post(WebInterface.check_error)
                     .tag(this)
                     .params("telphone", "18266142739")
-                    .params("chapterid", intent.getStringExtra("allerror"))
                     .execute(new StringCallback() {
                         @Override
                         public void onSuccess(String s, Call call, Response response) {
@@ -108,11 +107,17 @@ public class ErrorQuestionActivity extends BaseActivity implements View.OnClickL
 
                         }
                     });
-        } else {//获取全部错题
-//            从网络获取错题
+        } else if (intent.getStringExtra("allerror").equals("-1")) {//错题回顾
+
+
+
+
+        } else {
+//            从网络获取错题（错题分类列表对应题目）
             OkGo.post(WebInterface.check_error)
                     .tag(this)
                     .params("telphone", "18266142739")
+                    .params("chapterid", intent.getStringExtra("allerror"))
                     .execute(new StringCallback() {
                         @Override
                         public void onSuccess(String s, Call call, Response response) {
@@ -298,11 +303,11 @@ public class ErrorQuestionActivity extends BaseActivity implements View.OnClickL
             public void OnPageChanged(int oldPosition, int newPosition) {
                 Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
                 recyclerView.scrollToPosition(newPosition);
-                System.out.println("newPosition======"+newPosition);
-                System.out.println("oldPosition======"+oldPosition);
+                System.out.println("newPosition======" + newPosition);
+                System.out.println("oldPosition======" + oldPosition);
                 current.setText(String.valueOf(newPosition + 1));
 //                layoutAdapter.notifyItemChanged(curPosition);
-                curPosition=newPosition;
+                curPosition = newPosition;
                 topicAdapter.notifyCurPosition(newPosition);
                 topicAdapter.notifyPrePosition(oldPosition);
 
@@ -357,7 +362,7 @@ public class ErrorQuestionActivity extends BaseActivity implements View.OnClickL
                             }
                         });
                 datas.remove(curPosition);
-                System.out.println("curPosition==========="+curPosition);
+                System.out.println("curPosition===========" + curPosition);
                 topicAdapter.setDataNum(datas.size());
                 count.setText("" + datas.size());
                 layoutAdapter.notifyItemChanged(curPosition);

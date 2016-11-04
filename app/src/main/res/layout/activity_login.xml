@@ -30,6 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_weight="1"
+                android:background="@color/background"
                 android:gravity="center"
                 android:text="手机验证登录"
                 android:textColor="@drawable/text_color" />
@@ -44,6 +45,7 @@
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_weight="1"
+                android:background="@color/background"
                 android:gravity="center"
                 android:text="手机密码登录"
                 android:textColor="@drawable/text_color" />

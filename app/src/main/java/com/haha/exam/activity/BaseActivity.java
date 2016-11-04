@@ -3,6 +3,8 @@ package com.haha.exam.activity;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -15,7 +17,7 @@ import com.haha.exam.utils.DensityUtils;
 /**
  * Created by Administrator on 2016/10/21.
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     public ViewGroup contentView;
     private TextView rightBtn;

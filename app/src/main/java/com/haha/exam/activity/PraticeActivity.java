@@ -23,6 +23,7 @@ import com.haha.exam.adapter.PracticeAdapter;
 import com.haha.exam.adapter.ReciteAdapter;
 import com.haha.exam.adapter.TopicAdapter;
 import com.haha.exam.bean.AllQuestions;
+import com.haha.exam.bean.ErrorQuestion;
 import com.haha.exam.bean.IsSave;
 import com.haha.exam.dao.ExamDao;
 import com.haha.exam.web.WebInterface;
@@ -31,7 +32,10 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,10 +63,13 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
     private AllQuestions allQuestions;
     private ExamDao dao;
     private Gson gson = new Gson();
-    public static int time;
+    public static int time;//考试用时
     private TextView rightCount, errorCount;
     public static int right, error;
     private List<AllQuestions.DataBean> datas;
+    private String curentTime,date;
+
+    private ErrorQuestion[] question;
 
 
     static int minute = -1;
@@ -132,7 +139,7 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
     };
 
 
-    private LinearLayout shoucang, fenxiang, jiaojuan;
+    public LinearLayout shoucang, fenxiang, jiaojuan;
     //    private MyHorizontalScrollView horizontalScrollView;
 //    private HorizontalScrollViewAdapter adapter;
 //    private List<String> datas = new ArrayList<>();
@@ -150,6 +157,17 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
         initSlidingUoPanel();
         initList();
         initData();
+        getTime();
+    }
+//      获取当前的日期和时间,考试用时
+    private void getTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        date = formatter.format(curDate);
+
+        SimpleDateFormat formatter1 = new SimpleDateFormat ("HH:mm:ss");
+        curentTime=formatter1.format(curDate);
+
     }
 
     //      初始化数据
@@ -352,6 +370,17 @@ public class PraticeActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.jiao_juan:
+//            得到错题信息
+                question = new ErrorQuestion[practiceAdapter.list.size()];
+                for (int i = 0; i < question.length; i++) {
+                    question[i] = practiceAdapter.list.get(i);
+                    System.out.println("错误信息=======" + practiceAdapter.list.get(i).getSid());
+                }
+//                "create  table  grade (id integer primary key autoincrement," +
+//            " date text, time text, telphone text, grade text, rightcount text, question text," +
+//            " cartype text,  subject text)";
+                dao.addMyGrade(date,curentTime,"18266142739",String.valueOf(practiceAdapter.rightCount),question,"xc","1");
+
                 Intent intent = new Intent(PraticeActivity.this, PracticeResultActivity.class);
                 startActivity(intent);
                 finish();

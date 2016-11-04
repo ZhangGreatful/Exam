@@ -3,7 +3,7 @@
     android:id="@+id/base_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/orange"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="标题"
-            android:textColor="#ffffff"
+            android:textColor="@color/white"
             android:textSize="20sp" />
         <View android:layout_width="match_parent"
             android:layout_height="1dp"

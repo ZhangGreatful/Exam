@@ -38,8 +38,10 @@ import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.activity.OrderTextActivity;
 import com.haha.exam.activity.PracticeResultActivity;
+import com.haha.exam.activity.PraticeActivity;
 import com.haha.exam.bean.AllErrorQuestions;
 import com.haha.exam.bean.AllQuestions;
+import com.haha.exam.bean.ErrorQuestion;
 import com.haha.exam.dao.ExamDao;
 import com.haha.exam.dialog.MyDialog;
 import com.haha.exam.web.WebInterface;
@@ -48,6 +50,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Call;
@@ -60,15 +63,19 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
     private final Context mContext;
     private final RecyclerView mRecyclerView;
     private List<AllQuestions.DataBean> datas;
-    private OrderTextActivity orderTextActivity;
+    private PraticeActivity praticeActivity;
     public static int error_count;
     private ExamDao dao;
     public static int isRight;
     public static int rightCount;
     private Gson gson = new Gson();
 
+    public static List<ErrorQuestion> list=new ArrayList<>();
+
+
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
+
         public final TextView title, tv_1, tv_2, tv_3, tv_4;
         public final TextView answer, is_wrong, answer_explain;
         public final ImageView iv_1, iv_2, iv_3, iv_4, choice_icon,iv_pic;
@@ -101,34 +108,10 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
         }
 
     }
-
-//    public static void setListViewHeightBasedOnChildren(ListView listView) {
-//        // 获取ListView对应的Adapter
-//        ListAdapter listAdapter = listView.getAdapter();
-//        if (listAdapter == null) {
-//            return;
-//        }
-//
-//        int totalHeight = 0;
-//        for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
-//            // listAdapter.getCount()返回数据项的数目
-//            View listItem = listAdapter.getView(i, null, listView);
-//            // 计算子项View 的宽高
-//            listItem.measure(0, 0);
-//            // 统计所有子项的总高度
-//            totalHeight += listItem.getMeasuredHeight();
-//        }
-//
-//        ViewGroup.LayoutParams params = listView.getLayoutParams();
-//        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-//        // listView.getDividerHeight()获取子项间分隔符占用的高度
-//        // params.height最后得到整个ListView完整显示需要的高度
-//        listView.setLayoutParams(params);
-//    }
-
-
     public PracticeAdapter(Context context, RecyclerView recyclerView) {
-        orderTextActivity = new OrderTextActivity();
+        praticeActivity = new PraticeActivity();
+        list=new ArrayList<>();
+
         mContext = context;
         mRecyclerView = recyclerView;
         dao = new ExamDao(context);
@@ -166,6 +149,7 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
         };
         holder.answer.setVisibility(View.GONE);
         holder.ll_explain.setVisibility(View.GONE);
+
 
 
         final AllQuestions.DataBean problem = datas.get(position);
@@ -218,6 +202,7 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
 
 //        该题没有做
         if (problem.getIsdo() == 0) {
+            final ErrorQuestion errorQuestion=new ErrorQuestion();
             isRight = 0;
             holder.itemView.getTag();
             holder.answer.setVisibility(View.GONE);
@@ -253,6 +238,19 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
                         } else {
                             holder.iv_1.setImageResource(R.mipmap.wrong);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+
+
+                            errorQuestion.setSid(problem.getSid());
+                            errorQuestion.setIsdo(problem.getIsdo());
+                            errorQuestion.setChoose(problem.getChoose());
+                            errorQuestion.setChapterid(problem.getChapterid());
+                            list.add(errorQuestion);
+                            for (int i = 0; i <list.size() ; i++) {
+                                System.out.println("sid========="+list.get(i).getSid());
+                            }
+
+                            System.out.println("list============"+list.size());
+
                             if (mRecyclerView.getScrollState() == 0) {
                                 if (error_count == 11) {
                                     final MyDialog dialog = new MyDialog(mContext);
@@ -330,6 +328,19 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
 //                            holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_2.setImageResource(R.mipmap.wrong);
                             holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
+
+                            errorQuestion.setSid(problem.getSid());
+                            errorQuestion.setIsdo(problem.getIsdo());
+                            errorQuestion.setChoose(problem.getChoose());
+                            errorQuestion.setChapterid(problem.getChapterid());
+                            list.add(errorQuestion);
+                            for (int i = 0; i <list.size() ; i++) {
+                                System.out.println("sid========="+list.get(i).getSid());
+                            }
+
+                            System.out.println("list============"+list.size());
+
+
                             if (mRecyclerView.getScrollState() == 0) {
                                 if (error_count == 11) {
                                     final MyDialog dialog = new MyDialog(mContext);
@@ -410,8 +421,20 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
 //                            holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_1.setImageResource(R.mipmap.wrong);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                            isRight = 2;
                             error_count++;
+
+                            errorQuestion.setSid(problem.getSid());
+                            errorQuestion.setIsdo(problem.getIsdo());
+                            errorQuestion.setChoose(problem.getChoose());
+                            errorQuestion.setChapterid(problem.getChapterid());
+                            list.add(errorQuestion);
+                            for (int i = 0; i <list.size() ; i++) {
+                                System.out.println("sid========="+list.get(i).getSid());
+                            }
+
+                            System.out.println("list============"+list.size());
+
+
                             if (mRecyclerView.getScrollState() == 0) {
                                 if (error_count == 11) {
 
@@ -491,8 +514,19 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
 //                            holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_2.setImageResource(R.mipmap.wrong);
                             holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                            isRight = 2;
                             error_count++;
+
+                            errorQuestion.setSid(problem.getSid());
+                            errorQuestion.setIsdo(problem.getIsdo());
+                            errorQuestion.setChoose(problem.getChoose());
+                            errorQuestion.setChapterid(problem.getChapterid());
+                            list.add(errorQuestion);
+                            for (int i = 0; i <list.size() ; i++) {
+                                System.out.println("sid========="+list.get(i).getSid());
+                            }
+
+                            System.out.println("list============"+list.size());
+
                             if (mRecyclerView.getScrollState() == 0) {
                                 if (error_count == 11) {
                                     final MyDialog dialog = new MyDialog(mContext);
@@ -549,7 +583,6 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
                         if (problem.getAnswer().equals("4")) {
                             holder.iv_3.setImageResource(R.mipmap.right);
                             holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                            isRight = 1;
                             rightCount++;
                             if (mRecyclerView.getScrollState() == 0) {
                                 handler.postDelayed(runnable, 500);
@@ -571,8 +604,20 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
 //                            holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_3.setImageResource(R.mipmap.wrong);
                             holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                            isRight = 2;
                             error_count++;
+
+                            errorQuestion.setSid(problem.getSid());
+                            errorQuestion.setIsdo(problem.getIsdo());
+                            errorQuestion.setChoose(problem.getChoose());
+                            errorQuestion.setChapterid(problem.getChapterid());
+                            list.add(errorQuestion);
+                            for (int i = 0; i <list.size() ; i++) {
+                                System.out.println("sid========="+list.get(i).getSid());
+                            }
+
+                            System.out.println("list============"+list.size());
+
+
                             if (mRecyclerView.getScrollState() == 0) {
                                 if (error_count == 11) {
                                     final MyDialog dialog = new MyDialog(mContext);
@@ -629,7 +674,6 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
                         if (problem.getAnswer().equals("8")) {
                             holder.iv_4.setImageResource(R.mipmap.right);
                             holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                            isRight = 1;
                             rightCount++;
                             if (mRecyclerView.getScrollState() == 0) {
                                 handler.postDelayed(runnable, 500);
@@ -651,8 +695,21 @@ public class PracticeAdapter extends RecyclerView.Adapter<PracticeAdapter.Simple
 //                            holder.ll_explain.setVisibility(View.VISIBLE);
                             holder.iv_4.setImageResource(R.mipmap.wrong);
                             holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.wrong_choice_color));
-                            isRight = 2;
                             error_count++;
+
+                            errorQuestion.setSid(problem.getSid());
+                            errorQuestion.setIsdo(problem.getIsdo());
+                            errorQuestion.setChoose(problem.getChoose());
+                            errorQuestion.setChapterid(problem.getChapterid());
+                            list.add(errorQuestion);
+                            for (int i = 0; i <list.size() ; i++) {
+                                System.out.println("sid========="+list.get(i).getSid());
+                            }
+
+                            System.out.println("list============"+list.size());
+
+
+
                             if (mRecyclerView.getScrollState() == 0) {
                                 if (error_count == 11) {
                                     final MyDialog dialog = new MyDialog(mContext);

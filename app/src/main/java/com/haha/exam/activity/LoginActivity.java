@@ -67,6 +67,8 @@ public class LoginActivity extends FragmentActivity {
         back = (ImageView) findViewById(R.id.back);
         yanzheng = (TextView) findViewById(R.id.tv_yanzheng);
         mima = (TextView) findViewById(R.id.tv_mima);
+        mima.setAlpha(50);
+        yanzheng.setAlpha(100);
         //初始化ViewPager，并且设置ViewPager的监听器
         mViewPager = (ViewPager) this.findViewById(R.id.pager);
         mViewPager.setCurrentItem(0);

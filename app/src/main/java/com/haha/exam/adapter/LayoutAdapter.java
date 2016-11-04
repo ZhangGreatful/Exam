@@ -63,9 +63,10 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
     private List<AllQuestions.DataBean> datas;
     private OrderTextActivity orderTextActivity;
     private MyErrorActivity errorActivity;
-    private ExamDao dao;
     private Gson gson=new Gson();
     private String[] questionInfo;
+    public static int rightCount;
+    public static int errorCount;
     private List<String[]> list=new ArrayList<>();
 
 
@@ -138,7 +139,6 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
 
         mContext = context;
         mRecyclerView = recyclerView;
-        dao = new ExamDao(context);
     }
 
     public void setDataList(List<AllQuestions.DataBean> datas) {
@@ -168,6 +168,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
             }
 
         };
+        final ExamDao dao=new ExamDao(mContext);
         holder.answer.setVisibility(View.GONE);
         holder.ll_explain.setVisibility(View.GONE);
 
@@ -240,12 +241,14 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                         holder.choice_2.setEnabled(false);
                         problem.setIsdo(1);
                         problem.setChoose(1);
+
+//                        更新数据库做题状态
+                        dao.updateIsdo(problem.getSid(),"xc",problem.getSubject(),1,1);
+
                         if (problem.getAnswer().equals("1")) {
                             holder.iv_1.setImageResource(R.mipmap.right);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
-                            if (mRecyclerView.getScrollState() == 0) {
-                                handler.postDelayed(runnable, 500);
-                            }
+                            rightCount++;
                             OkGo.post(WebInterface.add_right)
                                     .params("telphone","18266142739")
                                     .params("questionid",problem.getSid())
@@ -271,6 +274,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                                         });
 
                             }
+                          handler.postDelayed(runnable,300);
 
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
@@ -303,6 +307,9 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                     public void onClick(View view) {
                         problem.setIsdo(1);
                         problem.setChoose(2);
+                        //                        更新数据库做题状态
+                        dao.updateIsdo(problem.getSid(),"xc",problem.getSubject(),1,2);
+
                         holder.choice_1.setEnabled(false);
                         if (problem.getAnswer().equals("0")) {
                             holder.answer.setText("对");
@@ -318,9 +325,22 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                                             Toast.makeText(mContext,addRight.getMsg(),Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                            if (mRecyclerView.getScrollState() == 0) {
-                                handler.postDelayed(runnable, 500);
+                            //                            如果做对了，将错题从错题库中自动删除
+                            if (errorActivity.auto_clear==1){
+                                OkGo.post(WebInterface.delete_error)
+                                        .tag(this)
+                                        .params("telphone", "18266142739")
+                                        .params("questionid", datas.get(position).getSid())
+                                        .execute(new StringCallback() {
+                                            @Override
+                                            public void onSuccess(String s, Call call, Response response) {
+                                                DeleteAll string = gson.fromJson(s, DeleteAll.class);
+                                                Toast.makeText(mContext, string.getMsg(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                             }
+                            handler.postDelayed(runnable,300);
 
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
@@ -357,6 +377,10 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                         holder.choice_4.setEnabled(false);
                         problem.setIsdo(1);
                         problem.setChoose(1);
+
+                        //                        更新数据库做题状态
+                        dao.updateIsdo(problem.getSid(),"xc",problem.getSubject(),1,1);
+
                         if (problem.getAnswer().equals("1")) {
                             holder.iv_1.setImageResource(R.mipmap.right);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
@@ -370,9 +394,25 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                                             Toast.makeText(mContext,addRight.getMsg(),Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                            if (mRecyclerView.getScrollState() == 0) {
-                                handler.postDelayed(runnable, 500);
+                            //                            如果做对了，将错题从错题库中自动删除
+                            if (errorActivity.auto_clear==1){
+                                OkGo.post(WebInterface.delete_error)
+                                        .tag(this)
+                                        .params("telphone", "18266142739")
+                                        .params("questionid", datas.get(position).getSid())
+                                        .execute(new StringCallback() {
+                                            @Override
+                                            public void onSuccess(String s, Call call, Response response) {
+                                                DeleteAll string = gson.fromJson(s, DeleteAll.class);
+                                                Toast.makeText(mContext, string.getMsg(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                             }
+                            handler.postDelayed(runnable,300);
+//                            if (mRecyclerView.getScrollState() == 0) {
+//                                handler.postDelayed(runnable, 500);
+//                            }
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);
@@ -404,6 +444,10 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                     public void onClick(View view) {
                         problem.setIsdo(1);
                         problem.setChoose(2);
+
+                        //                        更新数据库做题状态
+                        dao.updateIsdo(problem.getSid(),"xc",problem.getSubject(),1,2);
+
                         holder.choice_1.setEnabled(false);
                         holder.choice_3.setEnabled(false);
                         holder.choice_4.setEnabled(false);
@@ -420,9 +464,25 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                                             Toast.makeText(mContext,addRight.getMsg(),Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                            if (mRecyclerView.getScrollState() == 0) {
-                                handler.postDelayed(runnable, 500);
+                            //                            如果做对了，将错题从错题库中自动删除
+                            if (errorActivity.auto_clear==1){
+                                OkGo.post(WebInterface.delete_error)
+                                        .tag(this)
+                                        .params("telphone", "18266142739")
+                                        .params("questionid", datas.get(position).getSid())
+                                        .execute(new StringCallback() {
+                                            @Override
+                                            public void onSuccess(String s, Call call, Response response) {
+                                                DeleteAll string = gson.fromJson(s, DeleteAll.class);
+                                                Toast.makeText(mContext, string.getMsg(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                             }
+                            handler.postDelayed(runnable,300);
+//                            if (mRecyclerView.getScrollState() == 0) {
+//                                handler.postDelayed(runnable, 500);
+//                            }
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);
@@ -454,6 +514,11 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                     public void onClick(View view) {
                         problem.setIsdo(1);
                         problem.setChoose(4);
+
+
+                        //                        更新数据库做题状态
+                        dao.updateIsdo(problem.getSid(),"xc",problem.getSubject(),1,4);
+
                         holder.choice_2.setEnabled(false);
                         holder.choice_1.setEnabled(false);
                         holder.choice_4.setEnabled(false);
@@ -470,9 +535,25 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                                             Toast.makeText(mContext,addRight.getMsg(),Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                            if (mRecyclerView.getScrollState() == 0) {
-                                handler.postDelayed(runnable, 500);
+                            //                            如果做对了，将错题从错题库中自动删除
+                            if (errorActivity.auto_clear==1){
+                                OkGo.post(WebInterface.delete_error)
+                                        .tag(this)
+                                        .params("telphone", "18266142739")
+                                        .params("questionid", datas.get(position).getSid())
+                                        .execute(new StringCallback() {
+                                            @Override
+                                            public void onSuccess(String s, Call call, Response response) {
+                                                DeleteAll string = gson.fromJson(s, DeleteAll.class);
+                                                Toast.makeText(mContext, string.getMsg(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                             }
+                            handler.postDelayed(runnable,300);
+//                            if (mRecyclerView.getScrollState() == 0) {
+//                                handler.postDelayed(runnable, 500);
+//                            }
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);
@@ -504,6 +585,10 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                     public void onClick(View view) {
                         problem.setIsdo(1);
                         problem.setChoose(8);
+
+                        //                        更新数据库做题状态
+                        dao.updateIsdo(problem.getSid(),"xc",problem.getSubject(),1,8);
+
                         holder.choice_2.setEnabled(false);
                         holder.choice_3.setEnabled(false);
                         holder.choice_1.setEnabled(false);
@@ -520,9 +605,25 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                                             Toast.makeText(mContext,addRight.getMsg(),Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                            if (mRecyclerView.getScrollState() == 0) {
-                                handler.postDelayed(runnable, 500);
+                            //                            如果做对了，将错题从错题库中自动删除
+                            if (errorActivity.auto_clear==1){
+                                OkGo.post(WebInterface.delete_error)
+                                        .tag(this)
+                                        .params("telphone", "18266142739")
+                                        .params("questionid", datas.get(position).getSid())
+                                        .execute(new StringCallback() {
+                                            @Override
+                                            public void onSuccess(String s, Call call, Response response) {
+                                                DeleteAll string = gson.fromJson(s, DeleteAll.class);
+                                                Toast.makeText(mContext, string.getMsg(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                             }
+                            handler.postDelayed(runnable,300);
+//                            if (mRecyclerView.getScrollState() == 0) {
+//                                handler.postDelayed(runnable, 500);
+//                            }
                         } else {
                             holder.answer.setVisibility(View.VISIBLE);
                             holder.ll_explain.setVisibility(View.VISIBLE);

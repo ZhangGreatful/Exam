@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.haha.exam.bean.AllQuestions;
+import com.haha.exam.bean.ErrorQuestion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,26 +73,41 @@ public class ExamDao {
     }
 
     //    "create  table  grade (id integer primary key autoincrement," +
-//            " sid text, subject text, chapterid text, cartype text, date text, time text," +
-//            " rightcount integer, option text, grade text)";
-    public void addMyGrade(String date, String time, String subject, String cartype, String sid,
-                           String chapterid, int rightcount, String option, String grade) {
+//            " date text, time text, telphone text, grade text, rightcount text, question text," +
+//            "chapter text, subject text)";
+//    添加模拟成绩
+    public void addMyGrade(String date, String time, String telphone, String rightcount,
+                           ErrorQuestion[] question, String cartype, String subject) {
         if (db.isOpen()) {
             ContentValues values = new ContentValues();
-            values.put("sid", sid);
-            values.put("subject", subject);
-            values.put("chapterid", chapterid);
-            values.put("cartype", cartype);
             values.put("date", date);
             values.put("time", time);
+            values.put("telphone", telphone);
             values.put("rightcount", rightcount);
-            values.put("option", option);
-            values.put("grade", grade);
+
+            String options = "";
+            if (question.length != 0) {
+                for (int i = 0; i < question.length; i++) {
+                    options = options + question[i].getSid() + "," + question[i].getChoose() + "，" + question[i].getIsdo() + ","
+                            + question[i].getChapterid() + "/";
+                }
+            }
+            values.put("question", options);
+            values.put("cartype", cartype);
+            values.put("subject", subject);
             db.insert("grade", "", values);
         }
         System.out.println("我的成绩插入数据看成功");
         db.close();
     }
+
+    /**
+     * 获取我的成绩
+     */
+    public void getMyGrade() {
+
+    }
+
 
     //          收藏数据
     public void addCollectQuestions(AllQuestions.DataBean dataBean, String subject) {
@@ -164,6 +180,34 @@ public class ExamDao {
         }
         System.out.println("添加错题数据成功");
         db.close();
+    }
+
+    //      更新收藏状态
+    public void updateShouCang(String sid, String cartype, String subject, int isShoucang) {
+
+        String name = cartype + "_questions ";
+        if (db.isOpen()) {
+            ContentValues values = new ContentValues();
+            values.put("isshoucang", isShoucang);
+            db.update(name, values, "sid=?", new String[]{sid});
+        }
+        // 关闭
+        db.close();
+        System.out.println("更新收藏状态");
+    }
+
+    //    更新做题状态
+    public void updateIsdo(String sid, String cartype, String subject, int isdo, int choose) {
+        String name = cartype + "_questions ";
+        if (db.isOpen()) {
+            ContentValues values = new ContentValues();
+            values.put("isdo", isdo);
+            values.put("choose", choose);
+            db.update(name, values, "sid=?", new String[]{sid});
+        }
+        // 关闭
+        db.close();
+        System.out.println("更新做题状态");
     }
 
 
