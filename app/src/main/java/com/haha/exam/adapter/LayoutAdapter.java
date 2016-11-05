@@ -68,6 +68,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
     public static int rightCount;
     public static int errorCount;
     private List<String[]> list=new ArrayList<>();
+    private String sbj="one";
 
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
@@ -234,7 +235,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
             holder.itemView.getTag();
             System.out.println("size===========" + datas.size());
 
-            if (problem.getType().equals("3")) {//选择题
+            if (problem.getType().equals("3")) {//判断题
                 holder.choice_1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -245,10 +246,12 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
 //                        更新数据库做题状态
                         dao.updateIsdo(problem.getSid(),"xc",problem.getSubject(),1,1);
 
+
                         if (problem.getAnswer().equals("1")) {
                             holder.iv_1.setImageResource(R.mipmap.right);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
                             rightCount++;
+                            dao.addRightQuestions(problem,sbj);
                             OkGo.post(WebInterface.add_right)
                                     .params("telphone","18266142739")
                                     .params("questionid",problem.getSid())
@@ -312,6 +315,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
 
                         holder.choice_1.setEnabled(false);
                         if (problem.getAnswer().equals("0")) {
+                            dao.addRightQuestions(problem,sbj);
                             holder.answer.setText("对");
                             holder.iv_2.setImageResource(R.mipmap.right);
                             holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
@@ -382,6 +386,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                         dao.updateIsdo(problem.getSid(),"xc",problem.getSubject(),1,1);
 
                         if (problem.getAnswer().equals("1")) {
+                            dao.addRightQuestions(problem,sbj);
                             holder.iv_1.setImageResource(R.mipmap.right);
                             holder.tv_1.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
                             OkGo.post(WebInterface.add_right)
@@ -452,6 +457,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                         holder.choice_3.setEnabled(false);
                         holder.choice_4.setEnabled(false);
                         if (problem.getAnswer().equals("2")) {
+                            dao.addRightQuestions(problem,sbj);
                             holder.iv_2.setImageResource(R.mipmap.right);
                             holder.tv_2.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
                             OkGo.post(WebInterface.add_right)
@@ -523,6 +529,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                         holder.choice_1.setEnabled(false);
                         holder.choice_4.setEnabled(false);
                         if (problem.getAnswer().equals("4")) {
+                            dao.addRightQuestions(problem,sbj);
                             holder.iv_3.setImageResource(R.mipmap.right);
                             holder.tv_3.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
                             OkGo.post(WebInterface.add_right)
@@ -593,6 +600,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
                         holder.choice_3.setEnabled(false);
                         holder.choice_1.setEnabled(false);
                         if (problem.getAnswer().equals("8")) {
+                            dao.addRightQuestions(problem,sbj);
                             holder.iv_4.setImageResource(R.mipmap.right);
                             holder.tv_4.setTextColor(mContext.getResources().getColor(R.color.right_choice_color));
                             OkGo.post(WebInterface.add_right)

@@ -19,6 +19,11 @@ import android.widget.Toast;
 
 import com.haha.exam.R;
 import com.haha.exam.adapter.ViewPagerAdapter;
+import com.haha.exam.fragment.Chapter1Fragment;
+import com.haha.exam.fragment.Chapter2Fragment;
+import com.haha.exam.fragment.Chapter3Fragment;
+import com.haha.exam.fragment.Chapter4Fragment;
+import com.haha.exam.fragment.Chapter5Fragment;
 import com.haha.exam.fragment.ChapterFiveFragment;
 import com.haha.exam.fragment.ChapterFourFragment;
 import com.haha.exam.fragment.ChapterOneFragment;
@@ -37,7 +42,7 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
     private RadioButton mRadioButton3;
     private RadioButton mRadioButton4;
     private RadioButton mRadioButton5;
-//    private ImageView mImageView;
+    private ImageView mImageView;
     private float mCurrentCheckedRadioLeft;//当前被选中的RadioButton距离左侧的距离
     private HorizontalScrollView mHorizontalScrollView;//上面的水平滚动控件
     private ViewPager mViewPager;   //下方的可横向拖动的控件
@@ -52,7 +57,7 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
         iniVariable();
 
         mRadioButton1.setChecked(true);
-        mViewPager.setCurrentItem(1);
+//        mViewPager.setCurrentItem(1);
         mCurrentCheckedRadioLeft = getCurrentCheckedRadioLeft();
 //        initView();
     }
@@ -64,11 +69,11 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
     private void iniVariable() {
         // TODO Auto-generated method stub
         fragments =  new ArrayList<>();
-        fragments.add(new ChapterOneFragment());
-        fragments.add(new ChapterTwoFragment());
-        fragments.add(new ChapterThreeFragment());
-        fragments.add(new ChapterFourFragment());
-        fragments.add(new ChapterFiveFragment());
+        fragments.add(new Chapter1Fragment());
+        fragments.add(new Chapter2Fragment());
+        fragments.add(new Chapter3Fragment());
+        fragments.add(new Chapter4Fragment());
+        fragments.add(new Chapter5Fragment());
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(viewPagerAdapter);
@@ -93,10 +98,10 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
             /*LayoutParams _LayoutParams1 = new LayoutParams(100, 4);
             _LayoutParams1.setMargins(0, 0, 0, 0);
             _LayoutParams1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);*/
-            //mImageView.bringToFront();
-//            mImageView.startAnimation(_AnimationSet);//开始上面蓝色横条图片的动画切换
-            //mImageView.setLayoutParams(_LayoutParams1);
-            mViewPager.setCurrentItem(1);//让下方ViewPager跟随上面的HorizontalScrollView切换
+            mImageView.bringToFront();
+            mImageView.startAnimation(_AnimationSet);//开始上面蓝色横条图片的动画切换
+//            mImageView.setLayoutParams(_LayoutParams1);
+            mViewPager.setCurrentItem(0,true);//让下方ViewPager跟随上面的HorizontalScrollView切换
         }else if (checkedId == R.id.btn2) {
             _TranslateAnimation = new TranslateAnimation(mCurrentCheckedRadioLeft, getResources().getDimension(R.dimen.rdo2), 0f, 0f);
 
@@ -105,10 +110,10 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
             _AnimationSet.setFillAfter(true);
             _AnimationSet.setDuration(100);
 
-            //mImageView.bringToFront();
-//            mImageView.startAnimation(_AnimationSet);
+            mImageView.bringToFront();
+            mImageView.startAnimation(_AnimationSet);
 
-            mViewPager.setCurrentItem(2);
+            mViewPager.setCurrentItem(1);
         }else if (checkedId == R.id.btn3) {
             _TranslateAnimation = new TranslateAnimation(mCurrentCheckedRadioLeft, getResources().getDimension(R.dimen.rdo3), 0f, 0f);
 
@@ -117,10 +122,10 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
             _AnimationSet.setFillAfter(true);
             _AnimationSet.setDuration(100);
 
-            //mImageView.bringToFront();
-//            mImageView.startAnimation(_AnimationSet);
+            mImageView.bringToFront();
+            mImageView.startAnimation(_AnimationSet);
 
-            mViewPager.setCurrentItem(3);
+            mViewPager.setCurrentItem(2);
         }else if (checkedId == R.id.btn4) {
             _TranslateAnimation = new TranslateAnimation(mCurrentCheckedRadioLeft, getResources().getDimension(R.dimen.rdo4), 0f, 0f);
 
@@ -129,9 +134,9 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
             _AnimationSet.setFillAfter(true);
             _AnimationSet.setDuration(100);
 
-            //mImageView.bringToFront();
-//            mImageView.startAnimation(_AnimationSet);
-            mViewPager.setCurrentItem(4);
+            mImageView.bringToFront();
+            mImageView.startAnimation(_AnimationSet);
+            mViewPager.setCurrentItem(3);
         }else if (checkedId == R.id.btn5) {
             _TranslateAnimation = new TranslateAnimation(mCurrentCheckedRadioLeft, getResources().getDimension(R.dimen.rdo5), 0f, 0f);
 
@@ -140,10 +145,10 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
             _AnimationSet.setFillAfter(true);
             _AnimationSet.setDuration(100);
 
-            //mImageView.bringToFront();
-//            mImageView.startAnimation(_AnimationSet);
+            mImageView.bringToFront();
+            mImageView.startAnimation(_AnimationSet);
 
-            mViewPager.setCurrentItem(5);
+            mViewPager.setCurrentItem(4);
         }
 
         mCurrentCheckedRadioLeft = getCurrentCheckedRadioLeft();
@@ -196,7 +201,7 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
         mRadioButton4 = (RadioButton)findViewById(R.id.btn4);
         mRadioButton5 = (RadioButton)findViewById(R.id.btn5);
 
-//        mImageView = (ImageView)findViewById(R.id.img1);
+        mImageView = (ImageView)findViewById(R.id.img1);
 
         mHorizontalScrollView = (HorizontalScrollView)findViewById(R.id.horizontalScrollView);
 
@@ -284,21 +289,34 @@ public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnChe
             // TODO Auto-generated method stub
             //Log.i("zj", "position="+position);
 
+//            if (position == 0) {
+//                mViewPager.setCurrentItem(0);
+//            }else if (position == 1) {
+//                mRadioButton1.performClick();
+//            }else if (position == 2) {
+//                mRadioButton2.performClick();
+//            }else if (position == 3) {
+//                mRadioButton3.performClick();
+//            }else if (position == 4) {
+//                mRadioButton4.performClick();
+//            }
+//            else if (position == 5) {
+//                mRadioButton5.performClick();
+//            }
             if (position == 0) {
-                mViewPager.setCurrentItem(1);
-            }else if (position == 1) {
                 mRadioButton1.performClick();
-            }else if (position == 2) {
+            }else if (position == 1) {
                 mRadioButton2.performClick();
-            }else if (position == 3) {
+            }else if (position == 2) {
                 mRadioButton3.performClick();
-            }else if (position == 4) {
+            }else if (position == 3) {
                 mRadioButton4.performClick();
-            }else if (position == 5) {
+            }else if (position == 4) {
                 mRadioButton5.performClick();
-            }else if (position == 6) {
-                mViewPager.setCurrentItem(5);
             }
+//            else if (position == 5) {
+//                mRadioButton5.performClick();
+//            }
         }
 
     }

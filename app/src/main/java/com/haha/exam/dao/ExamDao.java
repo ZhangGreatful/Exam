@@ -182,6 +182,44 @@ public class ExamDao {
         db.close();
     }
 
+    //      添加正确题目
+    public void addRightQuestions(AllQuestions.DataBean dataBean, String subject) {
+        String table_name = subject + "_right_questions";
+        if (db.isOpen()) {
+            System.out.println("数据库是否打开=======" + db.isOpen());
+            ContentValues values = new ContentValues();
+            values.put("sid", dataBean.getSid());
+            values.put("subject", dataBean.getSubject());
+            values.put("chapterid", dataBean.getChapterid());
+            values.put("type", dataBean.getType());
+            values.put("knowledgetype", dataBean.getKnowledgetype());
+            values.put("contenttype", dataBean.getContenttype());
+            values.put("question", dataBean.getQuestion());
+            values.put("answer", dataBean.getAnswer());
+            values.put("detail", dataBean.getDetail());
+
+            List<String> option = dataBean.getOption();
+            String options = "";
+            if (option.size() != 0) {
+                for (int j = 0; j < option.size(); j++) {
+                    options = options + option.get(j) + ",";
+                }
+            }
+            values.put("option", options);
+            values.put("image", dataBean.getImage());
+            values.put("video", dataBean.getVideo());
+            values.put("upstatus", dataBean.getUpstatus());
+            values.put("isdo", dataBean.getIsdo());
+            values.put("choose", dataBean.getChoose());
+            values.put("isshoucang", dataBean.getIsshoucang());
+            db.insert(table_name, "", values);
+
+        }
+        System.out.println("添加正确题目数据成功");
+        db.close();
+    }
+
+
     //      更新收藏状态
     public void updateShouCang(String sid, String cartype, String subject, int isShoucang) {
 
@@ -254,8 +292,6 @@ public class ExamDao {
                 list.add(bean);
             } while (cursor.moveToNext());
         }
-        System.out.println("shuzuchangdu =========" + list.size());
-        System.out.println("shuzuneirong =========" + list.get(2).getOption());
         cursor.close();
         return list;
     }

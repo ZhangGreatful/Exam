@@ -48,13 +48,6 @@ public class ChapterOneFragment extends Fragment {
 
         adapter = new VideoAdapter(getActivity(), datas);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent=new Intent(getActivity(), SubjectOneActivity.class);
-                startActivity(intent);
-            }
-        });
         timeLine = (TimeLineView) view.findViewById(R.id.tv_timelines);
         timeLine.setTimelineCount(5);//设置显示多少个时间轴
         timeLine.setTimelineHeadRadius(10);
@@ -62,6 +55,14 @@ public class ChapterOneFragment extends Fragment {
         timeLine.setTimelineWidth(5);//设置时间轴的宽度
         timeLine.setTimelineRadiusDistance(145);//设置时间轴的高度
         timeLine.setMarginTop(100);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(getActivity(),SubjectOneActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.zoomin,R.anim.zoomout);
+            }
+        });
         return view;
     }
 }

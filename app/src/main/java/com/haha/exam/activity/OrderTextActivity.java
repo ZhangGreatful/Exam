@@ -2,6 +2,8 @@ package com.haha.exam.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -150,6 +152,7 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 
     private void initView() {
 
+        dbHelper=new DatabaseHelper(this);
         bianhao = (LinearLayout) findViewById(R.id.bian_hao);
         shoucang = (LinearLayout) findViewById(R.id.shou_cang);
         fenxiang = (LinearLayout) findViewById(R.id.fen_xiang);
@@ -307,11 +310,16 @@ public class OrderTextActivity extends BaseActivity implements View.OnClickListe
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-//                right = practiceAdapter.rightCount;
-//                error = practiceAdapter.error_count;
-                right.setText(String.valueOf(layoutAdapter.rightCount));
-                error.setText(String.valueOf(layoutAdapter.errorCount));
-                unanswer.setText(String.valueOf(datas.size()-layoutAdapter.rightCount-layoutAdapter.errorCount));
+                String rightQuery = "SELECT  * FROM one_right_questions";
+                String errorQuery="SELECT  * FROM one_error_questions";
+                SQLiteDatabase db = dbHelper.getReadableDatabase();
+                Cursor cursor = db.rawQuery(rightQuery, null);
+               int rightCount= cursor.getCount();
+                Cursor cursor1=db.rawQuery(errorQuery,null);
+                int errorCount=cursor1.getCount();
+                right.setText(String.valueOf(rightCount));
+                error.setText(String.valueOf(errorCount));
+                unanswer.setText(String.valueOf(datas.size()-rightCount-errorCount));
             }
         });
 

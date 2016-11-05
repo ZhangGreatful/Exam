@@ -41,18 +41,17 @@
                 <RadioButton
                     android:id="@+id/btn2"
                     style="@style/radioButton"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    d
-                    android:background="@drawable/select"
+                    android:background="@mipmap/two_background"
                     android:text="第二章" />
 
                 <RadioButton
                     android:id="@+id/btn3"
                     style="@style/radioButton"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:textColor="@color/white"
                     android:gravity="center"
@@ -62,7 +61,7 @@
                 <RadioButton
                     android:id="@+id/btn4"
                     style="@style/radioButton"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:button="@null"
                     android:textColor="@color/white"
                     android:gravity="center"
@@ -74,16 +73,18 @@
                     style="@style/radioButton"
                     android:layout_marginLeft="15dp"
                     android:button="@null"
+                    android:textColor="@color/white"
+                    android:gravity="center"
                     android:background="@mipmap/one_background"
-                    android:text="five" />
+                    android:text="第五章" />
             </RadioGroup>
 
-            <!--<ImageView-->
-                <!--android:id="@+id/img1"-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="4dp"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:background="#33b5e5" />-->
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:src="@mipmap/zhiwen" />
         </RelativeLayout>
     </HorizontalScrollView>
 
