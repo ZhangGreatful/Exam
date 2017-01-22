@@ -80,6 +80,7 @@ public class SystemUtil {
         String city = preferences.getString(JIAXIAOBIANHAO, "");
         return city;
     }
+
     public String showAppIcon(String key) {
         SharedPreferences preferences = context.getSharedPreferences(APP_ICON,
                 Context.MODE_PRIVATE);
@@ -155,7 +156,8 @@ public class SystemUtil {
     }
 
     public void removeLearnedTime() {
-        
+
+        Log.d("SystemUtil", "执行删除的方法");
         SharedPreferences preferences = context.getSharedPreferences(MINE,
                 Context.MODE_PRIVATE);
         Editor editor = preferences.edit();
