@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.haha.exam.R;
@@ -22,6 +23,8 @@ public class MyDialog extends Dialog {
     private String messageStr;//从外界设置的消息文本
     //确定文本和取消文本的显示内容
     private String yesStr, noStr;
+    private boolean isVisible;
+    private ImageView divider;
 
     private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
     private onYesOnclickListener yesOnclickListener;//确定按钮被点击了的监听器
@@ -104,6 +107,10 @@ public class MyDialog extends Dialog {
         if (titleStr != null) {
             titleTv.setText(titleStr);
         }
+        if (isVisible == true) {
+            divider.setVisibility(View.GONE);
+            titleTv.setVisibility(View.GONE);
+        }
         if (messageStr != null) {
             messageTv.setText(messageStr);
         }
@@ -120,6 +127,7 @@ public class MyDialog extends Dialog {
      * 初始化界面控件
      */
     private void initView() {
+        divider = (ImageView) findViewById(R.id.divider);
         yes = (Button) findViewById(R.id.yes);
         no = (Button) findViewById(R.id.no);
         titleTv = (TextView) findViewById(R.id.title);
@@ -135,6 +143,10 @@ public class MyDialog extends Dialog {
         titleStr = title;
     }
 
+    public void setTitleVisible(boolean Visible) {
+        isVisible = Visible;
+    }
+
     /**
      * 从外界Activity为Dialog设置dialog的message
      *
@@ -143,6 +155,16 @@ public class MyDialog extends Dialog {
     public void setMessage(String message) {
         messageStr = message;
     }
+
+
+    public void setNoMessage(String message) {
+        noStr = message;
+    }
+
+    public void setYesMessage(String message) {
+        yesStr = message;
+    }
+
 
     /**
      * 设置确定按钮和取消被点击的接口

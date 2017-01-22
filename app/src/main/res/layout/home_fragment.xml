@@ -2,23 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/mine_head_background"
+    android:gravity="center"
     android:orientation="vertical">
-    <LinearLayout
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="25dp"-->
+        <!--android:background="@color/black" />-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/orange"
-        android:gravity="center">
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="自我检测"
-            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:text="自我测评"
+            android:textColor="@color/title_color"
             android:textSize="20sp" />
-    </LinearLayout>
 
+
+        <!--<TextView-->
+            <!--android:id="@+id/start_timing"-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:gravity="center"-->
+            <!--android:text="开始计时"-->
+            <!--android:textColor="@color/title_color"-->
+            <!--android:textSize="18sp" />-->
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/long_divider" />
 
     <RelativeLayout
         android:id="@+id/have_order"
@@ -39,7 +61,7 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="科一"
+                android:text="科目一"
                 android:textColor="@drawable/text_color" />
 
             <ImageView
@@ -53,25 +75,53 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="科四"
+                android:text="科目四"
                 android:textColor="@drawable/text_color" />
+
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/short_divider" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tab3"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:text="科目三"-->
+            <!--android:textColor="@drawable/text_color" />-->
+
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/short_divider" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tab4"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:text="科目四"-->
+            <!--android:textColor="@drawable/text_color" />-->
 
         </LinearLayout>
 
         <View
             android:id="@+id/tab_line"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="2dp"
             android:layout_below="@id/tab_layout"
-            android:layout_marginLeft="40dp"
-            android:background="@mipmap/bottom_line" />
+            android:layout_marginLeft="15dp"
+            android:background="@mipmap/tab_line1" />
 
         <LinearLayout
             android:id="@+id/space"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/mine_head_background"
+            android:layout_height="1dp"
             android:layout_below="@+id/tab_line"
+            android:background="@color/mine_head_background"
             android:orientation="horizontal" />
 
         <android.support.v4.view.ViewPager
@@ -80,4 +130,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/space" />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/long_divider" />
+
+
 </LinearLayout>

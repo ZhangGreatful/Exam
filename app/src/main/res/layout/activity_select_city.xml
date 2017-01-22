@@ -3,24 +3,65 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <com.haha.exam.view.ClearEditText
-        android:id="@+id/filter_edit"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/search_bar_icon_normal"
-        android:hint="请输入关键字"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
+        android:background="@color/white">
+
+        <com.haha.exam.view.ClearEditText
+            android:id="@+id/filter_edit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/edit_background"
+            android:drawableLeft="@mipmap/search"
+            android:drawablePadding="10dp"
+            android:hint="   请输入关键字"
+            android:singleLine="true"
+            android:textColorHint="#999999"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/mine_head_background" />
+
+    <LinearLayout
+        android:id="@+id/ll_currentCity"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
         android:background="@color/white"
-        android:singleLine="true"
-        android:textSize="15sp" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前城市:"
+            android:textColor="#333333"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/current_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="#333333"
+            android:textSize="17sp" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:background="@color/white"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:background="@color/white">
 
         <ListView
             android:id="@+id/country_lvcountry"
@@ -37,6 +78,7 @@
             android:background="@color/circle_color"
             android:gravity="center_vertical"
             android:text="没有匹配的城市"
+            android:paddingLeft="10dp"
             android:textColor="#454545"
             android:visibility="gone" />
 
@@ -45,8 +87,8 @@
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:layout_gravity="right|top"
-            android:background="@color/circle_color"
-            android:orientation="vertical" >
+            android:background="@color/mine_head_background"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/title_layout_catalog"

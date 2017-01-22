@@ -1,0 +1,1 @@
+int anim anim_image_show 0x7f020000

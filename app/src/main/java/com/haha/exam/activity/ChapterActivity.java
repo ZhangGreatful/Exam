@@ -1,20 +1,16 @@
 package com.haha.exam.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.adapter.ChapterAdapter;
 import com.haha.exam.bean.ChapterQuestion;
-import com.haha.exam.dao.ExamDao;
-import com.haha.exam.dialog.MyDialog;
+import com.haha.exam.utils.SPUtils;
 import com.haha.exam.web.WebInterface;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -28,44 +24,85 @@ import okhttp3.Response;
  */
 public class ChapterActivity extends BaseActivity implements View.OnClickListener {
 
+    private SPUtils spUtils=new SPUtils();
+    private String subject0;
+    private String cartype;
     private ListView listView;
-    private ImageView back;
     private ChapterAdapter adapter;
-    private MyDialog dialog;
     private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_chapter);
 
+        subject0= (String) spUtils.get(this,"subject0","1");
+        cartype= (String) spUtils.get(this,"cartype","xc");
         setTitle("章节练习");
+        setTitleColor(getResources().getColor(R.color.title_color));
+        setTitlebarBackground(R.color.white);
+        setLeftBtnDrawable();
         initView();
         initData();
 
     }
 
+    /**
+     * 初始化数据，获取章节列表
+     */
     private void initData() {
         gson = new Gson();
-        OkGo.post(WebInterface.chapter_question)
-                .params("cartype", "xc")
-                .tag(this)
-                .cacheMode(CacheMode.DEFAULT)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        final ChapterQuestion question = gson.fromJson(s, ChapterQuestion.class);
-                        runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkGo.post(WebInterface.chapter_question)
+                        .params("cartype", cartype)
+                        .params("subject",subject0)
+                        .tag(this)
+                        .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+                        .execute(new StringCallback() {
                             @Override
-                            public void run() {
-                                System.out.println("章节练习分类请求成功，共有数据：" + question.getMsg().size());
+                            public void onSuccess(String s, Call call, Response response) {
+                                final ChapterQuestion question = gson.fromJson(s, ChapterQuestion.class);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        System.out.println("章节练习分类请求成功，共有数据：" + question.getMsg().size());
+                                        adapter = new ChapterAdapter(ChapterActivity.this, question.getMsg());
+                                        listView.setAdapter(adapter);
+                                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                                                Intent intent = new Intent(ChapterActivity.this, OrderTextActivity.class);
+                                                intent.putExtra("chapter", position+1);
+                                                intent.putExtra("chapterid", question.getMsg().get(position).getSid());
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
+                                });
+
+                            }
+                            //                从缓存中拿数据
+                            @Override
+                            public void onCacheSuccess(String s, Call call) {
+                                super.onCacheSuccess(s, call);
+                                final ChapterQuestion question = gson.fromJson(s, ChapterQuestion.class);
                                 adapter = new ChapterAdapter(ChapterActivity.this, question.getMsg());
                                 listView.setAdapter(adapter);
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                                        Intent intent = new Intent(ChapterActivity.this, OrderTextActivity.class);
+                                        intent.putExtra("chapter", position+1);
+                                        intent.putExtra("chapterid", question.getMsg().get(position).getSid());
+                                        startActivity(intent);
+                                    }
+                                });
                             }
                         });
+            }
+        }).start();
 
-                    }
-                });
 
     }
 
@@ -75,17 +112,10 @@ public class ChapterActivity extends BaseActivity implements View.OnClickListene
         return R.layout.activity_chapter;
 
     }
-
+//      初始化布局
     private void initView() {
         listView = (ListView) findViewById(R.id.chapter_list);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(ChapterActivity.this, OrderTextActivity.class);
-                intent.putExtra("chapterid", position + 1);
-                startActivity(intent);
-            }
-        });
+
     }
 
     @Override

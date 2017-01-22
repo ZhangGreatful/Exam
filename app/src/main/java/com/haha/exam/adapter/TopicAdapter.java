@@ -3,8 +3,6 @@ package com.haha.exam.adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,22 +22,26 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
 
     private PracticeAdapter practiceAdapter;
     private Context mContext;
-    private  LayoutInflater inflater;
-    private  Resources resources;
+    private LayoutInflater inflater;
+    private Resources resources;
     private List<AllQuestions.DataBean> datas;
     private PracticeAdapter adapter;
     private RecyclerView recyclerView;
     private List<String> isRight;
+    public static int right, error;
 
-public TopicAdapter(Context context){
-    this.mContext=context;
-}
+    public TopicAdapter(Context context) {
+        this.mContext = context;
+    }
+
     public TopicAdapter(Context mContext, RecyclerView recyclerView) {
         this.mContext = mContext;
         this.recyclerView = recyclerView;
-        practiceAdapter=new PracticeAdapter(mContext,recyclerView);
+        practiceAdapter = new PracticeAdapter(mContext, recyclerView);
         inflater = LayoutInflater.from(mContext);
         resources = mContext.getResources();
+        right = 0;
+        error = 0;
     }
 
     @Override
@@ -48,6 +50,7 @@ public TopicAdapter(Context context){
         View view = inflater.inflate(R.layout.item_topic, parent, false);
         return new TopicViewHolder(view);
     }
+
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -61,22 +64,23 @@ public TopicAdapter(Context context){
         holder.tv_id.setTextColor(Color.parseColor("#b3afaf"));
         holder.tv_id.setBackgroundResource(R.drawable.bg_topic_no);
 //        if (prePosition == position) {
-            if (datas.get(position).getIsdo()==1) {//做了该题目
+        if (position!=-1){
+            if (datas.get(position).getIsdo() == 1) {//做了该题目
 //                判断对错
                 if (datas.get(position).getAnswer().equals(String.valueOf(datas.get(position).getChoose()))) {
+                    right++;
                     holder.tv_id.setBackgroundResource(R.mipmap.green_circle);
                     holder.tv_id.setTextColor(Color.parseColor("#76d437"));
-                }else if (!datas.get(position).getAnswer().equals(String.valueOf(datas.get(position).getChoose()))){
+                } else if (!datas.get(position).getAnswer().equals(String.valueOf(datas.get(position).getChoose()))) {
+                    error++;
                     holder.tv_id.setBackgroundResource(R.mipmap.red_circle);
                     holder.tv_id.setTextColor(Color.parseColor("#ff5454"));
                 }
-            }else if (datas.get(position).getIsdo()==0){
+            } else if (datas.get(position).getIsdo() == 0) {
                 holder.tv_id.setBackgroundResource(R.drawable.bg_topic_no);
                 holder.tv_id.setTextColor(Color.parseColor("#b3afaf"));
             }
-
-//        }
-
+        }
         if (curPosition == position) {
             holder.tv_id.setBackgroundResource(R.drawable.bg_topic_ok);
             holder.tv_id.setTextColor(Color.parseColor("#ffffff"));
@@ -91,6 +95,7 @@ public TopicAdapter(Context context){
     }
 
     private OnTopicClickListener listener;
+
 
     public void setOnTopicClickListener(OnTopicClickListener listener) {
         this.listener = listener;
@@ -132,7 +137,6 @@ public TopicAdapter(Context context){
     public int getItemCount() {
         return num;
     }
-
 
 
     public static class TopicViewHolder extends RecyclerView.ViewHolder {

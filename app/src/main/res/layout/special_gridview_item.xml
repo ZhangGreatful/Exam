@@ -22,15 +22,14 @@
                 android:id="@+id/iv_num"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="20dp"
-                 />
-                 />
+                android:layout_marginLeft="20dp" />
 
             <TextView
                 android:id="@+id/tv_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
+                android:textColor="#4c4c4c"
                 android:textSize="18sp" />
 
             <TextView
@@ -43,8 +42,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:src="@mipmap/problems_divider" />
     </RelativeLayout>
 

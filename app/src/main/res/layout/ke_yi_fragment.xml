@@ -13,398 +13,243 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="175dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/up_background">
 
             <LinearLayout
-                android:id="@+id/shun_xu"
-                android:layout_width="158dp"
-                android:layout_height="175dp"
+                android:id="@+id/sui_ji"
+                android:layout_width="120dp"
+                android:layout_height="87dp"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="30dp"
-                    android:src="@mipmap/shun_xu" />
+                    android:src="@mipmap/suiji" />
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="46dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="顺序练习" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="11dp"
-                        android:layout_marginTop="2dp"
-                        android:src="@mipmap/green_right_arrow" />
-                </LinearLayout>
+                    android:layout_marginTop="5dp"
+                    android:text="随机练习" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_divider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/shun_xu"
-                android:src="@mipmap/right_divider" />
-
-            <ImageView
-                android:id="@+id/iv_divider2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_divider"
-                android:layout_toRightOf="@+id/shun_xu"
-                android:src="@mipmap/right_divider" />
-
-
             <LinearLayout
-                android:id="@+id/top"
-                android:layout_width="match_parent"
+                android:id="@+id/zhang_jie"
+                android:layout_width="120dp"
                 android:layout_height="87dp"
-                android:layout_toRightOf="@+id/iv_divider"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/sui_ji"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="21dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/sui_ji" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="随机练习" />
-                </LinearLayout>
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/sui_ji"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/right_divider" />
+                    android:src="@mipmap/zhangjie" />
 
-                <LinearLayout
-                    android:id="@+id/zhuan_xiang"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="21dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/zhuan_xiang" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="专项练习" />
-                </LinearLayout>
-
+                    android:layout_marginTop="5dp"
+                    android:text="章节练习" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/iv_divider1"
+            <RelativeLayout
+                android:id="@+id/shun_xu"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/top"
-                android:layout_toRightOf="@id/iv_divider"
-                android:orientation="horizontal">
+                android:layout_toRightOf="@+id/sui_ji"
+                android:layout_toLeftOf="@+id/zhuan_xiang"
+                android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/divider" />
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/shunxu" />
+
+                <TextView
+                    android:id="@+id/t1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/divider" />
-            </LinearLayout>
+                    android:layout_centerInParent="true"
+                    android:text="顺序练习"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/counts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/t1"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/bottom"
-                android:layout_width="match_parent"
+                android:id="@+id/zhuan_xiang"
+                android:layout_width="120dp"
                 android:layout_height="87dp"
-                android:layout_below="@+id/iv_divider1"
-                android:layout_toRightOf="@+id/iv_divider"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/zhang_jie"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="21dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/zhang_jie" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="章节练习" />
-                </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/right_divider" />
+                    android:src="@mipmap/zhuanxiang" />
 
-                <LinearLayout
-                    android:id="@+id/bei_ti"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="21dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/bei_ti" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="背题模式" />
-                </LinearLayout>
-
+                    android:layout_marginTop="5dp"
+                    android:text="专项练习" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/bei_ti"
+                android:layout_width="120dp"
+                android:layout_height="87dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/zhuan_xiang"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/beiti" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="背题模式" />
+            </LinearLayout>
         </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/mine_head_background" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="175dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/up_background">
 
             <LinearLayout
-                android:id="@+id/mo_ni"
-                android:layout_width="158dp"
-                android:layout_height="175dp"
+                android:id="@+id/cheng_ji"
+                android:layout_width="120dp"
+                android:layout_alignParentStart="true"
+                android:layout_height="87dp"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="30dp"
-                    android:src="@mipmap/mo_ni" />
+                    android:src="@mipmap/chengji" />
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="46dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="模拟考试" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="11dp"
-                        android:layout_marginTop="2dp"
-                        android:src="@mipmap/blue_right_arrow" />
-                </LinearLayout>
+                    android:layout_marginTop="5dp"
+                    android:text="我的成绩" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_divider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/mo_ni"
-                android:src="@mipmap/right_divider" />
-
-            <ImageView
-                android:id="@+id/iv_divider2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_divider"
-                android:layout_toRightOf="@+id/mo_ni"
-                android:src="@mipmap/right_divider" />
-
-
             <LinearLayout
-                android:id="@+id/top1"
-                android:layout_width="match_parent"
+                android:id="@+id/pai_hang"
+                android:layout_width="120dp"
+                android:layout_alignParentStart="true"
                 android:layout_height="87dp"
-                android:layout_toRightOf="@+id/iv_divider"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/cheng_ji"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="21dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/cheng_ji" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="我的成绩" />
-                </LinearLayout>
+                android:layout_below="@+id/cheng_ji"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/right_divider" />
+                    android:src="@mipmap/paihang" />
 
-                <LinearLayout
-                    android:id="@+id/tong_ji"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="21dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/tong_ji" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="练习统计" />
-                </LinearLayout>
-
+                    android:layout_marginTop="5dp"
+                    android:text="排行榜" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/iv_divider3"
+            <RelativeLayout
+                android:id="@+id/mo_ni"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/top1"
-                android:layout_toRightOf="@id/iv_divider"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/tong_ji"
+                android:layout_toRightOf="@+id/cheng_ji">
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/divider" />
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/moni" />
+
+                <TextView
+                    android:id="@+id/t2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/divider" />
-            </LinearLayout>
+                    android:layout_centerInParent="true"
+                    android:text="模拟考试"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/t2"
+                    android:layout_centerHorizontal="true"
+                    android:text="100%仿真"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/bottom1"
-                android:layout_width="match_parent"
+                android:id="@+id/tong_ji"
+                android:layout_width="120dp"
                 android:layout_height="87dp"
-                android:layout_below="@+id/iv_divider3"
-                android:layout_toRightOf="@+id/iv_divider"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/pai_hang"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="21dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/pai_hang" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="排行榜" />
-                </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/right_divider" />
+                    android:src="@mipmap/zhuanxiang" />
 
-                <LinearLayout
-                    android:id="@+id/yu_yue"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="21dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/yu_yue" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="考试预约" />
-                </LinearLayout>
-
+                    android:layout_marginTop="5dp"
+                    android:text="练习统计" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/yu_yue"
+                android:layout_width="120dp"
+                android:layout_height="87dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/tong_ji"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/yuyue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="预约" />
+            </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout
@@ -434,8 +279,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="22dp"
+                    android:layout_marginTop="5dp"
                     android:text="驾考法规" />
             </LinearLayout>
 
@@ -456,8 +301,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="22dp"
+                    android:layout_marginTop="5dp"
                     android:text="考试技巧" />
             </LinearLayout>
 
@@ -478,8 +323,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="22dp"
+                    android:layout_marginTop="5dp"
                     android:text="我的错题" />
             </LinearLayout>
 
@@ -500,12 +345,134 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="22dp"
+                    android:layout_marginTop="5dp"
                     android:text="我的收藏" />
             </LinearLayout>
-
         </LinearLayout>
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:text="课堂教学"-->
+        <!--android:textColor="#333333"-->
+        <!--android:textSize="18sp" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingBottom="13dp"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:paddingTop="12dp"-->
+        <!--android:src="@mipmap/zai_xian_ke_tang" />-->
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/zai_xian_ke_tang"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingTop="12dp"-->
+        <!--android:text="在线课堂"-->
+        <!--android:textColor="#333333"-->
+        <!--android:textSize="16sp" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/time"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingTop="3dp"-->
+        <!--android:text="每周五 10:00-12:00"-->
+        <!--android:textColor="#999999"-->
+        <!--android:textSize="15sp" />-->
+        <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/text_video"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:text="视频学习"-->
+        <!--android:textColor="#333333"-->
+        <!--android:textSize="18sp" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/text_subject"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingBottom="13dp"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:paddingTop="12dp"-->
+        <!--android:src="@mipmap/ke_yi" />-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingTop="12dp"-->
+        <!--android:text="科目一"-->
+        <!--android:textColor="#333333"-->
+        <!--android:textSize="16sp" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/video_title"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingTop="3dp"-->
+        <!--android:text="交通法规及相关知识"-->
+        <!--android:textColor="#999999"-->
+        <!--android:textSize="15sp" />-->
+        <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingBottom="10dp"-->
+        <!--android:paddingEnd="15dp"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:paddingTop="10dp"-->
+        <!--android:text="注: 学员课堂学时时间每天不得超过4学时，实际操作学习时间每天不得超过4学时"-->
+        <!--android:textColor="@color/title_color"-->
+        <!--android:textSize="16sp" />-->
 
 
     </LinearLayout>

@@ -32,11 +32,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:paddingTop="25dp"
-            android:text="按交管部门通知，科目一考试系统全面更新。全面模拟考试下不能修改答案，每做一题，系统自动计算错误题数，及格标准为90题"
+            android:text="按交管部门通知，科目一考试系统全面更新。全面模拟考试下不能修改答案，每做一题，系统自动计算错误题数，及格标准为90分"
             android:textColor="#4c4c4c"
             android:textSize="18sp" />
 
@@ -52,10 +52,10 @@
                 android:id="@+id/sure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ensure_drawable"
+                android:background="@mipmap/ensure_btn"
                 android:gravity="center"
                 android:text="确定"
-                android:textColor="@color/white" />
+                android:textColor="#ffffff" />
         </LinearLayout>
     </LinearLayout>
 

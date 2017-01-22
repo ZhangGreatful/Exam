@@ -1,323 +1,355 @@
 package com.haha.exam.activity;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.AnimationSet;
-import android.view.animation.TranslateAnimation;
-import android.widget.HorizontalScrollView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.haha.exam.R;
-import com.haha.exam.adapter.ViewPagerAdapter;
-import com.haha.exam.fragment.Chapter1Fragment;
-import com.haha.exam.fragment.Chapter2Fragment;
-import com.haha.exam.fragment.Chapter3Fragment;
-import com.haha.exam.fragment.Chapter4Fragment;
-import com.haha.exam.fragment.Chapter5Fragment;
-import com.haha.exam.fragment.ChapterFiveFragment;
-import com.haha.exam.fragment.ChapterFourFragment;
-import com.haha.exam.fragment.ChapterOneFragment;
-import com.haha.exam.fragment.ChapterThreeFragment;
-import com.haha.exam.fragment.ChapterTwoFragment;
-import com.haha.exam.view.NavitationScrollLayout;
+import com.haha.exam.adapter.MyListViewAdapter1;
+import com.haha.exam.adapter.MyListViewAdapter2;
+import com.haha.exam.bean.VideoInfo;
+import com.haha.exam.web.WebInterface;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.wanzheng.driver.network.JsonUtils;
+import com.wanzheng.driver.util.SystemUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubjectOneActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+import okhttp3.Call;
+import okhttp3.Response;
 
-    private RadioGroup mRadioGroup;
-    private RadioButton mRadioButton1;
-    private RadioButton mRadioButton2;
-    private RadioButton mRadioButton3;
-    private RadioButton mRadioButton4;
-    private RadioButton mRadioButton5;
-    private ImageView mImageView;
-    private float mCurrentCheckedRadioLeft;//当前被选中的RadioButton距离左侧的距离
-    private HorizontalScrollView mHorizontalScrollView;//上面的水平滚动控件
-    private ViewPager mViewPager;   //下方的可横向拖动的控件
-    private List<Fragment> fragments;//用来存放下方滚动的layout(layout_1,layout_2,layout_3)
-    private ViewPagerAdapter viewPagerAdapter;
+/**
+ * 科目一视频列表
+ */
+public class SubjectOneActivity extends BaseActivity {
+
+    private int selectIndex;
+    private SystemUtil su;
+    private String signID;
+    private int played;//已播放完视频的数量
+    private List<Integer> playedList = new ArrayList<>();
+    private List<Integer> countList = new ArrayList<>();
+
+    private String subject;
+    private TextView title, content;
+    private ImageView back;
+    private ListView mListView1, mListView2;
+    private MyListViewAdapter1 adapter1;
+    private MyListViewAdapter2 adapter2;
+    private List<String> datas;
+    private VideoInfo videoInfo;
+    private Gson gson = new Gson();
+    private List<VideoInfo.DataBean> data;
+    private int pos = 0;
+    private Handler handler = new Handler();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("科目一");
-        iniController();
-        iniListener();
-        iniVariable();
+        su = new SystemUtil(this);
+        played = 0;
+        signID = su.showOnlyID();
 
-        mRadioButton1.setChecked(true);
-//        mViewPager.setCurrentItem(1);
-        mCurrentCheckedRadioLeft = getCurrentCheckedRadioLeft();
-//        initView();
+        initView();
+        initTitle();
+        initData();
     }
+
+    private void initTitle() {
+        Intent intent = getIntent();
+        subject = intent.getStringExtra("subject");
+        if (subject.equals("1")) {
+            content.setText("科目一");
+        } else if (subject.equals("2")) {
+            content.setText("科目二");
+        } else if (subject.equals("3")) {
+            content.setText("科目三(实操)");
+        } else if (subject.equals("4")) {
+            content.setText("科目三(理论)");
+        }
+//        setTitlebarBackground(R.color.white);
+//        setTitleColor(getResources().getColor(R.color.title_color));
+//        setLeftBtnDrawable();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        data.clear();
+        datas.clear();
+        countList.clear();
+        playedList.clear();
+        mListView2.setAdapter(null);
+        mListView1.setAdapter(null);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initData();
+            }
+        }, 500);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (data.size() != 0) {
+                finish();
+            } else {
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void initData() {
+//              获取视频播放列表
+//        playflag      1.播放过  0.未播放过
+//        end_status    1.结束    0.未结束
+        data = new ArrayList<>();
+        videoInfo = new VideoInfo();
+        Log.d("SubjectOneActivity", "subject===================" + subject);
+        Log.d("SubjectOneActivity", "signID===================" + signID);
+        OkGo.post(WebInterface.video)
+                .tag(this)
+                .params("subject", subject)
+                .params("signid", signID)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(final String s, Call call, Response response) {
+                        Log.d("SubjectOneActivity", "s===================" + s);
+                        int o = JsonUtils.parseNum(s);
+                        if (o == 1) {
+                            videoInfo = gson.fromJson(s, VideoInfo.class);
+                            Log.d("SubjectOneActivity", "videoInfo===============" + videoInfo.getData().size());
+                            int num = 0;
+                            for (int i = 0; i < videoInfo.getData().size(); i++) {
+                                if (videoInfo.getData().get(i).getVideoinfo() != null && videoInfo.getData().get(i).getVideoinfo().size() != 0) {
+                                    played = 0;
+                                    num++;
+                                    datas.add("第" + num + "节");
+                                    data.add(videoInfo.getData().get(i));
+                                    countList.add(videoInfo.getData().get(i).getVideoinfo().size());
+                                }
+                                for (int j = 0; j < videoInfo.getData().get(i).getVideoinfo().size(); j++) {
+                                    System.out.println("----------" + data.get(i).getVideoinfo().get(j).getPlayposition());
+                                    System.out.println("----------" + data.get(i).getVideoinfo().get(j).getVideo_length());
+                                    if (videoInfo.getData().get(i).getVideoinfo().get(j).getPlayflag().equals("1")
+                                            && videoInfo.getData().get(i).getVideoinfo().get(j).getEnd_status() == 1) {
+                                        played++;
+                                    }
+                                }
+                                Log.d("SubjectOneActivity", "played===========" + played);
+                                playedList.add(played);
+                            }
+                            System.out.println("3241234========" + datas.size());
+
+                            adapter1 = new MyListViewAdapter1(datas, countList, playedList, SubjectOneActivity.this, pos);
+                            adapter2 = new MyListViewAdapter2(data, SubjectOneActivity.this, pos);
+                            title.setText(videoInfo.getData().get(pos).getChapter_name());
+                            mListView1.setAdapter(adapter1);
+                            mListView2.setAdapter(adapter2);
+                            adapter1.setIndex(pos);
+                            adapter2.setIndex(selectIndex);
+                            adapter2.notifyDataSetChanged();
+                            mListView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                    selectIndex = position;
+                                    //把下标传过去，然后刷新adapter
+                                    adapter1.setIndex(selectIndex);
+                                    adapter1.notifyDataSetChanged();
+                                    //当点击某个item的时候让这个item自动滑动到listview的顶部(下面item够多，如果点击的是最后一个就不能到达顶部了)
+                                    mListView1.smoothScrollToPositionFromTop(position, 0);
+                                    title.setText(videoInfo.getData().get(position).getChapter_name());
+                                    adapter2.setIndex(selectIndex);
+                                    adapter2.notifyDataSetChanged();
+//                                mListView2.setAdapter(adapter2);
+//                                nowProgressPosition = -1;//----------------------------------初始化位置
+                                    System.out.println("selectIndex======" + selectIndex + "");
+                                }
+                            });
+                            Log.d("SubjectOneActivity", "---------------" + selectIndex);
+                            Log.d("SubjectOneActivity", "p=============" + videoInfo.getData().get(selectIndex).getVideoinfo().get(0).getPlayposition());
+                            Log.d("SubjectOneActivity", "p=============" + videoInfo.getData().get(selectIndex).getVideoinfo().get(0).getVideo_length());
+                            mListView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                    if (selectIndex > 0) {//从第二节开始播
+//                                   判断上一节的最后一个视频是否是播放完状态
+                                        int size = videoInfo.getData().get(selectIndex - 1).getVideoinfo().size();
+                                        if (position == 0) {//某一节的第一个视频
+                                            if (data.get(selectIndex - 1).getVideoinfo().get(size - 1).getPlayflag().equals("0")) {
+                                                Toast.makeText(SubjectOneActivity.this, "有未播放视频", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                if (data.get(selectIndex - 1).getVideoinfo().get(size - 1).getEnd_status() == 0) {
+                                                    Toast.makeText(SubjectOneActivity.this, "有未播放视频", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Intent intent = new Intent(SubjectOneActivity.this, VideoActivity.class);
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString("playflag", data.get(selectIndex).getVideoinfo().get(position).getPlayflag());
+                                                    bundle.putString("endflag", data.get(selectIndex).getVideoinfo().get(position).getPlayflag());
+                                                    bundle.putInt("playposition", data.get(selectIndex).getVideoinfo().get(position).getPlayposition());
+                                                    bundle.putInt("selectIndex", selectIndex);
+                                                    bundle.putString("subject", subject);
+                                                    bundle.putInt("position", position);
+                                                    bundle.putString("videoid", data.get(selectIndex).getVideoinfo().get(position).getVideo_id());
+                                                    bundle.putString("url", data.get(selectIndex).getVideoinfo().get(position).getVideo_url());
+                                                    bundle.putString("thumb", data.get(selectIndex).getVideoinfo().get(position).getVideo_thumb());
+                                                    bundle.putString("title", data.get(selectIndex).getVideoinfo().get(position).getVideo_title());
+                                                    System.out.println("url==========" + data.get(selectIndex).getVideoinfo().get(position).getVideo_url());
+                                                    intent.putExtras(bundle);
+                                                    startActivity(intent);
+                                                }
+                                            }
+                                        } else {//不是某一节的第一个视频
+                                            if (data.get(selectIndex).getVideoinfo().get(position - 1).getPlayflag().equals("0")) {
+                                                Toast.makeText(SubjectOneActivity.this, "有未播放视频", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                if (data.get(selectIndex).getVideoinfo().get(position - 1).getEnd_status() == 0) {
+                                                    Toast.makeText(SubjectOneActivity.this, "有未播放视频", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Intent intent = new Intent(SubjectOneActivity.this, VideoActivity.class);
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString("playflag", data.get(selectIndex).getVideoinfo().get(position).getPlayflag());
+                                                    bundle.putString("endflag", data.get(selectIndex).getVideoinfo().get(position).getPlayflag());
+                                                    bundle.putInt("playposition", data.get(selectIndex).getVideoinfo().get(position).getPlayposition());
+                                                    bundle.putInt("selectIndex", selectIndex);
+                                                    bundle.putString("subject", subject);
+                                                    bundle.putInt("position", position);
+                                                    bundle.putString("videoid", data.get(selectIndex).getVideoinfo().get(position).getVideo_id());
+                                                    bundle.putString("url", data.get(selectIndex).getVideoinfo().get(position).getVideo_url());
+                                                    bundle.putString("thumb", data.get(selectIndex).getVideoinfo().get(position).getVideo_thumb());
+                                                    bundle.putString("title", data.get(selectIndex).getVideoinfo().get(position).getVideo_title());
+                                                    System.out.println("url==========" + data.get(selectIndex).getVideoinfo().get(position).getVideo_url());
+                                                    intent.putExtras(bundle);
+                                                    startActivity(intent);
+//                                                startActivityForResult(intent, 0);
+//                                                nowProgressPosition = position;//改变位置------------------------------
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        if (position == 0) {//某一节的第一个视频
+                                            Intent intent = new Intent(SubjectOneActivity.this, VideoActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("playflag", data.get(selectIndex).getVideoinfo().get(position).getPlayflag());
+                                            bundle.putString("endflag", data.get(selectIndex).getVideoinfo().get(position).getPlayflag());
+                                            bundle.putInt("playposition", data.get(selectIndex).getVideoinfo().get(position).getPlayposition());
+                                            bundle.putInt("selectIndex", selectIndex);
+                                            bundle.putString("subject", subject);
+                                            bundle.putInt("position", position);
+                                            bundle.putString("videoid", data.get(selectIndex).getVideoinfo().get(position).getVideo_id());
+                                            bundle.putString("url", data.get(selectIndex).getVideoinfo().get(position).getVideo_url());
+                                            bundle.putString("thumb", data.get(selectIndex).getVideoinfo().get(position).getVideo_thumb());
+                                            bundle.putString("title", data.get(selectIndex).getVideoinfo().get(position).getVideo_title());
+                                            System.out.println("url==========" + data.get(selectIndex).getVideoinfo().get(position).getVideo_url());
+                                            intent.putExtras(bundle);
+                                            startActivity(intent);
+//                                        startActivityForResult(intent, 0);
+//                                        nowProgressPosition = position;//改变位置------------------------------
+
+
+                                        } else {//不是某一节的第一个视频
+                                            if (data.get(0).getVideoinfo().get(position - 1).getPlayflag().equals("0")) {
+                                                Toast.makeText(SubjectOneActivity.this, "有未播放视频", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                if (data.get(0).getVideoinfo().get(position - 1).getEnd_status() == 0) {
+                                                    Toast.makeText(SubjectOneActivity.this, "有未播放视频", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Intent intent = new Intent(SubjectOneActivity.this, VideoActivity.class);
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString("playflag", data.get(selectIndex).getVideoinfo().get(position).getPlayflag());
+                                                    bundle.putString("endflag", data.get(selectIndex).getVideoinfo().get(position).getPlayflag());
+                                                    bundle.putInt("playposition", data.get(selectIndex).getVideoinfo().get(position).getPlayposition());
+                                                    bundle.putInt("selectIndex", selectIndex);
+                                                    bundle.putString("subject", subject);
+                                                    bundle.putInt("position", position);
+                                                    bundle.putString("videoid", data.get(selectIndex).getVideoinfo().get(position).getVideo_id());
+                                                    bundle.putString("url", data.get(selectIndex).getVideoinfo().get(position).getVideo_url());
+                                                    bundle.putString("thumb", data.get(selectIndex).getVideoinfo().get(position).getVideo_thumb());
+                                                    bundle.putString("title", data.get(selectIndex).getVideoinfo().get(position).getVideo_title());
+                                                    System.out.println("url==========" + data.get(selectIndex).getVideoinfo().get(position).getVideo_url());
+                                                    intent.putExtras(bundle);
+                                                    startActivity(intent);
+//                                                startActivityForResult(intent, 0);
+//                                                nowProgressPosition = position;//改变位置------------------------------
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+                            });
+                        }
+
+
+                    }
+                });
+    }
+
+
+    private void initView() {
+        datas = new ArrayList<>();
+        content = (TextView) findViewById(R.id.content);
+        mListView1 = (ListView) findViewById(R.id.list_item_1);
+        mListView2 = (ListView) findViewById(R.id.list_item_2);
+        title = (TextView) findViewById(R.id.title);
+        back = (ImageView) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (data.size() != 0) {
+                    finish();
+                }
+            }
+        });
+
+        Intent intent = getIntent();
+        pos = intent.getIntExtra("position", 0);
+        selectIndex = pos;
+    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        //跳转视频界面返回之后刷新progressbar------------------------------------------------
+//        if (data != null) {
+//            if (requestCode == 0) {
+//                int currenttime = data.getIntExtra("play_progress", 0);
+//                if (data.getBooleanExtra("play_over", false)) {
+//                    adapter2.setProgress(nowProgressPosition, currenttime, true);
+//                } else {
+//                    adapter2.setProgress(nowProgressPosition, currenttime, false);
+////                    adapter2.notifyDataSetChanged();
+//                }
+//
+//            }
+//        }
+//
+//
+//    }
 
     @Override
     protected int getContentView() {
         return R.layout.activity_subject_one;
     }
-    private void iniVariable() {
-        // TODO Auto-generated method stub
-        fragments =  new ArrayList<>();
-        fragments.add(new Chapter1Fragment());
-        fragments.add(new Chapter2Fragment());
-        fragments.add(new Chapter3Fragment());
-        fragments.add(new Chapter4Fragment());
-        fragments.add(new Chapter5Fragment());
 
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
-        mViewPager.setAdapter(viewPagerAdapter);
-    }
-
-    /**
-     * RadioGroup点击CheckedChanged监听
-     */
     @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-        AnimationSet _AnimationSet = new AnimationSet(true);
-        TranslateAnimation _TranslateAnimation;
-
-        Log.i("zj", "checkedid="+checkedId);
-        if (checkedId == R.id.btn1) {
-            _TranslateAnimation = new TranslateAnimation(mCurrentCheckedRadioLeft, getResources().getDimension(R.dimen.rdo1), 0f, 0f);
-            _AnimationSet.addAnimation(_TranslateAnimation);
-            _AnimationSet.setFillBefore(false);
-            _AnimationSet.setFillAfter(true);
-            _AnimationSet.setDuration(100);
-            /*LayoutParams _LayoutParams1 = new LayoutParams(100, 4);
-            _LayoutParams1.setMargins(0, 0, 0, 0);
-            _LayoutParams1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);*/
-            mImageView.bringToFront();
-            mImageView.startAnimation(_AnimationSet);//开始上面蓝色横条图片的动画切换
-//            mImageView.setLayoutParams(_LayoutParams1);
-            mViewPager.setCurrentItem(0,true);//让下方ViewPager跟随上面的HorizontalScrollView切换
-        }else if (checkedId == R.id.btn2) {
-            _TranslateAnimation = new TranslateAnimation(mCurrentCheckedRadioLeft, getResources().getDimension(R.dimen.rdo2), 0f, 0f);
-
-            _AnimationSet.addAnimation(_TranslateAnimation);
-            _AnimationSet.setFillBefore(false);
-            _AnimationSet.setFillAfter(true);
-            _AnimationSet.setDuration(100);
-
-            mImageView.bringToFront();
-            mImageView.startAnimation(_AnimationSet);
-
-            mViewPager.setCurrentItem(1);
-        }else if (checkedId == R.id.btn3) {
-            _TranslateAnimation = new TranslateAnimation(mCurrentCheckedRadioLeft, getResources().getDimension(R.dimen.rdo3), 0f, 0f);
-
-            _AnimationSet.addAnimation(_TranslateAnimation);
-            _AnimationSet.setFillBefore(false);
-            _AnimationSet.setFillAfter(true);
-            _AnimationSet.setDuration(100);
-
-            mImageView.bringToFront();
-            mImageView.startAnimation(_AnimationSet);
-
-            mViewPager.setCurrentItem(2);
-        }else if (checkedId == R.id.btn4) {
-            _TranslateAnimation = new TranslateAnimation(mCurrentCheckedRadioLeft, getResources().getDimension(R.dimen.rdo4), 0f, 0f);
-
-            _AnimationSet.addAnimation(_TranslateAnimation);
-            _AnimationSet.setFillBefore(false);
-            _AnimationSet.setFillAfter(true);
-            _AnimationSet.setDuration(100);
-
-            mImageView.bringToFront();
-            mImageView.startAnimation(_AnimationSet);
-            mViewPager.setCurrentItem(3);
-        }else if (checkedId == R.id.btn5) {
-            _TranslateAnimation = new TranslateAnimation(mCurrentCheckedRadioLeft, getResources().getDimension(R.dimen.rdo5), 0f, 0f);
-
-            _AnimationSet.addAnimation(_TranslateAnimation);
-            _AnimationSet.setFillBefore(false);
-            _AnimationSet.setFillAfter(true);
-            _AnimationSet.setDuration(100);
-
-            mImageView.bringToFront();
-            mImageView.startAnimation(_AnimationSet);
-
-            mViewPager.setCurrentItem(4);
-        }
-
-        mCurrentCheckedRadioLeft = getCurrentCheckedRadioLeft();
-
-        Log.i("zj", "getCurrentCheckedRadioLeft="+getCurrentCheckedRadioLeft());
-        Log.i("zj", "getDimension="+getResources().getDimension(R.dimen.rdo2));
-
-        mHorizontalScrollView.smoothScrollTo((int)mCurrentCheckedRadioLeft-(int)getResources().getDimension(R.dimen.rdo2), 0);
-    }
-
-    /**
-     * 获得当前被选中的RadioButton距离左侧的距离
-     */
-    private float getCurrentCheckedRadioLeft() {
-        // TODO Auto-generated method stub
-        if (mRadioButton1.isChecked()) {
-            //Log.i("zj", "currentCheckedRadioLeft="+getResources().getDimension(R.dimen.rdo1));
-            return getResources().getDimension(R.dimen.rdo1);
-        }else if (mRadioButton2.isChecked()) {
-            //Log.i("zj", "currentCheckedRadioLeft="+getResources().getDimension(R.dimen.rdo2));
-            return getResources().getDimension(R.dimen.rdo2);
-        }else if (mRadioButton3.isChecked()) {
-            //Log.i("zj", "currentCheckedRadioLeft="+getResources().getDimension(R.dimen.rdo3));
-            return getResources().getDimension(R.dimen.rdo3);
-        }else if (mRadioButton4.isChecked()) {
-            //Log.i("zj", "currentCheckedRadioLeft="+getResources().getDimension(R.dimen.rdo4));
-            return getResources().getDimension(R.dimen.rdo4);
-        }else if (mRadioButton5.isChecked()) {
-            //Log.i("zj", "currentCheckedRadioLeft="+getResources().getDimension(R.dimen.rdo5));
-            return getResources().getDimension(R.dimen.rdo5);
-        }
-        return 0f;
-    }
-
-    private void iniListener() {
-        // TODO Auto-generated method stub
-
-        mRadioGroup.setOnCheckedChangeListener(this);
-
-
-        mViewPager.setOnPageChangeListener(new MyPagerOnPageChangeListener());
-    }
-
-    private void iniController() {
-        // TODO Auto-generated method stub
-        mRadioGroup = (RadioGroup)findViewById(R.id.radioGroup);
-        mRadioButton1 = (RadioButton)findViewById(R.id.btn1);
-        mRadioButton2 = (RadioButton)findViewById(R.id.btn2);
-        mRadioButton3 = (RadioButton)findViewById(R.id.btn3);
-        mRadioButton4 = (RadioButton)findViewById(R.id.btn4);
-        mRadioButton5 = (RadioButton)findViewById(R.id.btn5);
-
-        mImageView = (ImageView)findViewById(R.id.img1);
-
-        mHorizontalScrollView = (HorizontalScrollView)findViewById(R.id.horizontalScrollView);
-
-        mViewPager = (ViewPager)findViewById(R.id.pager);
-    }
-//    /**
-//     * ViewPager的适配器
-//     * @author zj
-//     * 2012-5-24 下午2:26:57
-//     */
-//    private class MyPagerAdapter extends PagerAdapter {
-//
-//        @Override
-//        public void destroyItem(View v, int position, Object obj) {
-//            // TODO Auto-generated method stub
-//            ((ViewPager)v).removeView(mViews.get(position));
-//        }
-//
-//        @Override
-//        public void finishUpdate(View arg0) {
-//            // TODO Auto-generated method stub
-//
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            // TODO Auto-generated method stub
-//            return mViews.size();
-//        }
-//
-//        @Override
-//        public Object instantiateItem(View v, int position) {
-//            ((ViewPager)v).addView(mViews.get(position));
-//            return mViews.get(position);
-//        }
-//
-//        @Override
-//        public boolean isViewFromObject(View arg0, Object arg1) {
-//            // TODO Auto-generated method stub
-//            return arg0 == arg1;
-//        }
-//
-//        @Override
-//        public void restoreState(Parcelable arg0, ClassLoader arg1) {
-//            // TODO Auto-generated method stub
-//
-//        }
-//
-//        @Override
-//        public Parcelable saveState() {
-//            // TODO Auto-generated method stub
-//            return null;
-//        }
-//
-//        @Override
-//        public void startUpdate(View arg0) {
-//            // TODO Auto-generated method stub
-//
-//        }
-//
-//    }
-//    /**
-//     * ViewPager的PageChangeListener(页面改变的监听器)
-//     * @author zj
-//     * 2012-5-24 下午3:14:27
-//     */
-    private class MyPagerOnPageChangeListener implements ViewPager.OnPageChangeListener {
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-            // TODO Auto-generated method stub
-
-        }
-        /**
-         * 滑动ViewPager的时候,让上方的HorizontalScrollView自动切换
-         */
-        @Override
-        public void onPageSelected(int position) {
-            // TODO Auto-generated method stub
-            //Log.i("zj", "position="+position);
-
-//            if (position == 0) {
-//                mViewPager.setCurrentItem(0);
-//            }else if (position == 1) {
-//                mRadioButton1.performClick();
-//            }else if (position == 2) {
-//                mRadioButton2.performClick();
-//            }else if (position == 3) {
-//                mRadioButton3.performClick();
-//            }else if (position == 4) {
-//                mRadioButton4.performClick();
-//            }
-//            else if (position == 5) {
-//                mRadioButton5.performClick();
-//            }
-            if (position == 0) {
-                mRadioButton1.performClick();
-            }else if (position == 1) {
-                mRadioButton2.performClick();
-            }else if (position == 2) {
-                mRadioButton3.performClick();
-            }else if (position == 3) {
-                mRadioButton4.performClick();
-            }else if (position == 4) {
-                mRadioButton5.performClick();
-            }
-//            else if (position == 5) {
-//                mRadioButton5.performClick();
-//            }
-        }
-
+    protected int getTitlebarResId() {
+        return R.layout.subject_one_bar;
     }
 }

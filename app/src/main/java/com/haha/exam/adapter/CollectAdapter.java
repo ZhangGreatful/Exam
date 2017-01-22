@@ -62,7 +62,7 @@ public class CollectAdapter extends BaseAdapter {
         }
         viewHolder.iv_num.setImageResource(image[position]);
         viewHolder.tv_content.setText(datas.get(position).getChaptername());
-        viewHolder.tv_count.setText(datas.get(position).getCollectcount()+"题");
+        viewHolder.tv_count.setText(datas.get(position).getCollectcount()+" 题");
         return view;
     }
 

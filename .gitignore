@@ -6,3 +6,4 @@
 .DS_Store
 /build
 /captures
+!/app/libs/SocialSDK_QQZone_3.jar

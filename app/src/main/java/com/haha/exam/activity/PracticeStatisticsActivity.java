@@ -1,22 +1,23 @@
 package com.haha.exam.activity;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.google.gson.Gson;
 import com.haha.exam.R;
 import com.haha.exam.bean.Statistics;
+import com.haha.exam.utils.SPUtils;
 import com.haha.exam.web.WebInterface;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.wanzheng.driver.util.SystemUtil;
 
 import java.util.ArrayList;
 
@@ -27,14 +28,28 @@ import okhttp3.Response;
  * 练习统计界面
  */
 public class PracticeStatisticsActivity extends BaseActivity {
+
+    private SystemUtil su;
+    private String onlyID;
+    private SPUtils spUtils = new SPUtils();
+    private String subject0;
+    private String cartype;
     private PieChart mChart;
-    private TextView undo,right,wrong;
+    private TextView undo, right, wrong;
+    private TextView undoPercent, rightPercent, wrongPercent;
     private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("练习统计");
+        setTitleColor(getResources().getColor(R.color.title_color));
+        setTitlebarBackground(R.color.white);
+        setLeftBtnDrawable();
+        subject0 = (String) spUtils.get(this, "subject0", "1");
+        cartype = (String) spUtils.get(this, "cartype", "xc");
+        su = new SystemUtil(PracticeStatisticsActivity.this);
+        onlyID = su.showOnlyID();
         initView();
         initData();
     }
@@ -42,17 +57,17 @@ public class PracticeStatisticsActivity extends BaseActivity {
     private void initData() {
         OkGo.post(WebInterface.statistics)
                 .tag(this)
-                .params("telphone", "18266142739")
-                .params("subject","1")
-                .params("cartype","xc")
+                .params("signid", onlyID)
+                .params("subject", subject0)
+                .params("cartype", cartype)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Statistics statistics = gson.fromJson(s, Statistics.class);
-                        int count=Integer.valueOf(statistics.getMsg().get(0).getAllcount());
-                        right.setText(statistics.getMsg().get(0).getRightcount()+"道");
-                        wrong.setText(statistics.getMsg().get(0).getErrorcount()+"道");
-                        PieData mPieData = getPieData(3, count,statistics);
+                        int count = Integer.valueOf(statistics.getMsg().get(0).getAllcount());
+                        right.setText(statistics.getMsg().get(0).getRightcount() + "道");
+                        wrong.setText(statistics.getMsg().get(0).getErrorcount() + "道");
+                        PieData mPieData = getPieData(3, count, statistics);
                         showChart(mChart, mPieData);
                     }
                 });
@@ -60,9 +75,12 @@ public class PracticeStatisticsActivity extends BaseActivity {
 
     private void initView() {
         mChart = (PieChart) findViewById(R.id.spread_pie_chart);
-        undo= (TextView) findViewById(R.id.undo);
-        right= (TextView) findViewById(R.id.right);
-        wrong= (TextView) findViewById(R.id.wrong);
+        undo = (TextView) findViewById(R.id.undo);
+        right = (TextView) findViewById(R.id.right);
+        wrong = (TextView) findViewById(R.id.wrong);
+        undoPercent = (TextView) findViewById(R.id.undo_percent);
+        rightPercent = (TextView) findViewById(R.id.right_percent);
+        wrongPercent = (TextView) findViewById(R.id.wrong_percent);
 
     }
 
@@ -80,11 +98,12 @@ public class PracticeStatisticsActivity extends BaseActivity {
         pieChart.isDrawHoleEnabled();
 
         pieChart.setDescription("练习统计");
-        pieChart.setDescriptionTextSize(20);
+        pieChart.setDescriptionTextSize(30);
+        pieChart.setExtraOffsets(5, 5, 5, 5);//设置饼状图距离上下左右的偏移量
 
         // mChart.setDrawYValues(true);
         pieChart.setDrawCenterText(false);  //饼状图中间可以添加文字
-
+        pieChart.setTransparentCircleAlpha(110);//设置圆环的透明度[0,255]
         pieChart.setDrawHoleEnabled(false);
 
         pieChart.setRotationAngle(0); // 初始旋转角度
@@ -99,6 +118,10 @@ public class PracticeStatisticsActivity extends BaseActivity {
         pieChart.setUsePercentValues(true);  //显示成百分比
         // mChart.setUnit(" €");
         // mChart.setDrawUnitsInChart(true);
+        pieData.setValueFormatter(new PercentFormatter());
+        pieData.setValueTextSize(15f);
+        pieData.setValueTextColor(Color.WHITE);
+        pieData.setDrawValues(true);
 
         // add a selection listener
 //      mChart.setOnChartValueSelectedListener(this);
@@ -110,16 +133,18 @@ public class PracticeStatisticsActivity extends BaseActivity {
 
         //设置数据
         pieChart.setData(pieData);
+//        pieData.getDataSetByIndex(0)
 
         // undo all highlights
 //      pieChart.highlightValues(null);
 //      pieChart.invalidate();
 
+        pieChart.getLegend().setEnabled(false);
 //        Legend mLegend = pieChart.getLegend();  //设置比例图
 //        mLegend.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);  //最右边显示
-//      mLegend.setForm(LegendForm.LINE);  //设置比例图的形状，默认是方形
-//        mLegend.setXEntrySpace(7f);
-//        mLegend.setYEntrySpace(5f);
+//        mLegend.setForm(Legend.LegendForm.CIRCLE);  //设置比例图的形状，默认是方形
+//        mLegend.setXEntrySpace(0);
+//        mLegend.setYEntrySpace(0);
 
         pieChart.animateXY(1000, 1000);  //设置动画
         // mChart.spin(2000, 0, 360);
@@ -129,7 +154,7 @@ public class PracticeStatisticsActivity extends BaseActivity {
      * @param count 分成几部分
      * @param range
      */
-    private PieData getPieData(int count, float range,Statistics statistics) {
+    private PieData getPieData(int count, float range, Statistics statistics) {
 
         ArrayList<String> xValues = new ArrayList<String>();  //xVals用来表示每个饼块上的内容
 //
@@ -147,8 +172,8 @@ public class PracticeStatisticsActivity extends BaseActivity {
 
         int quarterly2 = Integer.valueOf(statistics.getMsg().get(0).getErrorcount());
         int quarterly3 = Integer.valueOf(statistics.getMsg().get(0).getRightcount());
-        int quarterly1 = Integer.valueOf(statistics.getMsg().get(0).getAllcount())-quarterly2-quarterly3;
-        undo.setText(String.valueOf(quarterly1)+"道");
+        int quarterly1 = Integer.valueOf(statistics.getMsg().get(0).getAllcount()) - quarterly2 - quarterly3;
+        undo.setText(String.valueOf(quarterly1) + "道");
 
         yValues.add(new Entry(quarterly1, 0));
         yValues.add(new Entry(quarterly2, 1));
@@ -172,7 +197,10 @@ public class PracticeStatisticsActivity extends BaseActivity {
         pieDataSet.setSelectionShift(px); // 选中态多出的长度
         pieDataSet.setHighlightEnabled(true); //: 设置是否显示y轴的值的数据
         PieData pieData = new PieData(xValues, pieDataSet);
-
+//        pieData.setValueFormatter(new PercentFormatter());
+//        undoPercent.setText(pieData.getDataSetByIndex(0).toString());
+//        wrongPercent.setText(pieData.getDataSetByIndex(1).toString());
+////        rightPercent.setText(String.valueOf(yValues.get(2).getVal()));
         return pieData;
     }
 }

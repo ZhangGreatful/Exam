@@ -6,25 +6,28 @@ import java.util.List;
  * Created by Administrator on 2016/11/1.
  */
 public class AllCollect {
+
     /**
      * flag : Success
-     * msg : 17
-     * data : [{"option":["A、违章行为","B、违法行为","C、过失行为","D、违规行为"],"sid":"1","subject":"1","chapterid":"1","type":"2","knowledgetype":"16","contenttype":"2","question":"驾驶机动车在道路上违反道路交通安全法的行为，属于什么行为？","answer":"2","detail":"违反《道路交通安全法》，违反法律当然就是违法行为了。现在已经没有违规行为和违章行为一说了，都是违法行为。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":["A、电器设备易受潮短路","B、路面湿滑，视线受阻","C、发动机易熄火","D、行驶阻力增大"],"sid":"869","subject":"1","chapterid":"3","type":"2","knowledgetype":"16","contenttype":"2","question":"雨天对安全行车的主要影响是什么？","answer":"2","detail":"1、雨水影响视线，要开适度的雨刮频次；2、空气潮湿容易在车的前档内表面形成雾气，要注意除雾；3、雨天路面易打滑，要保持安全的低速；4、特殊情况下，紧急制动时，务必保持方向稳定，防止侧翻；5、雨水易形成路面沟、洞表面积水，易造成驾驶员判断失误，谨慎避开。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":["A、引起发动机熄火","B、不被其他车辆驾驶人发现","C、因视线模糊而撞车","D、发生侧滑、引发交通事故"],"sid":"870","subject":"1","chapterid":"3","type":"2","knowledgetype":"3","contenttype":"2","question":"下雨后路面湿滑，车辆行驶中紧急制动时，容易导致什么？","answer":"8","detail":"下雨时路面潮湿，轮胎与路面之间的滑动摩擦因素小，相应的摩擦力也要变小。所以紧急制动时，汽车轮胎停止滚动，而向前滑动。或者说滑动摩擦力不能有效减慢汽车速度，导致汽车还要向前滑出很大段距离。因此天雨路滑,宜减速行驶。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":["A、发动机易熄火","B、易发生侧滑","C、行驶阻力增大","D、能见度低，视线不清"],"sid":"871","subject":"1","chapterid":"3","type":"2","knowledgetype":"16","contenttype":"2","question":"雾天对安全行车的主要影响是什么？","answer":"8","detail":"雾天的能见度很低，容易造成视野不良。而易发生侧滑的应该是滑溜的路面，行驶阻力大这一点更无从得知。因此本题选D","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":["A、行动迟缓","B、喜欢聚集、围观","C、行走随意性大，方向多变","D、以上都是"],"sid":"872","subject":"1","chapterid":"3","type":"2","knowledgetype":"16","contenttype":"2","question":"行人参与道路交通的主要特点是什么？","answer":"4","detail":"行人不带转向灯而且无号牌，如果没有分析出对方的轨迹那就需要注意行人的变化。因此本题选C，因为其他三个选项都是可以躲避的。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":["A、能见度低、不利于观察道路交通情况","B、路面复杂多变","C、驾驶人体力下降","D、驾驶人易产生冲动、幻觉"],"sid":"873","subject":"1","chapterid":"3","type":"2","knowledgetype":"10","contenttype":"2","question":"夜间道路环境对安全行车的主要影响是什么？","answer":"1","detail":"夜间行车视线差，在没有照明的路段，驾驶人视线普遍受到影响，不能清楚看到前方事物，或者不能看清和判断前方事物的距离，尤其是在会车的情况下，由于受对向车辆灯光的影响，会产生视觉的盲点，导致看不清或看不见前方事物，夜间特大道路交通事故明显高于白天。夜间行车由于不能见到道路两旁的景观，对驾驶员兴奋性刺激物小，因此最易产生驾驶疲劳，如稍有感觉就应振作精神或停车休息片刻。因此本题选A。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":["A、变长","B、变短","C、不变","D、无规律"],"sid":"874","subject":"1","chapterid":"3","type":"2","knowledgetype":"16","contenttype":"2","question":"夜间驾驶人对物体的观察明显比白天差，视距会有什么变化？","answer":"2","detail":"夜晚，在路上行车，由于车灯作用，看到的是黑色背景中的亮色物体，所以亮色物体偏大，而眼睛依旧以近大远小的感觉判断，故视距减小。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":["A、电器设备易受潮短路","B、能见度降低，视野模糊","C、行驶阻力增大","D、制动性能差，方向易跑偏"],"sid":"875","subject":"1","chapterid":"3","type":"2","knowledgetype":"16","contenttype":"2","question":"冰雪道路对安全行车的主要影响是什么？","answer":"8","detail":"下雪路面结冰变滑，阻力减小，这时候刹车可能稳定性不高，容易跑偏。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":["A、制动距离延长","B、抗滑能力变大","C、路面附着力增大","D、制动性能没有变化"],"sid":"876","subject":"1","chapterid":"3","type":"2","knowledgetype":"3","contenttype":"2","question":"冰雪路行车时应注意什么？","answer":"1","detail":"车辆在冰雪路面上行驶，因汽车轮胎与路面的摩擦系数减小、附着力大大降低，所以遇有冰雪路面，车辆在行驶中最重要的是车辆制动问题，要采取点刹、并和前后车保持车距离。遇情况紧急制动时，制动距离会大大延长。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"507","subject":"1","chapterid":"2","type":"3","knowledgetype":"16","contenttype":"1","question":"驾驶机动车行驶到这个位置时，如果车前轮已越过停止线可以继续通过。","answer":"0","detail":"应该是车全部越过停车线才可以继续通过，前轮刚过线就遇上红灯必须停下来，否则就是闯红灯。","image":"http://oss.jiaolianmishu.com/kaoshi/pc/question/c05f42f9jw1e2ut1rlniqj.jpg","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"508","subject":"1","chapterid":"2","type":"3","knowledgetype":"9","contenttype":"1","question":"驾驶机动车在这种信号灯亮的路口，可以右转弯。","answer":"1","detail":"要看路口的信号灯。如果路口只有红、黄、绿圆形三色的信号灯时，就可以直接右转弯。如果路口信号灯有箭头指示灯时，需要根据箭头灯的指示。","image":"http://oss.jiaolianmishu.com/kaoshi/pc/question/c05f42f9jw1e2ut1twbulj.jpg","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"509","subject":"1","chapterid":"2","type":"3","knowledgetype":"9","contenttype":"1","question":"驾驶机动车在路口遇到这种信号灯禁止通行。","answer":"0","detail":"绿灯亮时应该是允许通行！","image":"http://oss.jiaolianmishu.com/kaoshi/pc/question/c05f42f9jw1e2ut1wg2jvj.jpg","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"510","subject":"1","chapterid":"2","type":"3","knowledgetype":"16","contenttype":"2","question":"绿灯亮表示前方路口允许机动车通行。","answer":"1","detail":"红灯停，绿灯行。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"511","subject":"1","chapterid":"2","type":"3","knowledgetype":"9","contenttype":"1","question":"驾驶机动车在路口遇到这种信号灯亮时，要在停止线前停车瞭望。","answer":"0","detail":"红灯停，绿灯行。","image":"http://oss.jiaolianmishu.com/kaoshi/pc/question/c05f42f9jw1e2ut1y9y8zj.jpg","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"381","subject":"1","chapterid":"1","type":"3","knowledgetype":"10","contenttype":"1","question":"如图所示，红圈中标记车辆使用灯光的方法是正确的。","answer":"0","detail":"《中华人民共和国道路交通安全法》第四十八条规定：在没有中心隔离设施或者没有中心线的道路上，夜间会车应当在距相对方向来车150米以外改用近光灯。","image":"http://oss.jiaolianmishu.com/kaoshi/pc/question/d36f5913gw1eu774hwh7bj20eh078q3x.jpg","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"987","subject":"1","chapterid":"3","type":"3","knowledgetype":"16","contenttype":"2","question":"车辆在高速公路匝道提速到每小时60公里以上时，可直接驶入行车道。","answer":"0","detail":"高速公路匝道是高速公路出口或入口靠右侧的一条道路（一般在150－200米）。入口处匝道过后是加速车道，出口处匝道紧接在减速道之后。匝道内车速一般要求低于40km/h，加速车道内应迅速加速至60km/h以上。　 驾驶车辆从匝道进入高速公路加速车道后，打开左转向灯或者不打开均可，尽快将车速提高到每小时60公里以上，并仔细观察车道上车辆行驶的情况，选择驶入行车道的时机。不准在加速车道紧急制动或停车。行车道车辆稀少时，可以正常行驶车辆后驶入行车道；遇高速公路正常行驶车辆尾随相距较近时，应控制好车速，在所有车辆通过后再驶入行车道。本题错在直接两字，没有一个观察的动作。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":null,"isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"365","subject":"1","chapterid":"1","type":"3","knowledgetype":"3","contenttype":"2","question":"在行驶过程中，机动车驾驶人要注意与前车保持安全距离。","answer":"0","detail":"如果没有保持安全距离的话，两车很容易发生追尾。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0}]
+     * msg : 20
+     * data : [{"option":["A、5年内","B、10年内","D、终生","C、20年内"],"sid":"3","subject":"1","chapterid":"1","type":"2","knowledgetype":"1","contenttype":"2","question":"机动车驾驶人造成事故后逃逸构成犯罪的，吊销驾驶证且多长时间不得重新取得驾驶证？","answer":"4","detail":"《道路交通安全法》第一百零一条规定：造成交通事故后逃逸的且构成犯罪的，由公安机关交通管理部门吊销机动车驾驶证，且终生不得重新取得机动车驾驶证。上述规定泛指各类交通事故，只要是造成交通事故后逃逸的，就应当由公安机关交通管理部门吊销其机动车驾驶证，并且终身不得重新取得驾驶证，而不论其造成交通事故后果的大小。也就是说，法律规定惩罚的交通肇事逃逸行为，与驾驶人造成交通事故后果的轻重无关；构成犯罪的，依法追究刑事责任。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"7","subject":"1","chapterid":"1","type":"3","knowledgetype":"4","contenttype":"2","question":"对违法驾驶发生重大交通事故且构成犯罪的，不追究其刑事责任。","answer":"0","detail":"《道路交通安全法》第一百零一条规定：违反道路交通安全法律、法规的规定，发生重大交通事故，构成犯罪的，依法追究刑事责任，并由公安机关交通管理部门吊销机动车驾驶证。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"8","subject":"1","chapterid":"1","type":"3","knowledgetype":"16","contenttype":"2","question":"造成交通事故后逃逸且构成犯罪的驾驶人，将吊销驾驶证且终生不得重新取得驾驶证。","answer":"1","detail":"《道路交通安全法》第一百零一条：违反道路交通安全法律、法规的规定，发生重大交通事故，构成犯罪的，依法追究刑事责任，并由公安机关交通管理部门吊销机动车驾驶证。造成交通事故后逃逸的，由公安机关交通管理部门吊销机动车驾驶证，且终生不得重新取得机动车驾驶证。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"9","subject":"1","chapterid":"1","type":"3","knowledgetype":"4","contenttype":"2","question":"驾驶机动车在道路上违反交通安全法规的行为属于违法行为。","answer":"1","detail":"\u201c违反道路交通安全法\u201d，违反法律法规即视为违法行为。官方已无违章和违规的说法了。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":["A、工作证","B、驾驶证","C、身份证","D、职业资格证"],"sid":"10","subject":"1","chapterid":"1","type":"2","knowledgetype":"16","contenttype":"2","question":"驾驶机动车应当随身携带哪种证件？","answer":"2","detail":"《道路交通安全法》第十九条：驾驶人应当按照驾驶证载明的准驾车型驾驶机动车；驾驶机动车时，应当随身携带机动车驾驶证。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":["A、使用所学车型的教练车由教练员随车指导","B、使用所学车型的教练车单独驾驶学习","C、使用私家车由教练员随车指导","D、使用所学车型的教练车由非教练员的驾驶人随车指导"],"sid":"11","subject":"1","chapterid":"1","type":"2","knowledgetype":"16","contenttype":"2","question":"未取得驾驶证的学员在道路上学习驾驶技能，下列哪种做法是正确的？","answer":"1","detail":"《公安部令第123号》规定：未取得驾驶证的学员在道路上学习驾驶技能，使用所学车型的教练车由教练员随车指导。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":["A、6个月","B、12个月","C、16个月","D、18个月"],"sid":"12","subject":"1","chapterid":"1","type":"2","knowledgetype":"1","contenttype":"2","question":"机动车驾驶人初次申领驾驶证后的实习期是多长时间？","answer":"2","detail":"《公安部令第123号》第六十四条规定：机动车驾驶人初次申请机动车驾驶证和增加准驾车型后的12个月为实习期。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":["A、违章行为","B、违法行为","C、过失行为","D、违规行为"],"sid":"1","subject":"1","chapterid":"1","type":"2","knowledgetype":"16","contenttype":"2","question":"驾驶机动车在道路上违反道路交通安全法的行为，属于什么行为？","answer":"2","detail":"违反《道路交通安全法》，违反法律当然就是违法行为了。现在已经没有违规行为和违章行为一说了，都是违法行为。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":["A、刑事责任","B、民事责任","C、经济责任","D、直接责任"],"sid":"2","subject":"1","chapterid":"1","type":"2","knowledgetype":"16","contenttype":"2","question":"机动车驾驶人违法驾驶造成重大交通事故构成犯罪的，依法追究什么责任？","answer":"1","detail":"根据《道路交通安全法》第一百零一条规定：违反道路交通安全法律、法规规定，发生重大交通事故，构成犯罪的，依法追究刑事责任，并由公安机关交通管理部门吊销机动车驾驶证。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"4","subject":"1","chapterid":"1","type":"3","knowledgetype":"16","contenttype":"2","question":"驾驶机动车违反道路交通安全法律法规发生交通事故属于交通违章行为。","answer":"0","detail":"\u201c违反道路交通安全法\u201d，违反法律法规即为违法行为。官方已无违章和违规的说法了。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"5","subject":"1","chapterid":"1","type":"3","knowledgetype":"4","contenttype":"2","question":"驾驶机动车在道路上违反道路通行规定应当接受相应的处罚。","answer":"1","detail":"常识题，违反道路通行规定就得接受相应的处罚。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"6","subject":"1","chapterid":"1","type":"3","knowledgetype":"4","contenttype":"2","question":"对未取得驾驶证驾驶机动车的，追究其法律责任。","answer":"1","detail":"《道路交通安全法》第九十九条规定：未取得机动车驾驶证、机动车驾驶证被吊销或者机动车驾驶证被暂扣期间驾驶机动车的，由公安机关交通管理部门处二百元以上二千元以下罚款，可以并处十五日以下拘留。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":["A、尽快加速进入左侧车道","B、不能影响其他车辆正常行驶","C、进入左侧车道时适当减速","D、开启转向灯迅速向左转向"],"sid":"59","subject":"1","chapterid":"1","type":"2","knowledgetype":"16","contenttype":"2","question":"机动车在道路上变更车道需要注意什么？","answer":"2","detail":"《道路交通安全法实施条例》第四十四条：在道路同方向划有2条以上机动车道的，变更车道的机动车不得影响相关车道内行驶的机动车的正常行驶。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"60","subject":"1","chapterid":"1","type":"3","knowledgetype":"16","contenttype":"1","question":"在这种情况下可以借右侧公交车道超车。","answer":"0","detail":"超车只能左侧超，不能右侧超车，且不能占用公交专用车道。","image":"http://oss.jiaolianmishu.com/kaoshi/pc/question/c05f42f9jw1e2usgv1dzhj.jpg","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"61","subject":"1","chapterid":"1","type":"3","knowledgetype":"9","contenttype":"2","question":"在路口遇有交通信号灯和交通警察指挥不一致时，按照交通信号灯通行。","answer":"0","detail":"《道路交通安全法》第三十八条：车辆、行人应当按照交通信号通行；遇有交通警察现场指挥时，应当按照交通警察的指挥通行；在没有交通信号的道路上，应当在确保安全、畅通的原则下通行。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"81","subject":"1","chapterid":"1","type":"3","knowledgetype":"10","contenttype":"1","question":"在这种急弯道路上行车应交替使用远近光灯。","answer":"0","detail":"《道路交通安全法实施条例》第五十九条：机动车在夜间通过急弯、坡路、拱桥、人行横道或者没有交通信号灯控制的路口时，应当交替使用远近光灯示意。","image":"http://oss.jiaolianmishu.com/kaoshi/pc/question/c05f42f9jw1e2usjl4vkfj.jpg","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"63","subject":"1","chapterid":"1","type":"3","knowledgetype":"16","contenttype":"1","question":"在路口这个位置时可以加速通过路口。","answer":"0","detail":"红灯亮表示禁止通行，请停车等待。","image":"http://oss.jiaolianmishu.com/kaoshi/pc/question/c05f42f9jw1e2ushg6a5kj.jpg","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"64","subject":"1","chapterid":"1","type":"3","knowledgetype":"9","contenttype":"2","question":"驾驶机动车不能进入红色叉形灯或者红色箭头灯亮的车道。","answer":"1","detail":"《道路交通安全法实施条例》第四十条规定： 红色叉形灯或者箭头灯亮时，禁止本车道车辆通行。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":[],"sid":"65","subject":"1","chapterid":"1","type":"3","knowledgetype":"6","contenttype":"1","question":"在这段路的最高时速为每小时50公里。","answer":"0","detail":"图中限速标志标的很清楚：最低时速50km，最高时速80km。","image":"http://oss.jiaolianmishu.com/kaoshi/pc/question/c05f42f9jw1e2ushj70obj.jpg","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0},{"option":["A、处10日以下拘留","B、暂扣驾驶证","C、吊销驾驶证","D、追究刑事责任"],"sid":"20","subject":"1","chapterid":"1","type":"2","knowledgetype":"4","contenttype":"2","question":"驾驶拼装机动车上路行驶的驾驶人，除按规定接受罚款外，还要受到哪种处理？","answer":"4","detail":"根据《中华人民共和国道路交通安全法》的规定，对驾驶拼装的机动车或已达到报废标准的机动车上路行驶的驾驶人，处200元以上2000元以下罚款，并吊销机动车驾驶证，对车辆予以收缴，强制报废。","image":"","video":"","comment":null,"hits":null,"erranking":null,"upstatus":"1","isdo":0,"choose":0,"isshoucang":0}]
      * num : 1
      */
 
+    private String flag;
+    private int msg;
     private int num;
     /**
-     * option : ["A、违章行为","B、违法行为","C、过失行为","D、违规行为"]
-     * sid : 1
+     * option : ["A、5年内","B、10年内","D、终生","C、20年内"]
+     * sid : 3
      * subject : 1
      * chapterid : 1
      * type : 2
-     * knowledgetype : 16
+     * knowledgetype : 1
      * contenttype : 2
-     * question : 驾驶机动车在道路上违反道路交通安全法的行为，属于什么行为？
-     * answer : 2
-     * detail : 违反《道路交通安全法》，违反法律当然就是违法行为了。现在已经没有违规行为和违章行为一说了，都是违法行为。
+     * question : 机动车驾驶人造成事故后逃逸构成犯罪的，吊销驾驶证且多长时间不得重新取得驾驶证？
+     * answer : 4
+     * detail : 《道路交通安全法》第一百零一条规定：造成交通事故后逃逸的且构成犯罪的，由公安机关交通管理部门吊销机动车驾驶证，且终生不得重新取得机动车驾驶证。上述规定泛指各类交通事故，只要是造成交通事故后逃逸的，就应当由公安机关交通管理部门吊销其机动车驾驶证，并且终身不得重新取得驾驶证，而不论其造成交通事故后果的大小。也就是说，法律规定惩罚的交通肇事逃逸行为，与驾驶人造成交通事故后果的轻重无关；构成犯罪的，依法追究刑事责任。
      * image :
      * video :
      * comment : null
@@ -36,6 +39,23 @@ public class AllCollect {
      * isshoucang : 0
      */
 
+    private List<DataBean> data;
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    public int getMsg() {
+        return msg;
+    }
+
+    public void setMsg(int msg) {
+        this.msg = msg;
+    }
 
     public int getNum() {
         return num;
@@ -45,4 +65,185 @@ public class AllCollect {
         this.num = num;
     }
 
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
+        private String sid;
+        private String subject;
+        private String chapterid;
+        private String type;
+        private String knowledgetype;
+        private String contenttype;
+        private String question;
+        private String answer;
+        private String detail;
+        private String image;
+        private String video;
+        private Object comment;
+        private Object hits;
+        private Object erranking;
+        private String upstatus;
+        private int isdo;
+        private int choose;
+        private int isshoucang;
+        private List<String> option;
+
+        public String getSid() {
+            return sid;
+        }
+
+        public void setSid(String sid) {
+            this.sid = sid;
+        }
+
+        public String getSubject() {
+            return subject;
+        }
+
+        public void setSubject(String subject) {
+            this.subject = subject;
+        }
+
+        public String getChapterid() {
+            return chapterid;
+        }
+
+        public void setChapterid(String chapterid) {
+            this.chapterid = chapterid;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getKnowledgetype() {
+            return knowledgetype;
+        }
+
+        public void setKnowledgetype(String knowledgetype) {
+            this.knowledgetype = knowledgetype;
+        }
+
+        public String getContenttype() {
+            return contenttype;
+        }
+
+        public void setContenttype(String contenttype) {
+            this.contenttype = contenttype;
+        }
+
+        public String getQuestion() {
+            return question;
+        }
+
+        public void setQuestion(String question) {
+            this.question = question;
+        }
+
+        public String getAnswer() {
+            return answer;
+        }
+
+        public void setAnswer(String answer) {
+            this.answer = answer;
+        }
+
+        public String getDetail() {
+            return detail;
+        }
+
+        public void setDetail(String detail) {
+            this.detail = detail;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public String getVideo() {
+            return video;
+        }
+
+        public void setVideo(String video) {
+            this.video = video;
+        }
+
+        public Object getComment() {
+            return comment;
+        }
+
+        public void setComment(Object comment) {
+            this.comment = comment;
+        }
+
+        public Object getHits() {
+            return hits;
+        }
+
+        public void setHits(Object hits) {
+            this.hits = hits;
+        }
+
+        public Object getErranking() {
+            return erranking;
+        }
+
+        public void setErranking(Object erranking) {
+            this.erranking = erranking;
+        }
+
+        public String getUpstatus() {
+            return upstatus;
+        }
+
+        public void setUpstatus(String upstatus) {
+            this.upstatus = upstatus;
+        }
+
+        public int getIsdo() {
+            return isdo;
+        }
+
+        public void setIsdo(int isdo) {
+            this.isdo = isdo;
+        }
+
+        public int getChoose() {
+            return choose;
+        }
+
+        public void setChoose(int choose) {
+            this.choose = choose;
+        }
+
+        public int getIsshoucang() {
+            return isshoucang;
+        }
+
+        public void setIsshoucang(int isshoucang) {
+            this.isshoucang = isshoucang;
+        }
+
+        public List<String> getOption() {
+            return option;
+        }
+
+        public void setOption(List<String> option) {
+            this.option = option;
+        }
+    }
 }

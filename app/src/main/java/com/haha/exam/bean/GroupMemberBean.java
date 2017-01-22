@@ -2,6 +2,15 @@ package com.haha.exam.bean;
 
 public class GroupMemberBean {
 
+	public String getCityid() {
+		return cityid;
+	}
+
+	public void setCityid(String cityid) {
+		this.cityid = cityid;
+	}
+
+	private String cityid;
 	private String name;   //显示的数据
 	private String sortLetters;  //显示数据拼音的首字母
 	public String getName() {

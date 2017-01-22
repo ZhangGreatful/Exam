@@ -14,7 +14,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile 'com.lzy.net:okgo:2.0.0'
+    //    compile 'com.lzy.net:okgo:2.0.0'
     compile project(':okgo')
 }
 

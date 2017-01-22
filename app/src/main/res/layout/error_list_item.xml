@@ -18,9 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="50dp"
-        android:text="全部错题"
+        android:paddingRight="70dp"
         android:textColor="#666666"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -36,8 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="30dp"
-        android:text="14题"
+        android:layout_marginRight="25dp"
         android:textColor="#666666"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 </RelativeLayout>

@@ -15,21 +15,54 @@
     sothree:umanoShadowHeight="1dp">
 
     <!--sothree:umanoPanelHeight="0dp"  底部高度-->
-    -
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
 
         <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/bt_load_anwer"
             android:clipToPadding="false"
             app:rvp_singlePageFling="false" />
-    </LinearLayout>
+
+        <com.haha.exam.view.MySurfaceView
+            android:id="@+id/front_surfaceview"
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="40dp"
+            android:paddingEnd="10dp"
+            android:visibility="gone" />
+
+        <Chronometer
+            android:id="@+id/timer"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:format="00:00:00"
+            android:gravity="center"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/close_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:paddingEnd="15dp"
+            android:text="关闭"
+            android:textColor="@color/title_color"
+            android:visibility="gone" />
+    </RelativeLayout>
     <!-- SLIDING LAYOUT -->
     -
 
@@ -63,6 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:text="0"
                 android:textColor="@color/right_choice_color"
                 android:textSize="16sp" />
 
@@ -79,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:text="0"
                 android:textColor="@color/wrong_choice_color"
                 android:textSize="16sp" />
 

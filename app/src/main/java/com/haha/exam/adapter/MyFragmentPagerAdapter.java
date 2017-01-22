@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     private ArrayList<Fragment> fragmentsList;
+    private Fragment fragment;
 
     public MyFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -19,7 +20,6 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-
     @Override
     public int getCount() {
         return fragmentsList.size();
@@ -27,6 +27,9 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int arg0) {
+        if (arg0 > fragmentsList.size()) {
+            fragmentsList.add(null);
+        }
         return fragmentsList.get(arg0);
     }
 

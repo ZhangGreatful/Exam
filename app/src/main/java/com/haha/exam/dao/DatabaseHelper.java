@@ -1,17 +1,8 @@
 package com.haha.exam.dao;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.haha.exam.bean.AllQuestions;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/22.
@@ -20,19 +11,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int VERSION = 1;
     private static final String DBNAME = "exam.db";
-    final String xc_question_sql = "create  table  xc_questions (id integer primary key autoincrement," +
+    final String xc_one_question_sql = "create  table  xc_one_questions (id integer primary key autoincrement," +
             " sid text, subject text, chapterid text, type text, knowledgetype text," +
             " contenttype text, question text, answer text, detail text, option text, image text, video text," +
             " upstatus text, isdo integer, choose integer, isshoucang integer)";
-    final String hc_question_sql = "create  table  hc_questions (id integer primary key autoincrement," +
+    final String xc_four_question_sql = "create  table  xc_four_questions (id integer primary key autoincrement," +
             " sid text, subject text, chapterid text, type text, knowledgetype text," +
             " contenttype text, question text, answer text, detail text, option text, image text, video text," +
             " upstatus text, isdo integer, choose integer, isshoucang integer)";
-    final String kc_question_sql = "create  table  kc_questions (id integer primary key autoincrement," +
+    final String hc_one_question_sql = "create  table  hc_one_questions (id integer primary key autoincrement," +
             " sid text, subject text, chapterid text, type text, knowledgetype text," +
             " contenttype text, question text, answer text, detail text, option text, image text, video text," +
             " upstatus text, isdo integer, choose integer, isshoucang integer)";
-    final String mtc_question_sql = "create  table  mtc_questions (id integer primary key autoincrement," +
+    final String hc_four_question_sql = "create  table  hc_four_questions (id integer primary key autoincrement," +
+            " sid text, subject text, chapterid text, type text, knowledgetype text," +
+            " contenttype text, question text, answer text, detail text, option text, image text, video text," +
+            " upstatus text, isdo integer, choose integer, isshoucang integer)";
+    final String kc_one_question_sql = "create  table  kc_one_questions (id integer primary key autoincrement," +
+            " sid text, subject text, chapterid text, type text, knowledgetype text," +
+            " contenttype text, question text, answer text, detail text, option text, image text, video text," +
+            " upstatus text, isdo integer, choose integer, isshoucang integer)";
+    final String kc_four_question_sql = "create  table  kc_four_questions (id integer primary key autoincrement," +
+            " sid text, subject text, chapterid text, type text, knowledgetype text," +
+            " contenttype text, question text, answer text, detail text, option text, image text, video text," +
+            " upstatus text, isdo integer, choose integer, isshoucang integer)";
+    final String mtc_one_question_sql = "create  table  mtc_one_questions (id integer primary key autoincrement," +
+            " sid text, subject text, chapterid text, type text, knowledgetype text," +
+            " contenttype text, question text, answer text, detail text, option text, image text, video text," +
+            " upstatus text, isdo integer, choose integer, isshoucang integer)";
+    final String mtc_four_question_sql = "create  table  mtc_four_questions (id integer primary key autoincrement," +
             " sid text, subject text, chapterid text, type text, knowledgetype text," +
             " contenttype text, question text, answer text, detail text, option text, image text, video text," +
             " upstatus text, isdo integer, choose integer, isshoucang integer)";
@@ -54,8 +61,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             " contenttype text, question text, answer text, detail text, option text, image text, video text," +
             " upstatus text, isdo integer, choose integer, isshoucang integer)";
     final String my_grade_sql = "create  table  grade (id integer primary key autoincrement," +
-            " date text, time text, telphone text, rightcount text, question text," +
-            " cartype text, subject text)";
+            " subject text, cartype text, questioninfo text, time text, telphone text," +
+            " score text)";
 
     final String one_right_sql = "create  table  one_right_questions (id integer primary key autoincrement," +
             " sid text, subject text, chapterid text, type text, knowledgetype text," +
@@ -95,10 +102,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        sqLiteDatabase.execSQL(xc_question_sql);//创建小车所有问题的表
-        sqLiteDatabase.execSQL(hc_question_sql);//创建货车所有问题的表
-        sqLiteDatabase.execSQL(kc_question_sql);//创建客车所有问题的表
-        sqLiteDatabase.execSQL(mtc_question_sql);//创建摩托车所有问题的表
+        sqLiteDatabase.execSQL(xc_one_question_sql);//创建小车所有问题的表
+        sqLiteDatabase.execSQL(xc_four_question_sql);//创建小车所有问题的表
+        sqLiteDatabase.execSQL(hc_one_question_sql);//创建货车所有问题的表
+        sqLiteDatabase.execSQL(hc_four_question_sql);//创建货车所有问题的表
+        sqLiteDatabase.execSQL(kc_one_question_sql);//创建客车所有问题的表
+        sqLiteDatabase.execSQL(kc_four_question_sql);//创建客车所有问题的表
+        sqLiteDatabase.execSQL(mtc_one_question_sql);//创建摩托车所有问题的表
+        sqLiteDatabase.execSQL(mtc_four_question_sql);//创建摩托车所有问题的表
         sqLiteDatabase.execSQL(one_collect_sql);//创建收藏的表  科一
         sqLiteDatabase.execSQL(four_collect_sql);//创建收藏的表   科四
         sqLiteDatabase.execSQL(one_error_sql);//创建错题表   科一
@@ -114,5 +125,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         System.out.println("更新数据库");
     }
 
+    public boolean deleteDatabase(Context context) {
+        System.out.println("删除数据库");
+        return context.deleteDatabase("exam.db");
+    }
 
 }

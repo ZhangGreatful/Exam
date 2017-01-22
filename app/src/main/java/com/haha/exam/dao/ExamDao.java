@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.haha.exam.bean.AllQuestions;
-import com.haha.exam.bean.ErrorQuestion;
+import com.haha.exam.bean.MyGrade;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,9 +28,9 @@ public class ExamDao {
     }
 
     //      放入所有信息(xc_questions,hc_questions,kc_questions,mtc_questions)
-    public void addAllQuestions(AllQuestions questions, String cartype) {
+    public void addAllQuestions(AllQuestions questions, String cartype, String subject) {
 
-        String table_name = cartype + "_questions";
+        String table_name = cartype + "_" + subject + "_questions";
         if (db.isOpen()) {
             System.out.println("数据库是否打开=======" + db.isOpen());
             ContentValues values = new ContentValues();
@@ -68,45 +68,87 @@ public class ExamDao {
                 db.insert(table_name, "", values);
             }
             System.out.println("插入数据成功");
+//            db.close();
         }
-        db.close();
     }
 
-    //    "create  table  grade (id integer primary key autoincrement," +
-//            " date text, time text, telphone text, grade text, rightcount text, question text," +
-//            "chapter text, subject text)";
+
+//    "create  table  grade (id integer primary key autoincrement," +
+//            " subject text, cartype text, questioninfo text, time text, telphone text," +
+//            " score text)";
 //    添加模拟成绩
-    public void addMyGrade(String date, String time, String telphone, String rightcount,
-                           ErrorQuestion[] question, String cartype, String subject) {
-        if (db.isOpen()) {
-            ContentValues values = new ContentValues();
-            values.put("date", date);
-            values.put("time", time);
-            values.put("telphone", telphone);
-            values.put("rightcount", rightcount);
-
-            String options = "";
-            if (question.length != 0) {
-                for (int i = 0; i < question.length; i++) {
-                    options = options + question[i].getSid() + "," + question[i].getChoose() + "，" + question[i].getIsdo() + ","
-                            + question[i].getChapterid() + "/";
-                }
-            }
-            values.put("question", options);
-            values.put("cartype", cartype);
-            values.put("subject", subject);
-            db.insert("grade", "", values);
-        }
-        System.out.println("我的成绩插入数据看成功");
-        db.close();
-    }
+//    public void addMyGrade(ExamQuestions questions) {
+//        if (db.isOpen()) {
+//            ContentValues values = new ContentValues();
+//            values.put("subject", questions.getSubject());
+//            values.put("cartype", questions.getCartype());
+//            values.put("time", questions.getTime());
+//            values.put("score", questions.getScore());
+//
+//            String options = "";
+//            List<ExamQuestions.QuestioninfoBean> datas=questions.getQuestioninfo();
+//            if (datas.size() != 0) {
+//                for (int j = 0; j < datas.size(); j++) {
+//                    options = options + datas.get(j) + ",";
+//                }
+//            }
+//            values.put("", options);
+//            values.put("telphone", questions.getTelphone());
+//            db.insert("grade", "", values);
+//        }
+//        System.out.println("我的成绩插入数据看成功");
+//        db.close();
+//    }
 
     /**
      * 获取我的成绩
      */
-    public void getMyGrade() {
-
-    }
+//    public ExamQuestions getMyGrade() {
+//        ExamQuestions questions=new ExamQuestions();
+////        获取数据库实例
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        Cursor cursor = db.rawQuery("select * from grade", null);
+//        System.out.println("cursor============" + cursor.getCount());
+//        if (cursor.moveToFirst()) {
+////            "create  table  card  (id integer primary key autoincrement," +
+////                    "sid text,subject text,chapterid text,type text,knowledgetype text," +
+////                    "contenttype text,question text,answer text,detail text,option text,image text,video text," +
+////                    "upstatus text,isdo integer,choose integer,isshoucang integer);";
+//            do {
+////                AllQuestions.DataBean bean = new AllQuestions.DataBean();
+////                bean.setSid(cursor.getString(cursor.getColumnIndex("sid")));
+////                bean.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
+////                bean.setChapterid(cursor.getString(cursor.getColumnIndex("chapterid")));
+////                bean.setType(cursor.getString(cursor.getColumnIndex("type")));
+////                bean.setKnowledgetype(cursor.getString(cursor.getColumnIndex("knowledgetype")));
+////                bean.setContenttype(cursor.getString(cursor.getColumnIndex("contenttype")));
+////                bean.setQuestion(cursor.getString(cursor.getColumnIndex("question")));
+////                bean.setAnswer(cursor.getString(cursor.getColumnIndex("answer")));
+////                bean.setDetail(cursor.getString(cursor.getColumnIndex("detail")));
+////                String str = cursor.getString(cursor.getColumnIndex("option"));
+////                if (str != null) {
+////                    String[] strs = str.split(",");
+////                    List<String> option = Arrays.asList(strs);
+////                    for (String s : option) {
+////                        bean.setOption(option);
+////                    }
+////                } else {
+////                    bean.setOption(null);
+////                }
+////                bean.setImage(cursor.getString(cursor.getColumnIndex("image")));
+////                bean.setVideo(cursor.getString(cursor.getColumnIndex("video")));
+////                bean.setUpstatus(cursor.getString(cursor.getColumnIndex("upstatus")));
+////                bean.setIsdo(cursor.getInt(cursor.getColumnIndex("isdo")));
+////                bean.setChoose(cursor.getInt(cursor.getColumnIndex("choose")));
+////                bean.setIsshoucang(cursor.getInt(cursor.getColumnIndex("isshoucang")));
+////                list.add(bean);
+//
+//                questions.setCartype(cursor.getString());
+//            } while (cursor.moveToNext());
+//        }
+//        cursor.close();
+//
+//    }
 
 
     //          收藏数据
@@ -176,9 +218,8 @@ public class ExamDao {
             values.put("choose", dataBean.getChoose());
             values.put("isshoucang", dataBean.getIsshoucang());
             db.insert(table_name, "", values);
-
         }
-        System.out.println("添加错题数据成功");
+        System.out.println("添加错题成功");
         db.close();
     }
 
@@ -250,11 +291,11 @@ public class ExamDao {
 
 
     //          获取表格内全部问题
-    public List<AllQuestions.DataBean> queryAllQuestions(String cartype) {
-        List<AllQuestions.DataBean> list = new ArrayList<AllQuestions.DataBean>();
-        String table_name = cartype + "_questions";
+    public List<AllQuestions.DataBean> queryAllQuestions(final String cartype, final String subject) {
 //        获取数据库实例
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        final String table_name = cartype + "_" + subject + "_questions";
+        final List<AllQuestions.DataBean> list = new ArrayList<AllQuestions.DataBean>();
         Cursor cursor = db.rawQuery("select * from " + table_name, null);
         System.out.println("cursor============" + cursor.getCount());
         if (cursor.moveToFirst()) {
@@ -292,8 +333,11 @@ public class ExamDao {
                 list.add(bean);
             } while (cursor.moveToNext());
         }
+        System.out.println("size==========" + list.size());
         cursor.close();
+        System.out.println("size==========" + list.size());
         return list;
+
     }
 
     //          获取表格内全部问题
@@ -345,9 +389,9 @@ public class ExamDao {
     }
 
     //      随机练习
-    public List<AllQuestions.DataBean> getRandomPractiseQuestions(String cartype) {
+    public List<AllQuestions.DataBean> getRandomPractiseQuestions(String cartype, String subject) {
         List<AllQuestions.DataBean> list = new ArrayList<>();
-        String table_name = cartype + "_questions";
+        String table_name = cartype + "_" + subject + "_questions";
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + table_name + " order by random() ;", null);
         if (cursor.moveToFirst()) {
@@ -387,87 +431,256 @@ public class ExamDao {
     }
 
     //      科一模拟考试
-    public List<AllQuestions.DataBean> getSubject1PractiseQuestions(String cartype) {
+    public List<AllQuestions.DataBean> getSubject1PractiseQuestions(String cartype, String subject) {
         List<AllQuestions.DataBean> list = new ArrayList<>();
-        String table_name = cartype + "_questions";
+        String table_name = cartype + "_" + subject + "_questions";
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + table_name + " where type = 2 " + " order by random() limit 80 ;", null);
-        if (cursor.moveToFirst()) {
-            do {
-                AllQuestions.DataBean bean = new AllQuestions.DataBean();
-                bean.setSid(cursor.getString(cursor.getColumnIndex("sid")));
-                bean.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
-                bean.setChapterid(cursor.getString(cursor.getColumnIndex("chapterid")));
-                bean.setType(cursor.getString(cursor.getColumnIndex("type")));
-                bean.setKnowledgetype(cursor.getString(cursor.getColumnIndex("knowledgetype")));
-                bean.setContenttype(cursor.getString(cursor.getColumnIndex("contenttype")));
-                bean.setQuestion(cursor.getString(cursor.getColumnIndex("question")));
-                bean.setAnswer(cursor.getString(cursor.getColumnIndex("answer")));
-                bean.setDetail(cursor.getString(cursor.getColumnIndex("detail")));
-                String str = cursor.getString(cursor.getColumnIndex("option"));
-                if (str != null) {
-                    String[] strs = str.split(",");
-                    List<String> option = Arrays.asList(strs);
-                    for (String s : option) {
-                        bean.setOption(option);
+        if (subject.equals("four")) {
+            Cursor cursor = db.rawQuery("select * from " + table_name + " where type = 2 " + " order by random() limit 25 ;", null);
+            if (cursor.moveToFirst()) {
+                do {
+                    AllQuestions.DataBean bean = new AllQuestions.DataBean();
+                    bean.setSid(cursor.getString(cursor.getColumnIndex("sid")));
+                    bean.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
+                    bean.setChapterid(cursor.getString(cursor.getColumnIndex("chapterid")));
+                    bean.setType(cursor.getString(cursor.getColumnIndex("type")));
+                    bean.setKnowledgetype(cursor.getString(cursor.getColumnIndex("knowledgetype")));
+                    bean.setContenttype(cursor.getString(cursor.getColumnIndex("contenttype")));
+                    bean.setQuestion(cursor.getString(cursor.getColumnIndex("question")));
+                    bean.setAnswer(cursor.getString(cursor.getColumnIndex("answer")));
+                    bean.setDetail(cursor.getString(cursor.getColumnIndex("detail")));
+                    String str = cursor.getString(cursor.getColumnIndex("option"));
+                    if (str != null) {
+                        String[] strs = str.split(",");
+                        List<String> option = Arrays.asList(strs);
+                        for (String s : option) {
+                            bean.setOption(option);
+                        }
+                    } else {
+                        bean.setOption(null);
                     }
-                } else {
-                    bean.setOption(null);
-                }
-                bean.setImage(cursor.getString(cursor.getColumnIndex("image")));
-                bean.setVideo(cursor.getString(cursor.getColumnIndex("video")));
-                bean.setUpstatus(cursor.getString(cursor.getColumnIndex("upstatus")));
-                bean.setIsdo(cursor.getInt(cursor.getColumnIndex("isdo")));
-                bean.setChoose(cursor.getInt(cursor.getColumnIndex("choose")));
-                bean.setIsshoucang(cursor.getInt(cursor.getColumnIndex("isshoucang")));
-                list.add(bean);
+                    bean.setImage(cursor.getString(cursor.getColumnIndex("image")));
+                    bean.setVideo(cursor.getString(cursor.getColumnIndex("video")));
+                    bean.setUpstatus(cursor.getString(cursor.getColumnIndex("upstatus")));
+                    bean.setIsdo(cursor.getInt(cursor.getColumnIndex("isdo")));
+                    bean.setChoose(cursor.getInt(cursor.getColumnIndex("choose")));
+                    bean.setIsshoucang(cursor.getInt(cursor.getColumnIndex("isshoucang")));
+                    list.add(bean);
 
-            } while (cursor.moveToNext());
-            System.out.println("添加完80道单选后的题目长度：  " + list.size());
-        }
-        cursor = db.rawQuery("select * from " + table_name + " where type = 3 order by random() limit 20 ", null);
-        if (cursor.moveToFirst()) {
-            do {
-                AllQuestions.DataBean bean = new AllQuestions.DataBean();
-                bean.setSid(cursor.getString(cursor.getColumnIndex("sid")));
-                bean.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
-                bean.setChapterid(cursor.getString(cursor.getColumnIndex("chapterid")));
-                bean.setType(cursor.getString(cursor.getColumnIndex("type")));
-                bean.setKnowledgetype(cursor.getString(cursor.getColumnIndex("knowledgetype")));
-                bean.setContenttype(cursor.getString(cursor.getColumnIndex("contenttype")));
-                bean.setQuestion(cursor.getString(cursor.getColumnIndex("question")));
-                bean.setAnswer(cursor.getString(cursor.getColumnIndex("answer")));
-                bean.setDetail(cursor.getString(cursor.getColumnIndex("detail")));
-                String str = cursor.getString(cursor.getColumnIndex("option"));
-                if (str != null) {
-                    String[] strs = str.split(",");
-                    List<String> option = Arrays.asList(strs);
-                    for (String s : option) {
-                        bean.setOption(option);
+                } while (cursor.moveToNext());
+                System.out.println("添加完25道单选后的题目长度：  " + list.size());
+            }
+            cursor = db.rawQuery("select * from " + table_name + " where type = 3 order by random() limit 20 ", null);
+            if (cursor.moveToFirst()) {
+                do {
+                    AllQuestions.DataBean bean = new AllQuestions.DataBean();
+                    bean.setSid(cursor.getString(cursor.getColumnIndex("sid")));
+                    bean.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
+                    bean.setChapterid(cursor.getString(cursor.getColumnIndex("chapterid")));
+                    bean.setType(cursor.getString(cursor.getColumnIndex("type")));
+                    bean.setKnowledgetype(cursor.getString(cursor.getColumnIndex("knowledgetype")));
+                    bean.setContenttype(cursor.getString(cursor.getColumnIndex("contenttype")));
+                    bean.setQuestion(cursor.getString(cursor.getColumnIndex("question")));
+                    bean.setAnswer(cursor.getString(cursor.getColumnIndex("answer")));
+                    bean.setDetail(cursor.getString(cursor.getColumnIndex("detail")));
+                    String str = cursor.getString(cursor.getColumnIndex("option"));
+                    if (str != null) {
+                        String[] strs = str.split(",");
+                        List<String> option = Arrays.asList(strs);
+                        for (String s : option) {
+                            bean.setOption(option);
+                        }
+                    } else {
+                        bean.setOption(null);
                     }
-                } else {
-                    bean.setOption(null);
-                }
-                bean.setImage(cursor.getString(cursor.getColumnIndex("image")));
-                bean.setVideo(cursor.getString(cursor.getColumnIndex("video")));
-                bean.setUpstatus(cursor.getString(cursor.getColumnIndex("upstatus")));
-                bean.setIsdo(cursor.getInt(cursor.getColumnIndex("isdo")));
-                bean.setChoose(cursor.getInt(cursor.getColumnIndex("choose")));
-                bean.setIsshoucang(cursor.getInt(cursor.getColumnIndex("isshoucang")));
-                list.add(bean);
-            } while (cursor.moveToNext());
-            System.out.println("添加完20道判断后的题目长度：  " + list.size());
+                    bean.setImage(cursor.getString(cursor.getColumnIndex("image")));
+                    bean.setVideo(cursor.getString(cursor.getColumnIndex("video")));
+                    bean.setUpstatus(cursor.getString(cursor.getColumnIndex("upstatus")));
+                    bean.setIsdo(cursor.getInt(cursor.getColumnIndex("isdo")));
+                    bean.setChoose(cursor.getInt(cursor.getColumnIndex("choose")));
+                    bean.setIsshoucang(cursor.getInt(cursor.getColumnIndex("isshoucang")));
+                    list.add(bean);
+                } while (cursor.moveToNext());
+                System.out.println("添加完20道判断后的题目长度：  " + list.size());
+            }
+            cursor = db.rawQuery("select * from " + table_name + " where type = 1 order by random() limit 5 ", null);
+            if (cursor.moveToFirst()) {
+                do {
+                    AllQuestions.DataBean bean = new AllQuestions.DataBean();
+                    bean.setSid(cursor.getString(cursor.getColumnIndex("sid")));
+                    bean.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
+                    bean.setChapterid(cursor.getString(cursor.getColumnIndex("chapterid")));
+                    bean.setType(cursor.getString(cursor.getColumnIndex("type")));
+                    bean.setKnowledgetype(cursor.getString(cursor.getColumnIndex("knowledgetype")));
+                    bean.setContenttype(cursor.getString(cursor.getColumnIndex("contenttype")));
+                    bean.setQuestion(cursor.getString(cursor.getColumnIndex("question")));
+                    bean.setAnswer(cursor.getString(cursor.getColumnIndex("answer")));
+                    bean.setDetail(cursor.getString(cursor.getColumnIndex("detail")));
+                    String str = cursor.getString(cursor.getColumnIndex("option"));
+                    if (str != null) {
+                        String[] strs = str.split(",");
+                        List<String> option = Arrays.asList(strs);
+                        for (String s : option) {
+                            bean.setOption(option);
+                        }
+                    } else {
+                        bean.setOption(null);
+                    }
+                    bean.setImage(cursor.getString(cursor.getColumnIndex("image")));
+                    bean.setVideo(cursor.getString(cursor.getColumnIndex("video")));
+                    bean.setUpstatus(cursor.getString(cursor.getColumnIndex("upstatus")));
+                    bean.setIsdo(cursor.getInt(cursor.getColumnIndex("isdo")));
+                    bean.setChoose(cursor.getInt(cursor.getColumnIndex("choose")));
+                    bean.setIsshoucang(cursor.getInt(cursor.getColumnIndex("isshoucang")));
+                    list.add(bean);
+                } while (cursor.moveToNext());
+                System.out.println("添加完5道多选后的题目长度：  " + list.size());
+            }
+            cursor.close();
+
+        } else {
+            Cursor cursor = db.rawQuery("select * from " + table_name + " where type = 2 " + " order by random() limit 80 ;", null);
+            if (cursor.moveToFirst()) {
+                do {
+                    AllQuestions.DataBean bean = new AllQuestions.DataBean();
+                    bean.setSid(cursor.getString(cursor.getColumnIndex("sid")));
+                    bean.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
+                    bean.setChapterid(cursor.getString(cursor.getColumnIndex("chapterid")));
+                    bean.setType(cursor.getString(cursor.getColumnIndex("type")));
+                    bean.setKnowledgetype(cursor.getString(cursor.getColumnIndex("knowledgetype")));
+                    bean.setContenttype(cursor.getString(cursor.getColumnIndex("contenttype")));
+                    bean.setQuestion(cursor.getString(cursor.getColumnIndex("question")));
+                    bean.setAnswer(cursor.getString(cursor.getColumnIndex("answer")));
+                    bean.setDetail(cursor.getString(cursor.getColumnIndex("detail")));
+                    String str = cursor.getString(cursor.getColumnIndex("option"));
+                    if (str != null) {
+                        String[] strs = str.split(",");
+                        List<String> option = Arrays.asList(strs);
+                        for (String s : option) {
+                            bean.setOption(option);
+                        }
+                    } else {
+                        bean.setOption(null);
+                    }
+                    bean.setImage(cursor.getString(cursor.getColumnIndex("image")));
+                    bean.setVideo(cursor.getString(cursor.getColumnIndex("video")));
+                    bean.setUpstatus(cursor.getString(cursor.getColumnIndex("upstatus")));
+                    bean.setIsdo(cursor.getInt(cursor.getColumnIndex("isdo")));
+                    bean.setChoose(cursor.getInt(cursor.getColumnIndex("choose")));
+                    bean.setIsshoucang(cursor.getInt(cursor.getColumnIndex("isshoucang")));
+                    list.add(bean);
+
+                } while (cursor.moveToNext());
+                System.out.println("添加完75道单选后的题目长度：  " + list.size());
+            }
+            cursor = db.rawQuery("select * from " + table_name + " where type = 3 order by random() limit 20 ", null);
+            if (cursor.moveToFirst()) {
+                do {
+                    AllQuestions.DataBean bean = new AllQuestions.DataBean();
+                    bean.setSid(cursor.getString(cursor.getColumnIndex("sid")));
+                    bean.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
+                    bean.setChapterid(cursor.getString(cursor.getColumnIndex("chapterid")));
+                    bean.setType(cursor.getString(cursor.getColumnIndex("type")));
+                    bean.setKnowledgetype(cursor.getString(cursor.getColumnIndex("knowledgetype")));
+                    bean.setContenttype(cursor.getString(cursor.getColumnIndex("contenttype")));
+                    bean.setQuestion(cursor.getString(cursor.getColumnIndex("question")));
+                    bean.setAnswer(cursor.getString(cursor.getColumnIndex("answer")));
+                    bean.setDetail(cursor.getString(cursor.getColumnIndex("detail")));
+                    String str = cursor.getString(cursor.getColumnIndex("option"));
+                    if (str != null) {
+                        String[] strs = str.split(",");
+                        List<String> option = Arrays.asList(strs);
+                        for (String s : option) {
+                            bean.setOption(option);
+                        }
+                    } else {
+                        bean.setOption(null);
+                    }
+                    bean.setImage(cursor.getString(cursor.getColumnIndex("image")));
+                    bean.setVideo(cursor.getString(cursor.getColumnIndex("video")));
+                    bean.setUpstatus(cursor.getString(cursor.getColumnIndex("upstatus")));
+                    bean.setIsdo(cursor.getInt(cursor.getColumnIndex("isdo")));
+                    bean.setChoose(cursor.getInt(cursor.getColumnIndex("choose")));
+                    bean.setIsshoucang(cursor.getInt(cursor.getColumnIndex("isshoucang")));
+                    list.add(bean);
+                } while (cursor.moveToNext());
+                System.out.println("添加完20道判断后的题目长度：  " + list.size());
+            }
         }
         return list;
     }
 
 
-    //    获取对应章节内的所有信息
-    public List<AllQuestions.DataBean> getChapterQuestions(String cartype, String chapterid) {
+    //    获取模拟考试成绩内的所有题目
+    public List<AllQuestions.DataBean> getExamQuestions(String cartype, String subject, MyGrade data, int position) {
         List<AllQuestions.DataBean> list = new ArrayList<AllQuestions.DataBean>();
-        String table_name = cartype + "_questions";
+        String table_name = cartype + "_" + subject + "_questions";
         //        获取数据库实例
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int size = 0;
+        if (subject.equals("one")) {
+            size = 100;
+        } else if (subject.equals("four")) {
+            size = 50;
+        }
+        for (int i = 0; i < size; i++) {
+            String sid = data.getData().get(position).getAll_question_info().get(i).getSid();
+            Cursor cursor = db.rawQuery("select * from " + table_name + " where sid=?;", new String[]{sid});
+            System.out.println("cursor============" + cursor.getCount());
+            if (cursor.moveToFirst()) {
+//            "create  table  card  (id integer primary key autoincrement," +
+//                    "sid text,subject text,chapterid text,type text,knowledgetype text," +
+//                    "contenttype text,question text,answer text,detail text,option text,image text,video text," +
+//                    "upstatus text,isdo integer,choose integer,isshoucang integer);";
+                do {
+                    AllQuestions.DataBean bean = new AllQuestions.DataBean();
+                    bean.setSid(cursor.getString(cursor.getColumnIndex("sid")));
+                    bean.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
+                    bean.setChapterid(cursor.getString(cursor.getColumnIndex("chapterid")));
+                    bean.setType(cursor.getString(cursor.getColumnIndex("type")));
+                    bean.setKnowledgetype(cursor.getString(cursor.getColumnIndex("knowledgetype")));
+                    bean.setContenttype(cursor.getString(cursor.getColumnIndex("contenttype")));
+                    bean.setQuestion(cursor.getString(cursor.getColumnIndex("question")));
+                    bean.setAnswer(cursor.getString(cursor.getColumnIndex("answer")));
+                    bean.setDetail(cursor.getString(cursor.getColumnIndex("detail")));
+                    String str = cursor.getString(cursor.getColumnIndex("option"));
+                    if (str != null) {
+                        String[] strs = str.split(",");
+                        List<String> option = Arrays.asList(strs);
+                        for (String s : option) {
+                            bean.setOption(option);
+                        }
+                    } else {
+                        bean.setOption(null);
+                    }
+                    bean.setImage(cursor.getString(cursor.getColumnIndex("image")));
+                    bean.setVideo(cursor.getString(cursor.getColumnIndex("video")));
+                    bean.setUpstatus(cursor.getString(cursor.getColumnIndex("upstatus")));
+                    bean.setIsdo(cursor.getInt(cursor.getColumnIndex("isdo")));
+                    bean.setChoose(cursor.getInt(cursor.getColumnIndex("choose")));
+                    bean.setIsshoucang(cursor.getInt(cursor.getColumnIndex("isshoucang")));
+                    list.add(bean);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            System.out.println("position=====" + position);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setIsdo(Integer.valueOf(data.getData().get(position).getAll_question_info().get(i).getIsdo()));
+            list.get(i).setChoose(Integer.valueOf(data.getData().get(position).getAll_question_info().get(i).getChoose()));
+        }
+        System.out.println("shuzuchangdu =========" + list.size());
+
+        return list;
+    }
+
+
+    //    获取对应章节内的所有信息
+    public List<AllQuestions.DataBean> getChapterQuestions(String cartype, String subject, String chapterid) {
+        List<AllQuestions.DataBean> list = new ArrayList<AllQuestions.DataBean>();
+        String table_name = cartype + "_" + subject + "_questions";
+        //        获取数据库实例
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + table_name + " where chapterid=?;", new String[]{chapterid});
         System.out.println("cursor============" + cursor.getCount());
         if (cursor.moveToFirst()) {
@@ -506,15 +719,14 @@ public class ExamDao {
             } while (cursor.moveToNext());
         }
         System.out.println("shuzuchangdu =========" + list.size());
-        System.out.println("shuzuneirong =========" + list.get(0).getOption());
         cursor.close();
         return list;
     }
 
     //    获取对应知识点内的所有信息
-    public List<AllQuestions.DataBean> getKnowledgetypeQuestions(String cartype, String knowledgetype) {
+    public List<AllQuestions.DataBean> getKnowledgetypeQuestions(String cartype, String subject, String knowledgetype) {
         List<AllQuestions.DataBean> list = new ArrayList<AllQuestions.DataBean>();
-        String table_name = cartype + "_questions";
+        String table_name = cartype + "_" + subject + "_questions";
         //        获取数据库实例
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + table_name + " where knowledgetype=?;", new String[]{knowledgetype});
@@ -567,8 +779,7 @@ public class ExamDao {
     }
 
     //      删除表
-    public void DeleteDatabase(String cartype) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    public void DeleteTable(String cartype) {
         String table = cartype + "_questions";
         db.execSQL("DELETE FROM " + table);
         db.close();
@@ -580,8 +791,8 @@ public class ExamDao {
     }
 
     // 获取长度
-    public int getContactsCount(String cartype) {
-        String table_name = cartype + "_questions";
+    public int getContactsCount(String table) {
+        String table_name = table + "_questions";
         String countQuery = "SELECT  * FROM " + table_name;
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -602,6 +813,9 @@ public class ExamDao {
         return exits;
     }
 
+    public void clearTable(String tablename) {
+        db.execSQL("DELETE FROM " + tablename);
+    }
 
     public boolean tabbleIsExist(String cartype) {
         System.out.println("判断表是否存在");

@@ -1,42 +1,108 @@
 apply plugin: 'com.android.application'
-
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
 
+    compileSdkVersion 23
+    buildToolsVersion '23.0.3'
+    useLibrary 'org.apache.http.legacy'
+//    sourceSets {
+//        main {
+//            jniLibs.srcDirs = ['libs']
+//        }
+//    }
     defaultConfig {
         applicationId "com.haha.exam"
         minSdkVersion 19
-        targetSdkVersion 19
+        targetSdkVersion 20
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    task clean(type: Exec) {
+        ext.lockhunter = '\"F:\\lockhunter\\LockHunter.exe\"'
+        def buildDir = file(new File("build"))
+        commandLine 'cmd', "$lockhunter", '/delete', '/silent', buildDir
+    }
+    signingConfigs {
+        debug {
+            storeFile file('E:/钉钉文件/haha.keystore')
+            storePassword "wang901123"
+            keyAlias "haha.keystore"
+            keyPassword "wang901123"
         }
-        sourceSets {
-            main {
-                jniLibs.srcDirs = ['libs']
-            }
+        release{
+            storeFile file('E:/钉钉文件/haha.keystore')
+            storePassword "wang901123"
+            keyAlias "haha.keystore"
+            keyPassword "wang901123"
         }
     }
-}
+    buildTypes {
 
+        release {
+            minifyEnabled false
+//            signingConfig signingConfigs.debug
+            zipAlignEnabled true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles 'proguard-rules.pro'
+        }
+
+
+    }
+
+}
+apply plugin: 'com.droidtitan.lintcleaner'
+
+
+lintCleaner {
+    // Exclude specific files
+    exclude = ['com_crashlytics_export_strings.xml','config.xml']
+
+    // Ability to ignore all resource files. False by default.
+    ignoreResFiles = true
+
+    // Default path is build/outputs/lint-results.xml
+    lintXmlFilePath = 'path/to/lint-results.xml'
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
+    //    compile fileTree(dir: 'libs')
     compile project(':okgo')
-    compile 'com.google.code.gson:gson:2.7'
     compile project(':library')
     compile project(':sticky-head-library')
     compile project(':lib')
-    compile 'com.android.support:recyclerview-v7:19.4.0'
-    compile files('libs/fastjson-1.2.9.jar')
-    compile files('libs/BaiduLBS_Android.jar')
-    compile files('libs/AMap_Location_V3.0.0_20160922.jar')
-    compile 'com.squareup.picasso:picasso:2.5.2'
     compile files('libs/mpandroidchartlibrary-2-2-4.jar')
+    compile files('libs/mta-sdk-1.6.2.jar')
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    testCompile 'junit:junit:4.12'
+    compile project(':Volley')
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile files('libs/Sunflower.jar')
+    compile 'org.jetbrains:annotations-java5:15.0'
+    compile files('libs/faceppsdk.jar')
+    compile 'de.greenrobot:eventbus:3.0.0-beta1'
+    compile files('libs/classes.jar')
+    compile project(':videoLib')
+    compile files('libs/universal-image-loader-1.9.5.jar')
+    compile files('libs/Android_Map3D_SDK_V4.1.3_20161208.jar')
+    compile files('libs/SocialSDK_WeiXin_Full.jar')
+    compile files('libs/AMap_Location_V3.3.0_20170118.jar')
 }

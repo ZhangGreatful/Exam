@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mine_head_background"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@mipmap/feed_background">
+
+        <EditText
+            android:id="@+id/edit"
+            android:layout_width="match_parent"
+            android:layout_height="304dp"
+            android:textColor="@color/black_overlay"
+            android:layout_marginStart="5dp"
+            android:cursorVisible="true"
+            android:gravity="left|top" android:background="@null"
+            android:hint="您的宝贵意见，就是我们进步的源泉"
+            android:textColorHint="@color/circle_color" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/text_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/framelayout"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="留下您的联系方式，便于我们联系到你(可选)"
+        android:textColor="@color/title_color"
+        android:textSize="14sp" />
+
+    <FrameLayout
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_info"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/edit">
+
+        <EditText
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:textSize="15sp"
+            android:background="@null" android:textColor="@color/black_overlay"
+            android:hint="QQ/邮箱/手机任选其一"
+            android:textColorHint="@color/circle_color" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/submmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/info"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/summit" />
+</RelativeLayout>

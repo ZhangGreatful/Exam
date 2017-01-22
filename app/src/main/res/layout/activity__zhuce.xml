@@ -247,7 +247,7 @@
                     android:layout_marginRight="10dip"
                     android:layout_weight="3"
                     android:background="@null"
-                    android:hint="请输入6位数字密码"
+                    android:hint="请输入6位密码"
                     android:inputType="textPassword"
                     android:maxLength="6"
                     android:textSize="15.0dip" />

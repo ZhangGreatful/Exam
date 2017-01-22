@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Volley" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/lib" />
             <option value="$PROJECT_DIR$/library" />
@@ -15,20 +16,10 @@
             <option value="$PROJECT_DIR$/okrx" />
             <option value="$PROJECT_DIR$/okserver" />
             <option value="$PROJECT_DIR$/sticky-head-library" />
+            <option value="$PROJECT_DIR$/videoLib" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/lib" />
-            <option value="$PROJECT_DIR$/library" />
-            <option value="$PROJECT_DIR$/okgo" />
-            <option value="$PROJECT_DIR$/okrx" />
-            <option value="$PROJECT_DIR$/okserver" />
-            <option value="$PROJECT_DIR$/sticky-head-library" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

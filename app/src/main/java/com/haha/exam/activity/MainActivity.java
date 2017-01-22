@@ -1,46 +1,36 @@
 package com.haha.exam.activity;
 
 import android.app.FragmentManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.google.gson.Gson;
+import com.haha.exam.R;
 import com.haha.exam.bean.AllCity;
 import com.haha.exam.bean.AllQuestions;
-import com.haha.exam.dao.ExamDao;
 import com.haha.exam.dao.DatabaseHelper;
+import com.haha.exam.dao.ExamDao;
 import com.haha.exam.fragment.HomeFragment;
 import com.haha.exam.fragment.LeftFragment;
 import com.haha.exam.fragment.OrderFragment;
-import com.haha.exam.R;
 import com.haha.exam.fragment.ToolsFragment;
-import com.haha.exam.web.WebInterface;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.callback.StringCallback;
 
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Response;
 
 /**
  * 此处使用了TabHost，但是height为0，不显示，可以直接使用ViewPager也能实现该种效果
@@ -87,10 +77,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initData();
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
-        //设置定位回调监听
+        //设置定位回调监听q
         mLocationClient.setLocationListener(mLocationListener);
         initLocation();
-        setTranslucentStatus();
     }
 
     @Override
@@ -161,97 +150,84 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 //        判断数据库所有题目是否为空，若为空，则加载数据，不为空，则不加载数据
         dbHelper = new DatabaseHelper(MainActivity.this);
-        if (dao.exits("xc") == true) {
-            int count = dao.getContactsCount("xc");
-            System.out.println("数据库共有数据==========" + count);
-            if (count == 0) {
-                String url = WebInterface.all_questions + "/cartype/" + "xc" + "/subject/" + "1";
-                OkGo.post(url)
-                        .tag(this)
-                        .cacheMode(CacheMode.DEFAULT)
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onSuccess(String s, Call call, Response response) {
-                                Toast.makeText(MainActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
-                                gson = new Gson();
-                                AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
-                                dao.addAllQuestions(allQuestions, "xc");
-                                List<AllQuestions.DataBean> datas = allQuestions.getData();
-                                System.out.print("datas  size=========" + datas.size());
-                            }
-
-//                    @Override
-//                    public void onCacheSuccess(String s, Call call) {
-//                        super.onCacheSuccess(s, call);
-//                        gson = new Gson();
-//                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
-//                        dao.addAllQuestions(allQuestions);
-//                        List<AllQuestions.DataBean> datas = allQuestions.getData();
-//                        System.out.print("datas  size=========" + datas.size());
-//                        count.setText(String.valueOf(datas.size()));
-////        Log.i("data.size=", "" + datas.size());
+//        if (dao.exits("xc") == true) {
+//            int count = dao.getContactsCount("xc");
+//            System.out.println("数据库共有数据==========" + count);
+//            if (count == 0) {
+//                String url = WebInterface.all_questions + "/cartype/" + "xc" + "/subject/" + "1";
+//                OkGo.post(url)
+//                        .tag(this)
+//                        .cacheMode(CacheMode.DEFAULT)
+//                        .execute(new StringCallback() {
+//                            @Override
+//                            public void onSuccess(String s, Call call, Response response) {
+//                                Toast.makeText(MainActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
+//                                gson = new Gson();
+//                                AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+//                                dao.addAllQuestions(allQuestions, "xc");
+//                                List<AllQuestions.DataBean> datas = allQuestions.getData();
+//                                System.out.print("datas  size=========" + datas.size());
+//                            }
 //
-//                        if (layoutAdapter != null) {
-//                            layoutAdapter.setDataList(datas);
+////                    @Override
+////                    public void onCacheSuccess(String s, Call call) {
+////                        super.onCacheSuccess(s, call);
+////                        gson = new Gson();
+////                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+////                        dao.addAllQuestions(allQuestions);
+////                        List<AllQuestions.DataBean> datas = allQuestions.getData();
+////                        System.out.print("datas  size=========" + datas.size());
+////                        count.setText(String.valueOf(datas.size()));
+//////        Log.i("data.size=", "" + datas.size());
+////
+////                        if (layoutAdapter != null) {
+////                            layoutAdapter.setDataList(datas);
+////                        }
+////
+////                        if (topicAdapter != null) {
+////                            topicAdapter.setDataNum(datas.size());
+////                        }
+////                    }
+//                        });
+//            }
+//        } else {
+//            System.out.println("表不存在，获取网络数据，添加信息到数据库");
+//            String url = WebInterface.all_questions + "/cartype/" + "xc" + "/subject/" + "1";
+//            OkGo.post(url)
+//                    .tag(this)
+//                    .cacheMode(CacheMode.DEFAULT)
+//                    .execute(new StringCallback() {
+//                        @Override
+//                        public void onSuccess(String s, Call call, Response response) {
+//                            Toast.makeText(MainActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
+//                            gson = new Gson();
+//                            AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+//                            dao.addAllQuestions(allQuestions, "xc");
+//                            List<AllQuestions.DataBean> datas = allQuestions.getData();
+//                            System.out.print("datas  size=========" + datas.size());
 //                        }
 //
-//                        if (topicAdapter != null) {
-//                            topicAdapter.setDataNum(datas.size());
-//                        }
-//                    }
-                        });
-            }
-        } else {
-            System.out.println("表不存在，获取网络数据，添加信息到数据库");
-            String url = WebInterface.all_questions + "/cartype/" + "xc" + "/subject/" + "1";
-            OkGo.post(url)
-                    .tag(this)
-                    .cacheMode(CacheMode.DEFAULT)
-                    .execute(new StringCallback() {
-                        @Override
-                        public void onSuccess(String s, Call call, Response response) {
-                            Toast.makeText(MainActivity.this, "成功获取所有问题", Toast.LENGTH_SHORT).show();
-                            gson = new Gson();
-                            AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
-                            dao.addAllQuestions(allQuestions, "xc");
-                            List<AllQuestions.DataBean> datas = allQuestions.getData();
-                            System.out.print("datas  size=========" + datas.size());
-                        }
-
-//                    @Override
-//                    public void onCacheSuccess(String s, Call call) {
-//                        super.onCacheSuccess(s, call);
-//                        gson = new Gson();
-//                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
-//                        dao.addAllQuestions(allQuestions);
-//                        List<AllQuestions.DataBean> datas = allQuestions.getData();
-//                        System.out.print("datas  size=========" + datas.size());
-//                        count.setText(String.valueOf(datas.size()));
-////        Log.i("data.size=", "" + datas.size());
-//
-//                        if (layoutAdapter != null) {
-//                            layoutAdapter.setDataList(datas);
-//                        }
-//
-//                        if (topicAdapter != null) {
-//                            topicAdapter.setDataNum(datas.size());
-//                        }
-//                    }
-                    });
-        }
-    }
-
-    /**
-     * 设置状态栏背景状态
-     */
-    private void setTranslucentStatus() {
-        //判断当前SDK版本号，如果是4.4以上，就是支持沉浸式状态栏的
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
-        }
-
+////                    @Override
+////                    public void onCacheSuccess(String s, Call call) {
+////                        super.onCacheSuccess(s, call);
+////                        gson = new Gson();
+////                        AllQuestions allQuestions = gson.fromJson(s, AllQuestions.class);
+////                        dao.addAllQuestions(allQuestions);
+////                        List<AllQuestions.DataBean> datas = allQuestions.getData();
+////                        System.out.print("datas  size=========" + datas.size());
+////                        count.setText(String.valueOf(datas.size()));
+//////        Log.i("data.size=", "" + datas.size());
+////
+////                        if (layoutAdapter != null) {
+////                            layoutAdapter.setDataList(datas);
+////                        }
+////
+////                        if (topicAdapter != null) {
+////                            topicAdapter.setDataNum(datas.size());
+////                        }
+////                    }
+//                    });
+//        }
     }
 
     private void initViews() {

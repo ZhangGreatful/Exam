@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+   <SurfaceView 
+	    android:id="@+id/sfv_preview"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"/>
+	
+	<SurfaceView 
+	    android:id="@+id/sfv_face"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:background="@mipmap/camera_verify_round">
+
+		<include 
+		    layout="@layout/view_title"
+		    />
+        <TextView 
+            android:id="@+id/tv_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+			android:layout_centerHorizontal="true"
+            android:text="摇摇头"
+            android:textColor="#F19228"
+            android:textSize="25sp"
+            />
+        <!-- <ImageView
+            android:id="@+id/face_kuang"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/camera_verify_round" /> -->
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/jianyan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone" >
+
+        <!-- android:background="#99ffffff" -->
+
+        <ImageView
+            android:id="@+id/im_dongqilai"
+            android:layout_width="120dp"
+            android:layout_height="180dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/xl_progress" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/im_dongqilai"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal"
+            android:text="正在核对信息，请稍后！"
+            android:textColor="#b8860b"
+            android:textSize="20dip" />
+    </RelativeLayout>
+
+</RelativeLayout>

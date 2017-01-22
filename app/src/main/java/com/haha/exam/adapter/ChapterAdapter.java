@@ -20,7 +20,7 @@ public class ChapterAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private List<ChapterQuestion.MsgBean> datas;
-    private int[] image = {R.mipmap.one, R.mipmap.two, R.mipmap.three, R.mipmap.fourteen, R.mipmap.five, R.mipmap.six,
+    private int[] image = {R.mipmap.one, R.mipmap.two, R.mipmap.three, R.mipmap.four, R.mipmap.five, R.mipmap.six,
             R.mipmap.seven, R.mipmap.eight, R.mipmap.nine, R.mipmap.ten, R.mipmap.eleven, R.mipmap.twele, R.mipmap.thirteen,
             R.mipmap.fourteen, R.mipmap.fifteen};
 

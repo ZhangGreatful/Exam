@@ -18,7 +18,7 @@ public class PraticeDialog extends Dialog{
     private TextView titleTv;//消息标题文本
     private TextView messageTv;//消息提示文本
 //    private String titleStr;//从外界设置的title文本
-//    private String messageStr;//从外界设置的消息文本
+    private String messageStr;//从外界设置的消息文本
     //确定文本和取消文本的显示内容
     private String yesStr, noStr;
 
@@ -103,9 +103,9 @@ public class PraticeDialog extends Dialog{
 //        if (titleStr != null) {
 //            titleTv.setText(titleStr);
 //        }
-//        if (messageStr != null) {
-//            messageTv.setText(messageStr);
-//        }
+        if (messageStr != null) {
+            messageTv.setText(messageStr);
+        }
         //如果设置按钮的文字
         if (yesStr != null) {
             yes.setText(yesStr);
@@ -122,7 +122,7 @@ public class PraticeDialog extends Dialog{
         yes = (TextView) findViewById(R.id.sure);
 //        no = (Button) findViewById(R.id.no);
 //        titleTv = (TextView) findViewById(R.id.title);
-//        messageTv = (TextView) findViewById(R.id.message);
+        messageTv = (TextView) findViewById(R.id.message);
     }
 
     /**
@@ -139,9 +139,9 @@ public class PraticeDialog extends Dialog{
      *
      * @param message
      */
-//    public void setMessage(String message) {
-//        messageStr = message;
-//    }
+    public void setMessage(String message) {
+        messageStr = message;
+    }
 
     /**
      * 设置确定按钮和取消被点击的接口

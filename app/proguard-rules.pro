@@ -8,7 +8,29 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+-dontoptimize
+-dontpreverify
 
+#-dontwarn com.alibaba.**
+#-dontwarn com.intellij.**
+#-dontwarn com.jpower8.**
+#-dontwarn net.sf.**
+#
+#-dontwarn org.apache.commons.**
+#-dontwarn com.github.**
+#-dontwarn com.squareup.**
+#-dontwarn com.tencent.**
+#-dontwarn okio.Okio.**
+
+#-keep class com.alibaba.**
+#-keep class com.intellij.**
+#-keep class com.jpower8.**
+#-keep class net.sf.**
+#-keep class com.github.**
+#-keep class com.squareup.**
+#-keep class com.tencent.**
+#-keep class okio.Okio.**
+#-keep class org.apache.commons.**
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:

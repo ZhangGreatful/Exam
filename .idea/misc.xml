@@ -37,10 +37,80 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$/Volley">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://fengpc:8443/svn/TimingTrainee_new/Exam/Volley" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://fengpc:8443/svn/TimingTrainee_new/Exam/app" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/lib">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://fengpc:8443/svn/TimingTrainee_new/Exam/lib" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/library">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://fengpc:8443/svn/TimingTrainee_new/Exam/library" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/okgo">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://fengpc:8443/svn/TimingTrainee_new/Exam/okgo" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/okrx">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://fengpc:8443/svn/TimingTrainee_new/Exam/okrx" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/okserver">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://fengpc:8443/svn/TimingTrainee_new/Exam/okserver" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/sticky-head-library">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://fengpc:8443/svn/TimingTrainee_new/Exam/sticky-head-library" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/videoLib">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://fengpc:8443/svn/TimingTrainee_new/Exam/videoLib" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="mySupportsUserInfoFilter" value="true" />
   </component>
 </project>

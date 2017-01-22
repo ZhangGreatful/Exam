@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.haha.exam.R;
+import com.haha.exam.bean.VideoInfo;
 
 import java.util.List;
 
@@ -18,10 +19,14 @@ import java.util.List;
 public class VideoAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context;
-    private List<String> datas;
+    private List<VideoInfo.DataBean> datas;
+    private List<Integer> countList;
+    private List<Integer> playedList;
 
-    public  VideoAdapter(Context context, List<String> datas) {
+    public VideoAdapter(Context context, List<VideoInfo.DataBean> datas, List<Integer> count, List<Integer> played) {
         this.context = context;
+        this.countList = count;
+        this.playedList = played;
         this.datas = datas;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -50,15 +55,48 @@ public class VideoAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = inflater.inflate(R.layout.video_item, null);
             viewHolder.tv_content = (TextView) view.findViewById(R.id.content);
+            viewHolder.bottom = view.findViewById(R.id.bottom);
+            viewHolder.top = view.findViewById(R.id.top);
+            viewHolder.point = (ImageView) view.findViewById(R.id.point);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tv_content.setText(datas.get(i));
+        if (i == 0) {
+            viewHolder.top.setBackgroundColor(context.getResources().getColor(R.color.title_color));
+            if (playedList.get(i) == countList.get(i)) {
+                viewHolder.point.setImageResource(R.mipmap.yellow_point);
+                viewHolder.bottom.setBackgroundColor(context.getResources().getColor(R.color.title_color));
+            } else {
+                viewHolder.point.setImageResource(R.mipmap.gray_point);
+                viewHolder.bottom.setBackgroundColor(context.getResources().getColor(R.color.circle_color));
+            }
+        } else {
+            if (playedList.get(i) == countList.get(i)) {
+                viewHolder.top.setBackgroundColor(context.getResources().getColor(R.color.title_color));
+                viewHolder.point.setImageResource(R.mipmap.yellow_point);
+                viewHolder.bottom.setBackgroundColor(context.getResources().getColor(R.color.title_color));
+            } else {
+                if (playedList.get(i - 1) == countList.get(i - 1)) {
+                    viewHolder.top.setBackgroundColor(context.getResources().getColor(R.color.title_color));
+                } else {
+                    viewHolder.top.setBackgroundColor(context.getResources().getColor(R.color.circle_color));
+                }
+                viewHolder.point.setImageResource(R.mipmap.gray_point);
+                viewHolder.bottom.setBackgroundColor(context.getResources().getColor(R.color.circle_color));
+            }
+        }
+        viewHolder.tv_content.setText(datas.get(i).getChapter_name());
+        if (i == (datas.size() - 1)) {
+            viewHolder.bottom.setVisibility(View.INVISIBLE);
+        }
         return view;
     }
 
     private class ViewHolder {
         TextView tv_content;
+        View bottom;
+        View top;
+        ImageView point;
     }
 }

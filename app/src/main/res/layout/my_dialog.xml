@@ -22,6 +22,7 @@
             android:textSize="20sp" />
 
         <ImageView
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -32,17 +33,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:paddingTop="25dp"
-            android:textColor="#4c4c4c"
-            android:textSize="18sp" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingTop="20dp"
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginBottom="17dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp">
 
             <Button
@@ -52,10 +53,10 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
-                android:background="@drawable/cancel_drawable"
+                android:background="@mipmap/no_background"
                 android:gravity="center"
-                android:text="否"
-                android:textColor="@color/white" />
+                android:text="取消"
+                android:textColor="#616161" />
 
             <Button
                 android:id="@+id/yes"
@@ -63,10 +64,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/ensure_drawable"
+                android:background="@mipmap/ensure_btn"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:text="是"
+                android:text="确定"
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>

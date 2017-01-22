@@ -30,10 +30,9 @@
                 android:id="@+id/username"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:paddingLeft="80dp"
                 android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="张彬彬"
+                android:layout_gravity="center"
                 android:textColor="#333333"
                 android:textSize="20sp" />
 
@@ -43,12 +42,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="小车·科目一"
                 android:textColor="#666666"
                 android:textSize="20sp" />
         </LinearLayout>
 
-        <ImageView
+        <com.haha.exam.view.circleimageview.CircleImageView
             android:id="@+id/iv_header"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -113,8 +111,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="分"
                 android:layout_marginTop="5dp"
+                android:text="分"
                 android:textColor="#333333"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -138,9 +136,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="分"
                 android:textColor="#333333"
-                android:layout_marginTop="5dp"
                 android:textSize="20sp" />
 
             <TextView
@@ -155,9 +153,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="秒"
                 android:textColor="#333333"
-                android:layout_marginTop="5dp"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
@@ -166,75 +164,79 @@
         android:layout_width="match_parent"
         android:layout_height="10dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/error_review"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="12dp">
+        android:layout_height="45dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="12dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wrong_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="错题回顾"
+                android:textColor="#666666"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/wrong_icon" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="错题回顾"
-            android:textColor="#666666"
-            android:textSize="18sp" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:paddingRight="12dp"
             android:src="@mipmap/right_arrow" />
-    </LinearLayout>
 
-    <LinearLayout
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/re_exam"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="12dp">
+        android:layout_height="45dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="12dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/re_exam" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="重新考试"
+                android:textColor="#666666"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/re_exam" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="重新考试"
-            android:textColor="#666666"
-            android:textSize="18sp" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:paddingRight="12dp"
             android:src="@mipmap/right_arrow" />
-    </LinearLayout>
+
+    </RelativeLayout>
 </LinearLayout>

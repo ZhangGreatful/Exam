@@ -1,29 +1,100 @@
 package com.haha.exam;
 
-import android.app.Application;
-import android.util.Log;
-import android.widget.TextView;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
+import com.iflytek.cloud.SpeechUtility;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.cookie.store.PersistentCookieStore;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
+import com.wanzheng.driver.network.InitVolley;
+import com.wanzheng.driver.util.SystemUtil;
+
+import org.xutils.x;
+
+import java.io.File;
+import java.util.HashMap;
 
 /**
  * Created by Administrator on 2016/10/19.
  */
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
+    private static MyApplication mApp;
+    private static final String TAG = "JPush";
+    public static final String NAMESPACE = "openimdemo";
+    //云旺OpenIM的DEMO用到的Application上下文实例
+    private static Context sContext;
 
+    public static Context getContext() {
+        return sContext;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sContext = getApplicationContext();
+//        配置Universal-image-loader
+        File cacheFile = StorageUtils.getCacheDirectory(sContext);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.ic_launcher) //设置图片在下载期间显示的图片
+                .showImageForEmptyUri(R.drawable.ic_launcher)//设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.drawable.ic_launcher)  //设置图片加载/解码过程中错误时候显示的图片
+                .cacheInMemory(false)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)//设置图片以如何的编码方式显示
+                .bitmapConfig(Bitmap.Config.RGB_565)//设置图片的解码类型//
+//.delayBeforeLoading(int delayInMillis)//int delayInMillis为你设置的下载前的延迟时间
+//设置图片加入缓存前，对bitmap进行设置
+//.preProcessor(BitmapProcessor preProcessor)
+                .build();//构建完成
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration
+                .Builder(sContext)
+                .threadPoolSize(2)//线程池内加载的数量
+                .denyCacheImageMultipleSizesInMemory()
+                .memoryCache(new WeakMemoryCache()) // You can pass your own memory cache implementation/你可以通过自己的内存缓存实现
+                .diskCacheSize(30 * 1024 * 1024)
+                .diskCache(new UnlimitedDiskCache(cacheFile))
+                .diskCacheFileCount(500)
+                .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .defaultDisplayImageOptions(options)
+                .imageDownloader(new BaseImageDownloader(sContext, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
+                .writeDebugLogs() // Remove for release app
+                .build();//开始构建
 
+        ImageLoader.getInstance().init(config);//全局初始化此配置
+
+
+//
+//        JPushInterface.setDebugMode(true);
+//        JPushInterface.init(this);
+        x.Ext.init(this);//Xutils初始化
+
+        SystemUtil su1 = new SystemUtil(this);
+        InitVolley.getInstance().init(this);
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(getApplicationContext());
+        //  SpeechUtility.createUtility(this, "appid=" +"57f59cc2");
+        SpeechUtility.createUtility(this, "appid=" + "57c8e3e6");
+        MultiDex.install(getApplicationContext());
+        UMShareAPI.get(this);
 
         //---------这里给出的是示例代码,告诉你可以这么传,实际使用的时候,根据需要传,不需要就不传-------------//
         HttpHeaders headers = new HttpHeaders();
@@ -80,6 +151,30 @@ public class MyApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    {
+        PlatformConfig.setWeixin("wx62f66090bc907d5c", "cb7e1f88931a9abb42b59c380bdcd230");
+        PlatformConfig.setQQZone("1105824362", "7y6bR8A5cUgNdize");
+    }
+
+    public static MyApplication getInstance() {
+        return mApp;
+    }
+
+    // 存放全局map
+
+    private static HashMap<String, Object> map = new HashMap<String, Object>();
+
+    public static void put(String key, Object object) {
+
+        map.put(key, object);
+    }
+
+    public static Object get(String key) {
+
+        return map.get(key);
+
     }
 
 }

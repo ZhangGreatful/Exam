@@ -49,7 +49,7 @@ public class PasswordLoginFragment extends Fragment implements View.OnClickListe
     private int istrue;
 
     private TextView login_yzm;
-    private ImageView login_question;
+    private TextView login_question;
     private TextView tv_falsepass;
     private TextView tv_zhuce;
     private ImageView loginqq;
@@ -69,7 +69,7 @@ public class PasswordLoginFragment extends Fragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.password_login, container, false);
         pwUsernameEdt = (EditText) view.findViewById(R.id.pw_login_username);
         pwPasswordEdt = (EditText) view.findViewById(R.id.pw_login_password);
-        login_question = (ImageView) view.findViewById(R.id.login_question);
+        login_question = (TextView) view.findViewById(R.id.login_question);
         login_yzm = (TextView) view.findViewById(R.id.login_yzm);
 
         login_username_rela = (RelativeLayout) view.findViewById(R.id.login_username_rela);

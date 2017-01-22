@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/titlebar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/titlebar_minheight"
+    android:background="@color/white"
+    android:minHeight="@dimen/titlebar_minheight" >
+
+    <RelativeLayout
+        android:id="@+id/titlebar_layout_left111"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/titlebar_selector_back"
+        android:minHeight="@dimen/titlebar_minheight"
+        android:paddingLeft="@dimen/titlebar_side_padding"
+        android:paddingRight="@dimen/titlebar_side_padding"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/titlebar_back111"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tv_title111"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawablePadding="3dp"
+            android:textColor="@color/titlebar_text_color"
+            android:textSize="@dimen/titlebar_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/titlebar_tuichu111"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:drawablePadding="3dp"
+            android:textColor="@color/titlebar_text_color"
+            android:textSize="14dp" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/titlebar_layout_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/titlebar_selector_back"
+        android:minHeight="@dimen/titlebar_minheight"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp" >
+
+        <ImageView
+            android:id="@+id/titlebar_back"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/titlebar_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:drawablePadding="3dp"
+            android:textColor="@color/titlebar_text_color"
+            android:textSize="@dimen/titlebar_text_size"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <LinearLayout
+            android:id="@+id/titlebar_hahayueche"
+            android:layout_width="200dp"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/titlebar_tv"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_centerInParent="true"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLength="20"
+                android:singleLine="true"
+                android:text="哈哈计时"
+                android:textColor="@color/titlebar_text_color"
+                android:textSize="@dimen/titlebar_text_size"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/titlebar_img_linear"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/titlebar_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/titlebar_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/cityarrow"
+                android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/titlebar_layout_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/titlebar_selector_back"
+        android:minHeight="@dimen/titlebar_minheight"
+        android:paddingLeft="@dimen/titlebar_side_padding"
+        android:paddingRight="@dimen/titlebar_side_padding" >
+
+        <TextView
+            android:id="@+id/titlebar_right_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/titlebar_text_color"
+            android:textSize="@dimen/titlebar_side_text_size"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/titlebar_right_image"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/titlebar_layout_right_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/titlebar_layout_right"
+        android:background="@drawable/titlebar_selector_back"
+        android:minHeight="@dimen/titlebar_minheight"
+        android:paddingLeft="@dimen/titlebar_side_padding"
+        android:paddingRight="@dimen/titlebar_side_padding"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/titlebar_right_second_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerInside" />
+    </FrameLayout>
+
+</RelativeLayout>

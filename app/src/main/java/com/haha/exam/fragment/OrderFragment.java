@@ -15,10 +15,13 @@ import com.haha.exam.R;
  */
 public class OrderFragment extends Fragment {
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.order_fragment, container, false);
+
+
         return view;
     }
 }

@@ -1,8 +1,5 @@
 package com.haha.exam.view;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -11,14 +8,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import com.haha.exam.adapter.HorizontalScrollViewAdapter;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyHorizontalScrollView extends HorizontalScrollView implements
 		OnClickListener

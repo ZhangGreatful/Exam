@@ -3,23 +3,24 @@
     android:id="@+id/base_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange"
+
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/base_titlebar"
         android:layout_width="match_parent"
-        android:layout_height="50dp" >
+        android:layout_height="50dp"
+        android:background="@color/orange">
 
         <ImageButton
             android:id="@+id/base_back_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:padding="10dp"
             android:background="@null"
+            android:padding="10dp"
             android:src="@mipmap/back_arrow" />
 
         <TextView
@@ -27,10 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="10dp"
-            android:gravity="center"
             android:layout_centerVertical="true"
             android:background="@null"
+            android:gravity="center"
+            android:padding="10dp"
             android:text="设置"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -43,18 +44,24 @@
             android:text="标题"
             android:textColor="@color/white"
             android:textSize="20sp" />
-        <View android:layout_width="match_parent"
+
+        <View
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/white"/>
+            android:background="@color/white" />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/long_divider" />
 
     <FrameLayout
         android:id="@+id/base_contentview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white" >
-    </FrameLayout>
+        android:background="@color/white"></FrameLayout>
 
 </LinearLayout>

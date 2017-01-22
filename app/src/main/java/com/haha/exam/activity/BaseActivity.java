@@ -1,18 +1,20 @@
 package com.haha.exam.activity;
 
-import android.app.Activity;
-import android.os.Build;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.haha.exam.R;
 import com.haha.exam.utils.DensityUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by Administrator on 2016/10/21.
@@ -21,7 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public ViewGroup contentView;
     private TextView rightBtn;
-    private View leftBtn;
+    private ImageButton leftBtn;
     private TextView titltTv;
     private View titlebar;
 
@@ -29,7 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-        setTranslucentStatus();
+//        setTranslucentStatus();
 
 
         int titlebarResId = getTitlebarResId();
@@ -43,7 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             titlebar = titleView;
         } else {
             titlebar = findViewById(R.id.base_titlebar);
-            leftBtn = findViewById(R.id.base_back_btn);
+            leftBtn = (ImageButton) findViewById(R.id.base_back_btn);
             leftBtn.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -68,22 +70,36 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void overridePendingTransition(int enterAnim, int exitAnim) {
-        super.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
+//    @Override
+//    public void overridePendingTransition(int enterAnim, int exitAnim) {
+//        super.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//    }
 
     /**
      * 设置状态栏背景状态
      */
-    private void setTranslucentStatus() {
-        //判断当前SDK版本号，如果是4.4以上，就是支持沉浸式状态栏的
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//    private void setTranslucentStatus() {
+//        //判断当前SDK版本号，如果是4.4以上，就是支持沉浸式状态栏的
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//
+//        }
 
+//    }
+    public boolean isConnect(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (info != null && info.isConnected()) {
+                if (info.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
+                }
+            }
         }
-
+        Toast.makeText(context, "请检查你的网络", Toast.LENGTH_SHORT).show();
+        return false;
     }
 
     /**
@@ -116,6 +132,15 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    /**
+     * 设置左侧按钮显示与隐藏
+     */
+    public void setLeftBtnDrawable() {
+        if (leftBtn != null) {
+            leftBtn.setImageResource(R.mipmap.backarrow);
+        }
     }
 
     /**
@@ -158,6 +183,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void setTitleColor(int id) {
+        if (titltTv != null) {
+            if (titltTv != null) {
+                titltTv.setTextColor(id);
+            }
+        }
+    }
+
 
     /**
      * 设置右边你按钮文字属性
@@ -170,11 +203,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void setTitlebarBackground(int id) {
+        if (titlebar != null) {
+            titlebar.setBackgroundResource(id);
+        }
+    }
+
     public View getTitleBar() {
 
         return titlebar;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("baseActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("baseActivity");
+        MobclickAgent.onPause(this);
+    }
 
     /**
      * 获取中间内容显示区
