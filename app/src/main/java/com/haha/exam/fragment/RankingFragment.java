@@ -96,7 +96,11 @@ public class RankingFragment extends Fragment {
                             if (ranking.getData().size() != 0 && ranking.getData().get(0).getPersonalmingci() <= ranking.getMsg().size()) {
                                 info.setText("恭喜，您上榜了");
                                 grade_info.setVisibility(View.VISIBLE);
-                                grade.setText(ranking.getData().get(0).getPersonalscore() + "分");
+                                String str1=ranking.getData().get(0).getPersonalscore()!=null?ranking.getData().get(0).getPersonalscore():"";
+                                if (!str1.equals("")){
+                                    grade.setText(ranking.getData().get(0).getPersonalscore() + "分");
+                                }
+
                                 String str = ranking.getData().get(0).getPersonaltime() != null ? ranking.getData().get(0).getPersonaltime() : "";
                                 if (!str.equals("")) {
                                     int minite = Integer.valueOf(str) / 60;

@@ -78,23 +78,23 @@ import okhttp3.Response;
  * 视频计时逻辑
  * 监听视频的播放位置playposition,取playposition和开始播放的位置startposition的时间差为视频播放的总时间total
  * 每隔一段时间，上传照片，上传照片的时间total为oldposition，每次上传照片的时间learnTime=total(当前的播放时间段)-oldposition(上次上传照片的时间段)
- *
+ * <p>
  * 上传的时间包括：
  * 1.上传照片时，上传上传照片的时间段learnTime（用于记录学时）；
  * 2.上传本次播放视频共播放多长时间usetime(上传total),用于学时订单中显示用时
  * 3.刷新播放进度的时间playposition，
  * 4.若视频播放完成，上传标签end_status(//0:已结束  1：未结束)
- *
+ * <p>
  * 为了避免学时重复，每次onStop()的时候，将startposition=playposition,total,learnTime全部重置为0，
  * 再次进入的时候重新创建订单
- *
- *alltime  暂时未用到
+ * <p>
+ * alltime  暂时未用到
  * oldposition      上一次传照片的时间
  * playposition  当前的播放位置
  * total=playposition-startposition  视频播放的总时间
  * startposition    视频开始播放的位置
  * learnTime =total-oldposition  上传照片的时间段
- *
+ * <p>
  * Created by Administrator on 2016/11/7.
  */
 public class VideoActivity extends AppCompatActivity implements View.OnClickListener, TimerCallBack {
@@ -112,9 +112,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private boolean isPlaying;
     private int total, alltime;
     private int startposition;
-    private int oldCamralTime=0;
-    //    private VideoView videoView;
-//    private VideoView videoView;
+    private int oldCamralTime = 0;
     private JCVideoPlayer.JCAutoFullscreenListener mSensorEventListener;
     private SensorManager mSensorManager;
     private GoogleApiClient client;
@@ -981,18 +979,13 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onPause() {
         super.onPause();
-
-
         if (su.showTiming() == 1 && !orderid.equals("")) {
             new Thread() {
                 @Override
                 public void run() {
                     super.run();
-
-
                     if (playposition != 0) {
                         if (!result.equals("")) {
-
                             Log.d("VideoActivity", "playPosition===========" + playposition);
                             learnTime = total - oldposition;
                             oldposition = total;
@@ -1055,8 +1048,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                                         }
                                     });
                         }
-
-
                     }
                 }
 
@@ -1086,6 +1077,29 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
 
                 }
             }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (playposition != 0 && !result.equals("")) {
+                        OkGo.post(WebInterface.video_process_refress)
+                                .tag(this)
+                                .params("signid", onlyID)
+                                .params("orderid", orderid)
+                                .params("playposition", playposition)
+                                .execute(new StringCallback() {
+                                    @Override
+                                    public void onSuccess(String s, Call call, Response response) {
+                                        Log.d("VideoActivity", "刷新视频播放进度");
+                                        int num = JsonUtils.parseNum(s);
+                                        if (num == 1) {
+                                            Toast.makeText(VideoActivity.this, "刷新视频播放进度成功", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+
+                }
+            }).start();
             mSensorManager.unregisterListener(mSensorEventListener);
 
             MobclickAgent.onPageEnd("HomeActivity");
@@ -1096,7 +1110,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStop() {
         super.onStop();
-        startposition=playposition;
+        startposition = playposition;
 
         oldposition = 0;
         total = 0;

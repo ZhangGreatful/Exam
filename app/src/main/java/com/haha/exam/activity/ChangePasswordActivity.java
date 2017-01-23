@@ -25,6 +25,10 @@ public class ChangePasswordActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tel="";
+        newPwd="";
+        oldPwd="";
+        ensurePwd="";
         initTitle();
         initView();
     }

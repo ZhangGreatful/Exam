@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/JPushExample(555235)" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/Volley" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/app" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/lib" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/library" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/okgo" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/okrx" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/okserver" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/sticky-head-library" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/videoLib" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/Volley" vcs="" />
+    <mapping directory="$PROJECT_DIR$/app" vcs="" />
+    <mapping directory="$PROJECT_DIR$/lib" vcs="" />
+    <mapping directory="$PROJECT_DIR$/library" vcs="" />
+    <mapping directory="$PROJECT_DIR$/okgo" vcs="" />
+    <mapping directory="$PROJECT_DIR$/okrx" vcs="" />
+    <mapping directory="$PROJECT_DIR$/okserver" vcs="" />
+    <mapping directory="$PROJECT_DIR$/sticky-head-library" vcs="" />
+    <mapping directory="$PROJECT_DIR$/videoLib" vcs="" />
   </component>
 </project>

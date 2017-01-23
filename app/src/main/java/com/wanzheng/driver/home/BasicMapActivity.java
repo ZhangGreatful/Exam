@@ -102,12 +102,12 @@ public class BasicMapActivity extends Activity implements LocationSource,
                 CameraUpdateFactory.newCameraPosition(new CameraPosition(
                         A, 18, 30, 30)));
         aMap.clear();
-        aMap.addMarker(new MarkerOptions().title("起点").position(A)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_start)));
+//        aMap.addMarker(new MarkerOptions().title("起点").position(A)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_start)));
         if (size > 0) {
             B = new LatLng(listGps.get(size - 1).getLat(), listGps.get(size - 1).getLng());
-            aMap.addMarker(new MarkerOptions().title("终点").position(B)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_end)));
+//            aMap.addMarker(new MarkerOptions().title("终点").position(B)
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_end)));
         }
 
 
