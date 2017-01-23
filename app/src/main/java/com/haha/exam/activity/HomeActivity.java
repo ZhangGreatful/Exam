@@ -320,11 +320,12 @@ public class HomeActivity extends FragmentActivity {
         int count = mFragmentArray.length;
         for (int i = 0; i < count; i++) {
             TabHost.TabSpec tabSpec = mTabHost.newTabSpec(textArray[i]).setIndicator(getTabItemView(i));
-            if (su.showOnlyID().equals("")) {
-                mTabHost.addTab(tabSpec, mFragmentArray[i], null);
-            } else {
-                mTabHost.addTab(tabSpec, mFragmentArray1[i], null);
-            }
+            mTabHost.addTab(tabSpec, mFragmentArray1[i], null);
+//            if (su.showOnlyID().equals("")) {
+//                mTabHost.addTab(tabSpec, mFragmentArray[i], null);
+//            } else {
+//                mTabHost.addTab(tabSpec, mFragmentArray1[i], null);
+//            }
 
         }
         updateTab(mTabHost);

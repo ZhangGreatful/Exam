@@ -157,7 +157,6 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
                     bundle1.putInt("modle", 0);
                     intent.putExtras(bundle1);
                     startActivity(intent);
-                    finish();
                     break;
                 case 6://不需要支付保险
                     intent = new Intent(LoginActivity.this,

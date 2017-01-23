@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.haha.exam.R;
 import com.haha.exam.adapter.VideoCollectAdapter;
@@ -30,6 +31,7 @@ public class VideoCollectActivity extends BaseActivity {
     private String onlyID;
     private ArrayList<VideoCollect> videoCollects;
     private VideoCollectAdapter adapter;
+    private TextView textView;
 
     @Override
     protected int getContentView() {
@@ -64,6 +66,8 @@ public class VideoCollectActivity extends BaseActivity {
                                 System.out.println("没有视频收藏");
                             }
                             if (JsonUtils.parseVideoCollect(s).size() != 0) {
+                                listView.setVisibility(View.VISIBLE);
+                                textView.setVisibility(View.GONE);
                                 videoCollects = JsonUtils.parseVideoCollect(s);
                                 adapter = new VideoCollectAdapter(VideoCollectActivity.this, videoCollects);
                                 listView.setAdapter(adapter);
@@ -75,14 +79,17 @@ public class VideoCollectActivity extends BaseActivity {
                                         intent.putExtra("title", videoCollects.get(i).getVideo_title());
                                         intent.putExtra("url", videoCollects.get(i).getVideo_url());
                                         intent.putExtra("videoid", videoCollects.get(i).getVideo_id());
-                                        intent.putExtra("showcount",videoCollects.get(i).getShow_count());
-                                        intent.putExtra("thumb",videoCollects.get(i).getVideo_thumb());
-                                        intent.putExtra("position",i);
+                                        intent.putExtra("showcount", videoCollects.get(i).getShow_count());
+                                        intent.putExtra("thumb", videoCollects.get(i).getVideo_thumb());
+                                        intent.putExtra("position", i);
                                         startActivity(intent);
                                     }
                                 });
                                 System.out.println("共有视频收藏数据" + videoCollects.size());
                             }
+                        } else {
+                            listView.setVisibility(View.GONE);
+                            textView.setVisibility(View.VISIBLE);
                         }
                     }
                 });
@@ -90,6 +97,8 @@ public class VideoCollectActivity extends BaseActivity {
 
     private void initView() {
         listView = (ListView) findViewById(R.id.video_collect_list);
+        textView = (TextView) findViewById(R.id.no_video);
+
     }
 
 

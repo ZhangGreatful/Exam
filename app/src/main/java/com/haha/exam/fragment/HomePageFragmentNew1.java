@@ -136,11 +136,21 @@ public class HomePageFragmentNew1 extends Fragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ding_dan:
-                Intent intent = new Intent(getActivity(), Activity_OrderShow.class);
-                mContext.startActivity(intent);
+                if(!su.showOnlyID().equals("")){
+                    Intent intent = new Intent(getActivity(), Activity_OrderShow.class);
+                    mContext.startActivity(intent);
+                }else {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.xue_shi_cha_kan:
-                startActivity(new Intent(getActivity(), Activity_PeriodShow.class));
+                if (!su.showOnlyID().equals("")){
+                    startActivity(new Intent(getActivity(), Activity_PeriodShow.class));
+                }else {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.jia_xiao_pai_ming:
                 Intent intent2 = new Intent(getActivity(), AppointmentActivity.class);
@@ -156,8 +166,13 @@ public class HomePageFragmentNew1 extends Fragment implements View.OnClickListen
                 Toast.makeText(getActivity(), "敬请期待", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sui_dao_sui_xue:
-                Intent intent1 = new Intent(getActivity(), Activity_QRcode.class);
-                startActivity(intent1);
+                if (!su.showOnlyID().equals("")){
+                    Intent intent1 = new Intent(getActivity(), Activity_QRcode.class);
+                    startActivity(intent1);
+                }else {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.jiao_xue_shi_pin:
                 homeActivity.mTabHost.setCurrentTab(1);
@@ -170,8 +185,13 @@ public class HomePageFragmentNew1 extends Fragment implements View.OnClickListen
                 startActivity(intent6);
                 break;
             case R.id.zai_xian_yue_kao:
-                Intent intent7 = new Intent(getActivity(), TakeOrderActivity.class);
-                startActivity(intent7);
+                if (!su.showOnlyID().equals("")){
+                    Intent intent7 = new Intent(getActivity(), TakeOrderActivity.class);
+                    startActivity(intent7);
+                }else {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }

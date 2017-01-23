@@ -144,9 +144,6 @@
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.Subject1Activity"
             android:screenOrientation="portrait" />
         <activity
@@ -299,9 +296,6 @@
 
         <activity
             android:name=".activity.MySchoolActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.OrderActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.wanzheng.driver.home.Login2Activity"

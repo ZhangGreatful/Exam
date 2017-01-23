@@ -145,6 +145,7 @@ public class PeriodAdapter extends BaseAdapter {
 				context.startActivity(intent);
 			}
 		});
+		final PstudyViewHolder finalEstudyViewHolder = estudyViewHolder;
 		estudyViewHolder.period_guijishow.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -57,7 +57,7 @@ import static com.haha.exam.utils.SPUtils.get;
 
 public class MyFragment extends Fragment implements View.OnClickListener {
 
-    private String onlyId;
+    private String onlyId="";
     private String headerPath, username, userphone, userschool;
     private String usernum, sheng, shi, qu;
     private int usersex;
@@ -158,10 +158,12 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
     //      获取个人信息
     private void initInfo() {
-        String url = WebInterface.get_personal_info + "&uid=0" + "&onlyid=" + onlyId;
-        OkGo.post(url)
-                .tag(this)
-                .execute(changePersonalInfo);
+        if (!onlyId.equals("")){
+            String url = WebInterface.get_personal_info + "&uid=0" + "&onlyid=" + onlyId;
+            OkGo.post(url)
+                    .tag(this)
+                    .execute(changePersonalInfo);
+        }
     }
 
     private StringCallback changePersonalInfo = new StringCallback() {
