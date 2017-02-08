@@ -75,13 +75,23 @@ public class VideoCollectActivity extends BaseActivity {
                                     @Override
                                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                         Intent intent = new Intent(VideoCollectActivity.this, VideoActivity.class);
-                                        intent.putExtra("subject", "5");//代表收藏的视频
-                                        intent.putExtra("title", videoCollects.get(i).getVideo_title());
-                                        intent.putExtra("url", videoCollects.get(i).getVideo_url());
-                                        intent.putExtra("videoid", videoCollects.get(i).getVideo_id());
-                                        intent.putExtra("showcount", videoCollects.get(i).getShow_count());
-                                        intent.putExtra("thumb", videoCollects.get(i).getVideo_thumb());
-                                        intent.putExtra("position", i);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("subject", "5");
+                                        bundle.putString("subject0","1");
+                                        bundle.putString("title", videoCollects.get(i).getVideo_title());
+                                        bundle.putString("url", videoCollects.get(i).getVideo_url());
+                                        bundle.putString("videoid", videoCollects.get(i).getVideo_id());
+                                        bundle.putString("showcount", videoCollects.get(i).getShow_count());
+                                        bundle.putString("thumb", videoCollects.get(i).getVideo_thumb());
+                                        bundle.putInt("position", i);
+//                                        intent.putExtra("subject", "5");//代表收藏的视频
+//                                        intent.putExtra("title", videoCollects.get(i).getVideo_title());
+//                                        intent.putExtra("url", videoCollects.get(i).getVideo_url());
+//                                        intent.putExtra("videoid", videoCollects.get(i).getVideo_id());
+//                                        intent.putExtra("showcount", videoCollects.get(i).getShow_count());
+//                                        intent.putExtra("thumb", videoCollects.get(i).getVideo_thumb());
+//                                        intent.putExtra("position", i);
+                                        intent.putExtras(bundle);
                                         startActivity(intent);
                                     }
                                 });

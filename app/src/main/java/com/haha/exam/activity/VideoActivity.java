@@ -244,6 +244,8 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             subject0 = "2";
         } else if (subject.equals("1")) {
             subject0 = "1";
+        }else if (subject.equals("5")){
+            subject0=bundle.getString("subject0");
         }
         issave = false;
         su = new SystemUtil(this);

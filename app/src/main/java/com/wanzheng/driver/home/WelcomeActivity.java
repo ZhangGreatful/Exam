@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,8 +16,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
@@ -39,6 +42,7 @@ import org.xutils.x;
 import java.io.File;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Calendar;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -58,6 +62,7 @@ public class WelcomeActivity extends Activity {
 
     private SystemUtil su;
     private RelativeLayout rl_welcome_bg;
+    private ImageView imageView;
     String description;
 
     @Override
@@ -68,6 +73,61 @@ public class WelcomeActivity extends Activity {
         initData();
         initView();
         getNetTime();
+        swichIcon();
+    }
+
+    private void swichIcon() {
+//        Date now = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//可以方便地修改日期格式
+        int useCode;
+        Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+        int month = c.get(Calendar.MONTH)+1;
+        int day=c.get(Calendar.DAY_OF_MONTH);
+        Log.d("WelcomeActivity", "现在的月份是===========" + month+"现在的日期是==========="+day);
+        if (month > 2 && month < 12) {
+            useCode = 1;
+        } else {
+            useCode = 2;
+        }
+        try {
+            //要跟manifest的activity-alias 的name保持一致
+            String icon_tag_normal = "com.haha.exam.icon_tag_normal";
+            String icon_tag = "com.haha.exam.icon_tag";
+
+            if (useCode != 3) {
+
+                PackageManager pm = getPackageManager();
+
+                ComponentName normalComponentName = new ComponentName(
+                        getBaseContext(),
+                        icon_tag);
+                //正常图标新状态
+                int normalNewState = useCode == 2 ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                        : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+                if (pm.getComponentEnabledSetting(normalComponentName) != normalNewState) {//新状态跟当前状态不一样才执行
+                    pm.setComponentEnabledSetting(
+                            normalComponentName,
+                            normalNewState,
+                            PackageManager.DONT_KILL_APP);
+                }
+
+                ComponentName actComponentName = new ComponentName(
+                        getBaseContext(),
+                        icon_tag_normal);
+                //正常图标新状态
+                int actNewState = useCode == 1 ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                        : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+                if (pm.getComponentEnabledSetting(actComponentName) != actNewState) {//新状态跟当前状态不一样才执行
+
+                    pm.setComponentEnabledSetting(
+                            actComponentName,
+                            actNewState,
+                            PackageManager.DONT_KILL_APP);
+                }
+
+            }
+        } catch (Exception e) {
+        }
     }
 
     private Gson gson = new Gson();
@@ -138,19 +198,19 @@ public class WelcomeActivity extends Activity {
 
     /*------------------------------自动更新--------------------------------------*/
     public void gotoActivity() {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent();
-                    SystemUtil su = new SystemUtil(WelcomeActivity.this);
-                    int uid = su.showUid();
-                    if (uid == -1 || su.showZhifuR() != 1) {
-                        intent.setClass(WelcomeActivity.this, LoginActivity.class);
-                    } else if (su.showRegesterState() != 1) {
-                        intent = new Intent(WelcomeActivity.this,
-                                Activity_PerInfor.class);
-                        intent.putExtra("phone", su.showPhone());
-                    }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                SystemUtil su = new SystemUtil(WelcomeActivity.this);
+                int uid = su.showUid();
+                if (uid == -1 || su.showZhifuR() != 1) {
+                    intent.setClass(WelcomeActivity.this, LoginActivity.class);
+                } else if (su.showRegesterState() != 1) {
+                    intent = new Intent(WelcomeActivity.this,
+                            Activity_PerInfor.class);
+                    intent.putExtra("phone", su.showPhone());
+                }
 //        else if (su.showZhifuR() != 1) {
 //                                Bundle budle = new Bundle();
 //                                budle.putInt("modle", 0);
@@ -158,13 +218,13 @@ public class WelcomeActivity extends Activity {
 //                                intent.setClass(WelcomeActivity.this, Activity_Pay.class);
 ////            intent.setClass(WelcomeActivity.this,HomeActivity.class);
 //        }
-                    else {
-                        intent.setClass(WelcomeActivity.this, HomeActivity.class);
-                    }
-                    startActivity(intent);
-                    finish();
+                else {
+                    intent.setClass(WelcomeActivity.this, HomeActivity.class);
                 }
-            },2000);
+                startActivity(intent);
+                finish();
+            }
+        }, 2000);
 
     }
 

@@ -374,8 +374,6 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
                 }
                 // }
             }
-
-
         }
     };
 
@@ -402,12 +400,12 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
         public void onSuccess(String s, Call call, Response response) {
             int msg = JsonUtils.parsePaystate(s);
             submintBtn.setEnabled(true);
-            if (msg == 1) {
+            if (msg == 1) {//已经支付
                 su.saveZhifuR(1);
                 Message message = new Message();
                 message.what = 2;
                 handler.sendMessage(message);
-            } else if (msg == 0) {
+            } else if (msg == 0) {//尚未支付
                 Message message = new Message();
                 message.what = 4;
                 handler.sendMessage(message);
